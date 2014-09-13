@@ -1,0 +1,110 @@
+<!--mainContent-->
+<div class="mainContent fl">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span> &gt; <span class="cur">详情</span>
+    </div>
+    <div class="contentLog mb clearfix">
+        <div class="au_title mb15 font16">详情</div>
+        <div class="forms trade">
+            <div class="formsList1 clearfix">
+					<dl class="w100">
+						<dt>：</dt>
+			            <dd>
+			            	$!{profitbill.id}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>日期：</dt>
+			            <dd>
+			            	$!{profitbill.createDatetime}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>矿名：</dt>
+			            <dd>
+			            	$!{profitbill.mineName}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>吨位：</dt>
+			            <dd>
+			            	$!{profitbill.onnage}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>品种：</dt>
+			            <dd>
+			            	$!{profitbill.variety}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>销售单价：</dt>
+			            <dd>
+			            	$!{profitbill.saleUnitprice}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>销售总金额：</dt>
+			            <dd>
+			            	$!{profitbill.saleTotalamount}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>成本单价：</dt>
+			            <dd>
+			            	$!{profitbill.costUnitprice}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>成本总金额：</dt>
+			            <dd>
+			            	$!{profitbill.costTotalamount}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>单价差价：</dt>
+			            <dd>
+			            	$!{profitbill.unitpricedifferential}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>利润：</dt>
+			            <dd>
+			            	$!{profitbill.profit}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建时间：</dt>
+			            <dd>
+			            	$!{profitbill.createTime}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改时间：</dt>
+			            <dd>
+			            	$!{profitbill.editTime}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建人：</dt>
+			            <dd>
+			            	$!{profitbill.creator}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改人：</dt>
+			            <dd>
+			            	$!{profitbill.editor}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>删除状态：</dt>
+			            <dd>
+			            	$!{profitbill.state}
+			            </dd>
+			        </dl> 
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>

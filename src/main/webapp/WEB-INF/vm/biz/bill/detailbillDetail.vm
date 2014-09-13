@@ -1,0 +1,128 @@
+<!--mainContent-->
+<div class="mainContent fl">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span> &gt; <span class="cur">详情</span>
+    </div>
+    <div class="contentLog mb clearfix">
+        <div class="au_title mb15 font16">详情</div>
+        <div class="forms trade">
+            <div class="formsList1 clearfix">
+					<dl class="w100">
+						<dt>：</dt>
+			            <dd>
+			            	$!{detailbill.id}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>品种：</dt>
+			            <dd>
+			            	$!{detailbill.variety}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>成本单价：</dt>
+			            <dd>
+			            	$!{detailbill.costUnitprice}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>成本总金额：</dt>
+			            <dd>
+			            	$!{detailbill.costTotalamount}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>含税已付款：</dt>
+			            <dd>
+			            	$!{detailbill.taxPaid}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>含税未付款：</dt>
+			            <dd>
+			            	$!{detailbill.taxUnpaid}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税成本单价：</dt>
+			            <dd>
+			            	$!{detailbill.notaxCostprice}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税成本总金额：</dt>
+			            <dd>
+			            	$!{detailbill.notaxCosttotalamount}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税已付款：</dt>
+			            <dd>
+			            	$!{detailbill.notaxPaid}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税未付款：</dt>
+			            <dd>
+			            	$!{detailbill.notaxUnpaid}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税销售单价：</dt>
+			            <dd>
+			            	$!{detailbill.notaxSaleunitprice}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税销售总金额：</dt>
+			            <dd>
+			            	$!{detailbill.notaxSaletotalamount}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>销售已付金额：</dt>
+			            <dd>
+			            	$!{detailbill.salePaid}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>货主：</dt>
+			            <dd>
+			            	$!{detailbill.shipperName}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建时间：</dt>
+			            <dd>
+			            	$!{detailbill.createTime}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改时间：</dt>
+			            <dd>
+			            	$!{detailbill.editTime}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建人：</dt>
+			            <dd>
+			            	$!{detailbill.creator}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改人：</dt>
+			            <dd>
+			            	$!{detailbill.editor}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>删除状态：</dt>
+			            <dd>
+			            	$!{detailbill.state}
+			            </dd>
+			        </dl> 
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>

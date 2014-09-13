@@ -1,0 +1,121 @@
+<!--mainContent-->
+<div class="mainContent fl">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span> &gt; <span class="cur">编辑</span>
+    </div>
+    <div class="contentLog mb clearfix">
+        <div class="au_title mb15 font16">编辑</div>
+        <div class="forms trade">
+        	<form id="form"  action="../profitbill/profitbillEdit.do" method="POST">
+        	<input type="hidden" value="$!{profitbill.id}" name="id"/>
+            <div class="formsList1 clearfix">
+					<dl class="w100">
+						<dt>：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.id}" class="input160" name="id" id="id"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>日期：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.createDatetime}" class="input160" name="createDatetime" id="createDatetime"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>矿名：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.mineName}" class="input160" name="mineName" id="mineName"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>吨位：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.onnage}" class="input160" name="onnage" id="onnage"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>品种：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.variety}" class="input160" name="variety" id="variety"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>销售单价：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.saleUnitprice}" class="input160" name="saleUnitprice" id="saleUnitprice"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>销售总金额：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.saleTotalamount}" class="input160" name="saleTotalamount" id="saleTotalamount"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>成本单价：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.costUnitprice}" class="input160" name="costUnitprice" id="costUnitprice"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>成本总金额：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.costTotalamount}" class="input160" name="costTotalamount" id="costTotalamount"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>单价差价：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.unitpricedifferential}" class="input160" name="unitpricedifferential" id="unitpricedifferential"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>利润：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.profit}" class="input160" name="profit" id="profit"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建时间：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.createTime}" class="input160" name="createTime" id="createTime"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改时间：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.editTime}" class="input160" name="editTime" id="editTime"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建人：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.creator}" class="input160" name="creator" id="creator"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改人：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.editor}" class="input160" name="editor" id="editor"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>删除状态：</dt>
+			            <dd>
+			            	<input type="text" value="$!{profitbill.state}" class="input160" name="state" id="state"/>
+			            </dd>
+			        </dl> 
+                <div class="clear"></div>
+            </div>
+            <p class="tcenter">
+	            <input type="submit" class="button_Green" value="保 存" />
+	        </p>
+	        </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+     $(function(){
+         $("#form").validate();
+     });
+</script>

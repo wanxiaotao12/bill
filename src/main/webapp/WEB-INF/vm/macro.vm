@@ -1,0 +1,280 @@
+#* @vtlvariable name="page" type="com.jd.common.util.base.PaginatedArrayList" *#
+#macro (showPage $url $page)
+    #if($page)
+        #set($pagePos = 2) ##当前页的尾巴长度
+        <div class="pages">
+            <em class="sum">共$!{page.totalItem}条记录</em>
+            #if($page.previousPageAvailable) ##如果能向上翻页
+            <a href="$!{url}&page=$!{page.previousPage}">上一页</a>
+            <a href="$!{url}&page=1">1</a>
+            #end
+            #if($!page.index>$pagePos+2)
+                <span>..</span>
+            #end ##显示前面的省略号
+            #foreach($i in [$pagePos..1]) ##增加前面的尾巴
+            #if($!page.index - $i > 1)
+                #set($pageIndex= $!page.index - $i)
+                <a href="$!{url}&page=$pageIndex">$pageIndex</a>
+            #end
+            #end
+            <a href="javascript:void(0);" class="cur">$!page.index</a>
+            ##显示当前页号
+            #foreach($i in [1..$pagePos]) ##增加后面的尾巴
+            #if($!page.totalPage - $!page.index - $i > 0)
+                #set($pageIndex= $!page.index + $!i)
+                <a href="$!{url}&page=$pageIndex">$pageIndex</a>
+            #end
+            #end
+            #if($!page.totalPage - $!page.index > $pagePos+1)
+                <span>..</span>
+            #end ##显示后面的省略号
+            #if($page.nextPageAvailable) ##显示后面的页
+            <a href="$!{url}&page=$!{page.totalPage}">$!{page.totalPage}</a>
+            <a href="$!{url}&page=$!{page.nextPage}">下一页</a>
+</li>
+            #end
+</div>
+    #end
+#end
+#macro (showPageFormSubmit_  $page  $formId)
+    <input type="hidden" name="page" id="page" value="#if($page.index)${page.index}#else 1#end"/>
+    #if($page)
+        #set($pagePos = 2) ##当前页的尾巴长度
+        总$!{page.totalItem}条记录
+        #if($page.previousPageAvailable) ##如果能向上翻页
+        <a href="javascript:jQuery('#page').val('$!{page.previousPage}');document.getElementById('$!{formId}').submit();">上一页</a>
+        <a href="javascript:jQuery('#page').val('1');document.getElementById('$!{formId}').submit();">1</a>
+        #end
+        #if($!page.index>$pagePos+2) .. #end ##显示前面的省略号
+        #foreach($i in [$pagePos..1]) ##增加前面的尾巴
+        #if($!page.index - $i > 1)
+            #set($pageIndex= $!page.index - $i)
+            <a href="javascript:jQuery('#page').val('$pageIndex');document.getElementById('$!{formId}').submit();">$pageIndex</a>
+        #end
+        #end
+        <span>$!page.index</span>
+        ##显示当前页号
+        #foreach($i in [1..$pagePos]) ##增加后面的尾巴
+        #if($!page.totalPage - $!page.index - $i > 0)
+            #set($pageIndex= $!page.index + $!i)
+            <a href="javascript:jQuery('#page').val('$pageIndex');document.getElementById('$!{formId}').submit();">$pageIndex</a>
+        #end
+        #end
+        #if($!page.totalPage - $!page.index > $pagePos+1) .. #end ##显示后面的省略号
+        #if($page.nextPageAvailable) ##显示后面的页
+        <a href="javascript:jQuery('#page').val('$!{page.totalPage}');document.getElementById('$!{formId}').submit();">$!{page.totalPage}</a>
+        <a href="javascript:jQuery('#page').val('$!{page.nextPage}');document.getElementById('$!{formId}').submit();">下一页</a>
+        #end 每页<input type="text" name="pageSize" id="pageSize" value="$!page.pageSize" onchange="jQuery('#page').val('1');document.getElementById('$!{formId}').submit();" style="width:30px"/>
+        条
+    #end
+#end
+#macro (showPageFormSubmit  $page  $formId)
+    <input type="hidden" name="page" id="page" value="#if($page.index)${page.index}#else 1#end"/>
+    #if($page)
+        #set($pagePos = 2) ##当前页的尾巴长度
+        <div class="pages">
+            #if($page.previousPageAvailable) ##如果能向上翻页
+            <a href="javascript:jQuery('#pageNo').val('$!{page.previousPage}');document.getElementById('$!{formId}').submit();">上一页</a>
+            <a href="javascript:jQuery('#pageNo').val('1');document.getElementById('$!{formId}').submit();">1</a>
+            #else
+                <a href="#" class="disable">上一页</a>
+            #end
+            #if($!page.index>$pagePos+2) .. #end ##显示前面的省略号
+            #foreach($i in [$pagePos..1]) ##增加前面的尾巴
+            #if($!page.index - $i > 1)
+                #set($pageIndex= $!page.index - $i)
+                <a href="javascript:jQuery('#pageNo').val('$pageIndex');document.getElementById('$!{formId}').submit();">$pageIndex</a>
+            #end
+            #end
+            <span>$!page.index</span>
+            ##显示当前页号
+            #foreach($i in [1..$pagePos]) ##增加后面的尾巴
+            #if($!page.totalPage - $!page.index - $i > 0)
+                #set($pageIndex= $!page.index + $!i)
+                <a href="javascript:jQuery('#pageNo').val('$pageIndex');document.getElementById('$!{formId}').submit();">$pageIndex</a>
+            #end
+            #end
+            #if($!page.totalPage - $!page.index > $pagePos+1) .. #end ##显示后面的省略号
+            #if($page.nextPageAvailable) ##显示后面的页
+            <a href="javascript:jQuery('#pageNo').val('$!{page.totalPage}');document.getElementById('$!{formId}').submit();">$!{page.totalPage}</a>
+            <a href="javascript:jQuery('#pageNo').val('$!{page.nextPage}');document.getElementById('$!{formId}').submit();">下一页</a>
+            #else
+                <a href="#" class="disable">下一页</a>
+            #end
+            <em>每页<input type="text" name="pageSize" id="pageSize"  class="input40" value="$!page.pageSize" onchange="pageSizeChange();"/>
+                条</em>
+                <em class="sum">共$!{page.totalItem}条$!{page.totalPage}页</em>
+                <em>到第 <input class="input40" value="$!page.index" name="pageNo" id="pageNo" onchange="pageNoChange();"/>
+                    页</em>
+                    <input type="button"  value="确 定" class="button_Grey" onclick="javascript:document.getElementById('$!{formId}').submit();;"/>
+        </div>
+        <script>function pageSizeChange() {var pageSizeValue = jQuery('#pageSize').val(); if (pageSizeValue == null || pageSizeValue == ''){jQuery('#pageSize').val(10);} jQuery('#pageNo').val('1');document.getElementById('$!{formId}').submit();} 
+            function pageNoChange() {var pageNoValue = jQuery('#pageNo').val();  if (pageNoValue == null || pageNoValue == '') {jQuery('#pageNo').val(1);} }</script>
+    #end
+#end
+#macro (pageBar $module $page)
+    #if($page)
+        #set($pagePos = 2) ##当前页的尾巴长度
+        <div class="pages">
+            <em class="sum">共$!{page.totalItem}条记录</em>
+            #if($page.previousPageAvailable) ##如果能向上翻页
+            <a href="$!module.put("pageNo",$page.previousPage).build()">上一页</a>
+            <a href="$!module.put("pageNo",1).build()">1</a>
+            #else
+                <a href="javascript:void(0)" class="disable">上一页</a>
+            #end
+            #if($!page.index>$pagePos+2)
+                <span>..</span>
+            #end ##显示前面的省略号
+            #foreach($i in [$pagePos..1]) ##增加前面的尾巴
+            #if($!page.index - $i > 1)
+                #set($pageIndex= $!page.index - $i)
+                <a href="$!module.put("pageNo",$pageIndex).build()">$pageIndex</a>
+            #end
+            #end
+            <a href="javascript:void(0);" class="cur">$!page.index</a>
+            ##显示当前页号
+            #foreach($i in [1..$pagePos]) ##增加后面的尾巴
+            #if($!page.totalPage - $!page.index - $i > 0)
+                #set($pageIndex= $!page.index + $!i)
+                <a href="$!module.put("pageNo",$pageIndex).build()">$pageIndex</a>
+            #end
+            #end
+            #if($!page.totalPage - $!page.index > $pagePos+1)
+                <span>..</span>
+            #end ##显示后面的省略号
+            #if($page.nextPageAvailable) ##显示后面的页
+            <a href="$!module.put("pageNo",$!{page.totalPage}).build()">$!{page.totalPage}</a>
+            <a href="$!module.put("pageNo",$!{page.nextPage}).build()">下一页</a>
+</li>
+#else
+    <a href="javascript:void(0)" class="disable">下一页</a>
+            #end
+</div>
+    #end
+#end
+#macro(showSimpleError)
+    #if(!$!actionErrors.empty)
+        #foreach($str in $actionErrors)
+            $!str
+            #break
+        #end
+    #end
+#end
+#macro (showFormPage $page  $formid )
+    #if($page)
+        #set($pagePos = 2) ##当前页的尾巴长度
+        <div class="pages">
+            <em class="sum">共$!{page.totalItem}条记录</em>
+            <input type="hidden" name="pageNo" id="pageNo_hidden">
+                #if($page.previousPageAvailable) ##如果能向上翻页
+                <a href="javascript:void(0)"  onClick="onSubmit('$!{formid}',$!{page.previousPage})">上一页</a>
+                <a href="javascript:void(0)"  onClick="onSubmit('$!{formid}',1)">1</a>
+                #end
+                #if($!page.index>$pagePos+2)
+                    <span>..</span>
+                #end ##显示前面的省略号
+                #foreach($i in [$pagePos..1]) ##增加前面的尾巴
+                #if($!page.index - $i > 1)
+                    #set($pageIndex= $!page.index - $i)
+                    <a href="javascript:void(0)"  onClick="onSubmit('$!{formid}',$!{pageIndex})">$pageIndex</a>
+                #end
+                #end
+                <a href="javascript:void(0)" class="cur">$!page.index</a>
+                ##显示当前页号
+                #foreach($i in [1..$pagePos]) ##增加后面的尾巴
+                #if($!page.totalPage - $!page.index - $i > 0)
+                    #set($pageIndex= $!page.index + $!i)
+                    <a href="javascript:void(0)" onClick="onSubmit('$!{formid}',$!{pageIndex})">$pageIndex</a>
+                #end
+                #end
+                #if($!page.totalPage - $!page.index > $pagePos+1)
+                    <span>..</span>
+                #end ##显示后面的省略号
+                #if($page.nextPageAvailable) ##显示后面的页
+                <a href="javascript:void(0)" onClick="onSubmit('$!{formid}',$!{page.totalPage})">$!{page.totalPage}</a>
+                <a href="javascript:void(0)" onClick="onSubmit('$!{formid}',$!{page.nextPage})">下一页</a>
+                #end
+                <script>function onSubmit(formid,num){$("#pageNo_hidden").val(num);$("#"+formid).submit();}</script>
+                #else
+                    <script>function onSubmit(formid,num){$("#pageNo_hidden").val(num);$("#"+formid).submit();}</script>
+        </div>
+    #end
+#end
+#**
+* enum message
+*
+* Macro to translate a enum into a message.
+*#
+#macro( enumMessage $enum )
+    #set( $enum_fullname = $enum.getClass().getName()+'.'+$enum.name() )
+    $springMacroRequestContext.getMessage($enum_fullname)
+#end
+#**
+* enum message
+*
+* Macro to translate a enum into a message.
+* using the given default text if no message found.
+*#
+#macro( enumMessageText $enum $text)
+    #set( $enum_fullname = $enum.getClass().getName()+'.'+$enum.name() )
+    $springMacroRequestContext.getMessage($enum_fullname, $text)
+#end
+#**
+* port from springFormSingleSelect macro.
+* formSingleSelect for enum instance, which must have value() method.
+* @see com.jd.common.context.Convertable
+*
+* Show a selectbox (dropdown) input element allowing a single value to be chosen
+* from a list of options.
+*
+* The null check for $status.value leverages Velocity's 'quiet' notation rather
+* than the more common #if($status.value) since this method evaluates to the
+    * boolean 'false' if the content of $status.value is the String "false" - not
+    * what we want.
+    *
+    * @param $inst a enum instance, which contain all the available options through enum.values()
+    * @param $name the name of the field
+    * @param empty prompt text
+    * @param attributes any additional attributes for the element (such as class
+    *    or CSS styles or size
+    *#
+
+
+    #macro(showCurrent $dictList $cur)
+        #foreach($dc in $dictList)
+            #if($!{dc.id} == $cur)
+                $!{dc.idDesc}
+            #end
+        #end
+    #end
+
+    #macro(showListHeaderItem $name $value)
+        <option value="$!value">$!name</option>
+    #end
+
+    ##下拉框
+    #macro(showDropdownList $value $dataSource)
+        #foreach($item in $dataSource)
+            <option value="$!item.code" #if($!item.code == $!value)
+                    selected="selected" #end> $!item.message </option>
+        #end
+    #end
+    ##发票类型
+    #macro(showSendTypeOption $type)
+        #foreach($InvoiceType in $InvoiceTypeEnum)
+            <option value="$!InvoiceType.code" #if($!InvoiceType.code == $!type)
+                    selected="selected" #end> $!InvoiceType.desc </option>
+        #end
+    #end
+
+    ##下拉框
+    #macro(showMineList $mineList)
+        #foreach($mine in $mineList)
+            <option value="$!mine.mineName"> $!mine.mineName </option>
+        #end
+    #end
+
+
+
+

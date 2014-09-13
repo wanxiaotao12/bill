@@ -1,0 +1,7 @@
+<script type="text/javascript" src="/resources/js/scrollNav.js"></script>
+<script type="text/javascript">
+    scrollNav();
+    menuTree();
+</script>
+<script type="text/javascript" src="/resources/js/validation/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/resources/js/validation/messages_zh.js"></script>

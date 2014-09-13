@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+功能模块: 
+开发信息: 
+-->
+<sqlMap namespace="CardDailyStatistics">
+	<typeAlias alias="CardDailyStatistics" type="com.guo.bill.pojo.CardDailyStatistics"/>
+	<!--<typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>-->
+	<!--<typeAlias alias="Query" type="com.guo.common.Query"/>-->
+	
+
+ 	<insert id="insert" parameterClass="CardDailyStatistics" >
+	 	INSERT  INTO  card_daily_statistics   /*  */
+					(		
+					 ID		/*  */ 
+					,datetime		/*  */
+					,cardno		/*  */
+					,income		/*  */
+					,outlay		/*  */
+					,CREATE_TIME		/* 创建时间 */
+					,EDIT_TIME		/* 修改时间 */ 
+					,CREATOR		/* 创建人 */ 
+					,EDITOR		/* 修改人 */ 
+					,STATE		/* 删除状态 */ 
+					)
+			values (
+					 #id#		/*  */ 
+				  	,#datetime#		/*  */
+				  	,#cardno#		/*  */
+				  	,#income#		/*  */
+				  	,#outlay#		/*  */
+				  	,#createTime#		/* 创建时间 */
+				  	,#editTime#		/* 修改时间 */ 
+				  	,#creator#		/* 创建人 */ 
+				  	,#editor#		/* 修改人 */ 
+				  	,#state#		/* 删除状态 */ 
+					)
+	</insert>
+
+
+	
+	
+</sqlMap>

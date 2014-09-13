@@ -1,0 +1,30 @@
+<!--mainContent-->
+<div class="mainContent fl">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span> &gt; <span class="cur">添加</span>
+    </div>
+    <div class="contentLog mb clearfix">
+        <div class="au_title mb15 font16">添加</div>
+        <div class="forms trade">
+        	<form id="form"  action="../mine/mineAdd.do" method="POST">
+            <div class="formsList1 clearfix">
+					<dl class="w100">
+						<dt>矿名：</dt>
+			            <dd>
+			            	<input type="text" value="$!{mine.mineName}" class="input160" name="mineName" id="mineName"/>
+			            </dd>
+			        </dl> 
+                <div class="clear"></div>
+            </div>
+            <p class="tcenter">
+	            <input type="submit" class="button_Green" value="保 存" />
+	        </p>
+	        </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+     $(function(){
+         $("#form").validate();
+     });
+</script>

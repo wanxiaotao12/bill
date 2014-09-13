@@ -1,0 +1,71 @@
+#* @vtlvariable name="receiverName" type="java.lang.String" *#
+#* @vtlvariable name="screen_content" type="java.lang.String" *#
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+#parse("common/head.vm")
+ <body onload="load()">
+
+
+<div class="mask"></div>
+<!--header-->
+<div class="NavBarText1 mb pr">
+	<div class="logo"></div>
+						<form id="navi" action="/index.do" method="post">
+        <!--nav-->
+        <div class="nav">
+        	<div class="plst_pt jQ_ptLst">
+				<input id="authId" style= "display:none" type="hidden" name="authId" value=""/>
+                <ul>
+    				 							<li><a onclick="submitForm(21)" href="javascript:void(0)"  class="cur" >权限管理</a></li>
+    	            							<li><a onclick="submitForm(25)" href="javascript:void(0)" >账户</a></li>
+    	            							<li><a onclick="submitForm(30)" href="javascript:void(0)" >机构管理</a></li>
+    	            							<li><a onclick="submitForm(35)" href="javascript:void(0)" >发票管理</a></li>
+    	            							<li><a onclick="submitForm(40)" href="javascript:void(0)" >收付款管理</a></li>
+    	            							<li><a onclick="submitForm(45)" href="javascript:void(0)" >参数管理</a></li>
+    	            							<li><a onclick="submitForm(50)" href="javascript:void(0)" >基础配置</a></li>
+    	                            </ul>
+            </div>
+        </div>
+			</form>
+    <div class="nav_control">
+    	<span class="prev roll_lt jQ_plstRoLt">&lt;</span><span class="next roll_rt jQ_plstRoRt">&gt;</span>
+    </div>
+  <!--欢迎页面-->
+    <div class="welcome mb">
+        <h3>欢迎您，BJADMIN</h3>
+        <a href="/logout.do">退出</a> | <a href="javascript:void(0)">帮助中心</a>
+    </div>
+</div>
+<!--END header-->
+<script type="text/javascript">
+function submitForm(authId){
+$("#authId").val(authId);
+$("#navi").submit();
+}
+</script>
+	<div class="pr">
+		<div class="subBar fl">
+	 <div class="subBarList">
+    	<h3 class="mb">权限管理</h3>
+        <ul>
+			  											<li class = "menu" onclick="loadContent('/privilege/userManager.do')"><span><a href="javascript:;" >用户管理</a></span></li>
+								  											<li class = "menu" onclick="loadContent('/privilege/roleManager.do')"><span><a href="javascript:;" >角色管理</a></span></li>
+								  											<li class = "menu" onclick="loadContent('/privilege/deptManager.do')"><span><a href="javascript:;" >部门管理</a></span></li>
+
+        </ul>
+    </div>
+    <!--左侧菜单展开效果-->
+</div>
+<!--control-->
+
+
+
+
+	#parse("common/navigation.vm")
+	<div class="pr">
+		#parse("common/menu.vm")
+		<iframe id="center"  src="" scrolling="no" frameborder="0" height="100%" width="80%" onload='IFrameResize();'></iframe>
+	</div>
+	#parse("common/bottom.vm")
+</body>
+</html>

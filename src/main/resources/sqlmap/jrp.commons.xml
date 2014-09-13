@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="jrp.commons">
+	
+	<sql id="pageBegin">
+		
+	</sql>
+	
+	<sql id="pageEnd">
+		 LIMIT  #startRow# ,#pageSize#
+	</sql>
+	
+	<!--  
+	=====================================================================
+	MySql
+	=====================================================================
+	<sql id="pageBegin">
+		
+	</sql>
+	
+	<sql id="pageEnd">
+		 LIMIT  #startRow# ,(#endRow#-#startRow#)
+	</sql>
+	
+	
+	=====================================================================
+	Oracle
+	=====================================================================
+	<sql id="pageBegin">
+		SELECT page_rows_.* FROM ( SELECT page_rows.* ,ROWNUM AS pageRowIndex FROM (
+	</sql>
+	
+	<sql id="pageEnd">
+		 ) page_rows ) page_rows_ WHERE page_rows_.pageRowIndex > #startRow# AND page_rows_.pageRowIndex <= #rowEnd#
+	</sql>
+	
+	=====================================================================
+	引用
+	=====================================================================
+	<include refid="jrp.commons.pageBegin"/>
+		......
+	<include refid="jrp.commons.pageEnd"/>
+	
+	
+	=====================================================================
+	Domain
+	=====================================================================
+	startRow = 开始序号 ，pageSize = 每页显示条数 ，rowEnd = startRow + pageSize
+	=====================================================================
+	-->
+</sqlMap>

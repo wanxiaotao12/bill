@@ -1,0 +1,58 @@
+#lay
+<!--mainContent-->
+<div class="mainContent fl">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span> &gt; <span class="cur">添加</span>
+    </div>
+    <div class="contentLog mb clearfix">
+        <div class="au_title mb15 font16">添加</div>
+        <div class="forms trade">
+        	<form id="form"  action="../cardDetail/cardDetailAdd.do" method="POST">
+            <div class="formsList1 clearfix">
+					<dl class="w100">
+						<dt>日期：</dt>
+			            <dd>
+			            	<input type="text" value="$!{cardDetail.datetime}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="input160" name="datetime" id="variety"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>操作类型：</dt>
+			            <dd>
+			            	<select name="operation">
+                                <option value="1">收入</option>
+                                <option value="2">支出</option>
+                            </select>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>卡号：</dt>
+			            <dd>
+			            	<input type="text" value="$!{cardDetail.cardno}" class="input160" name="cardno" id="costTotalamount"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>金额：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.price}" class="input160" name="price" id="taxPaid"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>备注：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.remark}" class="input160" name="remark" id="taxUnpaid"/>
+			            </dd>
+			        </dl> 
+                <div class="clear"></div>
+            </div>
+            <p class="tcenter">
+	            <input type="submit" class="button_Green" value="保 存" />
+	        </p>
+	        </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+     $(function(){
+         $("#form").validate();
+     });
+</script>

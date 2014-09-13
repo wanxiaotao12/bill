@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+功能模块: 
+开发信息: 
+-->
+<sqlMap namespace="PROFITBILL">
+	<typeAlias alias="Profitbill" type="com.guo.bill.pojo.Profitbill"/>
+	<typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>
+	<typeAlias alias="Query" type="com.guo.common.Query"/>
+	
+	<sql id="wherecontation">
+		<dynamic>
+				 /* 矿名 */
+				 <isNotEmpty prepend="and" property="query.mineName">
+	  		 		p.MINE_NAME = #query.mineName#
+				 </isNotEmpty>
+				 /* 开始时间 */
+				 <isNotEmpty prepend="and" property="query.beginTime">
+	  		 		<![CDATA[  p.CREATE_TIME >= #query.beginTime#    ]]>
+				 </isNotEmpty>
+				 /* 结束时间 */
+				 <isNotEmpty prepend="and" property="query.endTime">
+	  		 		<![CDATA[ p.CREATE_TIME <= #query.endTime#    ]]>
+				 </isNotEmpty>
+				 /* 创建人 */ 
+				 <isNotEmpty prepend="and" property="query.creator">
+	  		 		p.CREATOR = #query.creator#
+				 </isNotEmpty>
+	  	</dynamic>
+	</sql>
+	
+	<!--
+	方法名称: insert
+	调用路径: PROFITBILL.insert
+	开发信息: 
+	处理信息: 保存记录
+	-->
+ 	<insert id="insert" parameterClass="Profitbill" >
+	 	INSERT  INTO  PROFITBILL   /*  */ 
+					(		
+					 ID		/*  */ 
+					,CREATE_DATETIME		/* 日期 */ 
+					,MINE_NAME		/* 矿名 */ 
+					,ONNAGE		/* 吨位 */ 
+					,VARIETY		/* 品种 */ 
+					,SALE_UNITPRICE		/* 销售单价 */ 
+					,SALE_TOTALAMOUNT		/* 销售总金额 */ 
+					,COST_UNITPRICE		/* 成本单价 */ 
+					,COST_TOTALAMOUNT		/* 成本总金额 */ 
+					,UNITPRICEDIFFERENTIAL		/* 单价差价 */ 
+					,PROFIT		/* 利润 */ 
+					,CREATE_TIME		/* 创建时间 */ 
+					,EDIT_TIME		/* 修改时间 */ 
+					,CREATOR		/* 创建人 */ 
+					,EDITOR		/* 修改人 */ 
+					,STATE		/* 删除状态 */ 
+					)
+			values (
+					 #id#		/*  */ 
+				  	,#createDatetime#		/* 日期 */ 
+				  	,#mineName#		/* 矿名 */ 
+				  	,#onnage#		/* 吨位 */ 
+				  	,#variety#		/* 品种 */ 
+				  	,#saleUnitprice#		/* 销售单价 */ 
+				  	,#saleTotalamount#		/* 销售总金额 */ 
+				  	,#costUnitprice#		/* 成本单价 */ 
+				  	,#costTotalamount#		/* 成本总金额 */ 
+				  	,#unitpricedifferential#		/* 单价差价 */ 
+				  	,#profit#		/* 利润 */ 
+				  	,#createTime#		/* 创建时间 */ 
+				  	,#editTime#		/* 修改时间 */ 
+				  	,#creator#		/* 创建人 */ 
+				  	,#editor#		/* 修改人 */ 
+				  	,#state#		/* 删除状态 */ 
+					)
+	</insert>
+	
+	
+	<!--
+	方法名称: update
+	调用路径: PROFITBILL.update
+	开发信息: 
+	处理信息: 修改记录
+	-->
+ 	<update id="update" parameterClass="Profitbill" >
+		UPDATE   PROFITBILL  	/*  */ 
+	  		<dynamic prepend=" SET ">
+					 /* 日期 */ 
+					 <isNotNull  property="createDatetime" prepend=",">
+	    		 		CREATE_DATETIME = #createDatetime#
+					 </isNotNull>
+					 /* 矿名 */ 
+					 <isNotNull  property="mineName" prepend=",">
+	    		 		MINE_NAME = #mineName#
+					 </isNotNull>
+					 /* 吨位 */ 
+					 <isNotNull  property="onnage" prepend=",">
+	    		 		ONNAGE = #onnage#
+					 </isNotNull>
+					 /* 品种 */ 
+					 <isNotNull  property="variety" prepend=",">
+	    		 		VARIETY = #variety#
+					 </isNotNull>
+					 /* 销售单价 */ 
+					 <isNotNull  property="saleUnitprice" prepend=",">
+	    		 		SALE_UNITPRICE = #saleUnitprice#
+					 </isNotNull>
+					 /* 销售总金额 */ 
+					 <isNotNull  property="saleTotalamount" prepend=",">
+	    		 		SALE_TOTALAMOUNT = #saleTotalamount#
+					 </isNotNull>
+					 /* 成本单价 */ 
+					 <isNotNull  property="costUnitprice" prepend=",">
+	    		 		COST_UNITPRICE = #costUnitprice#
+					 </isNotNull>
+					 /* 成本总金额 */ 
+					 <isNotNull  property="costTotalamount" prepend=",">
+	    		 		COST_TOTALAMOUNT = #costTotalamount#
+					 </isNotNull>
+					 /* 单价差价 */ 
+					 <isNotNull  property="unitpricedifferential" prepend=",">
+	    		 		UNITPRICEDIFFERENTIAL = #unitpricedifferential#
+					 </isNotNull>
+					 /* 利润 */ 
+					 <isNotNull  property="profit" prepend=",">
+	    		 		PROFIT = #profit#
+					 </isNotNull>
+					 /* 创建时间 */ 
+					 <isNotNull  property="createTime" prepend=",">
+	    		 		CREATE_TIME = #createTime#
+					 </isNotNull>
+					 /* 修改时间 */ 
+					 <isNotNull  property="editTime" prepend=",">
+	    		 		EDIT_TIME = #editTime#
+					 </isNotNull>
+					 /* 创建人 */ 
+					 <isNotNull  property="creator" prepend=",">
+	    		 		CREATOR = #creator#
+					 </isNotNull>
+					 /* 修改人 */ 
+					 <isNotNull  property="editor" prepend=",">
+	    		 		EDITOR = #editor#
+					 </isNotNull>
+					 /* 删除状态 */ 
+					 <isNotNull  property="state" prepend=",">
+	    		 		STATE = #state#
+					 </isNotNull>
+	  	  </dynamic>
+				WHERE
+	  	 		 		ID = #id#		/*  */ 
+	</update>
+
+	
+	<!--
+	方法名称: deleteByPriKey
+	调用路径: PROFITBILL.deleteByPriKey
+	开发信息: 
+	处理信息: 删除记录
+	-->
+	<delete id="deleteByPriKey" parameterClass="Profitbill">
+		DELETE 	FROM PROFITBILL 	/*  */ 
+		WHERE 
+			ID = #id#		/*  */ 
+	</delete>
+	
+	<!--
+	方法名称: findByPriKey
+	调用路径: PROFITBILL.findByPriKey
+	开发信息: 
+	处理信息: 根据主键查询记录
+	-->
+	<select id="findByPriKey" parameterClass="Profitbill"  resultClass="Profitbill">
+		   SELECT   
+			      p.ID	   AS	id	/*  */ 
+				 ,p.CREATE_DATETIME	   AS	createDatetime	/* 日期 */ 
+				 ,p.MINE_NAME	   AS	mineName	/* 矿名 */ 
+				 ,p.ONNAGE	   AS	onnage	/* 吨位 */ 
+				 ,p.VARIETY	   AS	variety	/* 品种 */ 
+				 ,p.SALE_UNITPRICE	   AS	saleUnitprice	/* 销售单价 */ 
+				 ,p.SALE_TOTALAMOUNT	   AS	saleTotalamount	/* 销售总金额 */ 
+				 ,p.COST_UNITPRICE	   AS	costUnitprice	/* 成本单价 */ 
+				 ,p.COST_TOTALAMOUNT	   AS	costTotalamount	/* 成本总金额 */ 
+				 ,p.UNITPRICEDIFFERENTIAL	   AS	unitpricedifferential	/* 单价差价 */ 
+				 ,p.PROFIT	   AS	profit	/* 利润 */ 
+				 ,p.CREATE_TIME	   AS	createTime	/* 创建时间 */ 
+				 ,p.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
+				 ,p.CREATOR	   AS	creator	/* 创建人 */ 
+				 ,p.EDITOR	   AS	editor	/* 修改人 */ 
+				 ,p.STATE	   AS	state	/* 删除状态 */ 
+		   FROM   PROFITBILL      AS p      /*  */ 
+		   WHERE
+				ID = #id#		/*  */ 
+	</select>
+	
+	<!--
+	方法名称: getPagenationList
+	调用路径: PROFITBILL.getPagenationList
+	开发信息: 
+	处理信息: 分页查询记录
+	-->
+	<select id="getPagenationList" parameterClass="PageQuery"  resultClass="Profitbill">
+			<!-- 分页条 -->
+		   <include refid="jrp.commons.pageBegin"/>
+		   SELECT   
+			      p.ID	   AS	id	/*  */ 
+				 ,p.CREATE_DATETIME	   AS	createDatetime	/* 日期 */ 
+				 ,p.MINE_NAME	   AS	mineName	/* 矿名 */ 
+				 ,p.ONNAGE	   AS	onnage	/* 吨位 */ 
+				 ,p.VARIETY	   AS	variety	/* 品种 */ 
+				 ,p.SALE_UNITPRICE	   AS	saleUnitprice	/* 销售单价 */ 
+				 ,p.SALE_TOTALAMOUNT	   AS	saleTotalamount	/* 销售总金额 */ 
+				 ,p.COST_UNITPRICE	   AS	costUnitprice	/* 成本单价 */ 
+				 ,p.COST_TOTALAMOUNT	   AS	costTotalamount	/* 成本总金额 */ 
+				 ,p.UNITPRICEDIFFERENTIAL	   AS	unitpricedifferential	/* 单价差价 */ 
+				 ,p.PROFIT	   AS	profit	/* 利润 */ 
+				 ,p.CREATE_TIME	   AS	createTime	/* 创建时间 */ 
+				 ,p.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
+				 ,p.CREATOR	   AS	creator	/* 创建人 */ 
+				 ,p.EDITOR	   AS	editor	/* 修改人 */ 
+				 ,p.STATE	   AS	state	/* 删除状态 */ 
+		   FROM   PROFITBILL      AS p      /*  */ 
+		   WHERE 1=1   and   p.STATE ='1'
+		 	<include refid="wherecontation"/>
+           order by  p.CREATE_TIME desc
+		<!-- 分页条 -->
+		<include refid="jrp.commons.pageEnd"/>
+			
+	</select>
+	
+	
+	<!--
+	方法名称: getItemCount
+	调用路径: PROFITBILL.getItemCount
+	开发信息: 
+	处理信息: 查询记录数
+	-->
+	<select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
+		SELECT count(1)  FROM  PROFITBILL  AS p	/*  */   
+		 WHERE 1=1 and   p.STATE ='1'
+		<include refid="wherecontation"/>
+	</select>
+	
+	
+	
+	<!--
+	方法名称: getAllList
+	调用路径: PROFITBILL.getAllList
+	开发信息: 
+	处理信息: 查询所有的记录
+	-->
+	<select id="getAllList" parameterClass="Query"  resultClass="Profitbill">
+		   SELECT   
+			      p.ID	   AS	id	/*  */ 
+				 ,p.CREATE_DATETIME	   AS	createDatetime	/* 日期 */ 
+				 ,p.MINE_NAME	   AS	mineName	/* 矿名 */ 
+				 ,p.ONNAGE	   AS	onnage	/* 吨位 */ 
+				 ,p.VARIETY	   AS	variety	/* 品种 */ 
+				 ,p.SALE_UNITPRICE	   AS	saleUnitprice	/* 销售单价 */ 
+				 ,p.SALE_TOTALAMOUNT	   AS	saleTotalamount	/* 销售总金额 */ 
+				 ,p.COST_UNITPRICE	   AS	costUnitprice	/* 成本单价 */ 
+				 ,p.COST_TOTALAMOUNT	   AS	costTotalamount	/* 成本总金额 */ 
+				 ,p.UNITPRICEDIFFERENTIAL	   AS	unitpricedifferential	/* 单价差价 */ 
+				 ,p.PROFIT	   AS	profit	/* 利润 */ 
+				 ,p.CREATE_TIME	   AS	createTime	/* 创建时间 */ 
+				 ,p.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
+				 ,p.CREATOR	   AS	creator	/* 创建人 */ 
+				 ,p.EDITOR	   AS	editor	/* 修改人 */ 
+				 ,p.STATE	   AS	state	/* 删除状态 */ 
+		   FROM   PROFITBILL      AS p      /*  */ 
+		   WHERE 1=1
+		 	<include refid="wherecontation"/>
+	</select>
+	
+	
+</sqlMap>

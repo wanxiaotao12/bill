@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%7r] %6p - %30.30c - %m \n"/>
+        </layout>
+    </appender>
+
+    <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <param name="Append" value="true"/>
+        <param name="file" value="${jrp.log.path}/jrp.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%7r] %6p - %30.30c - %m \n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="${jrp.log.level}"/>
+            <!--<param name="LevelMax" value="FATAL "/>-->
+        </filter>
+    </appender>
+
+    <appender name="FILE-SQL" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <param name="file" value="${jrp.log.path}/jrp.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%7r] %6p - %30.30c - %m \n"/>
+        </layout>
+    </appender>
+    
+    <category name="java.sql" additivity="false">
+        <priority value="${jrp.log.level}"/>
+        <appender-ref ref="FILE-SQL"/>
+        <!--        <appender-ref ref="FILE-DEBUG"/>-->
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </category>
+
+    
+    <!-- AOP -->
+     <appender name="File" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="encoding" value="utf-8" />
+		<param name="File" value="${jrp.log.path}/test-advice.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %t %5p [%c:%M] - %m%n" />
+		</layout>
+		<!-- <filter class="org.apache.log4j.varia.LevelRangeFilter"> <param name="LevelMin" 
+			value="DEBUG" /> <param name="LevelMax" value="DEBUG" /> </filter> -->
+	</appender>
+	
+    <category name="com.jd.jrpcore.aop" additivity="true">
+		<appender-ref ref="File" />
+	</category>
+
+	<logger name="org.apache.zookeeper">
+		<level value="INFO" />
+		<appender-ref ref="File" />
+	</logger>
+	<!-- AOP -->
+	
+	
+    <root>
+        <priority value="${log.level}"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</log4j:configuration>

@@ -1,0 +1,56 @@
+<!--mainContent-->
+<div class="mainContent fl">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span> &gt; <span class="cur">详情</span>
+    </div>
+    <div class="contentLog mb clearfix">
+        <div class="au_title mb15 font16">详情</div>
+        <div class="forms trade">
+            <div class="formsList1 clearfix">
+					<dl class="w100">
+						<dt>：</dt>
+			            <dd>
+			            	$!{mine.id}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>矿名：</dt>
+			            <dd>
+			            	$!{mine.mineName}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建时间：</dt>
+			            <dd>
+			            	$!{mine.createTime}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改时间：</dt>
+			            <dd>
+			            	$!{mine.editTime}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建人：</dt>
+			            <dd>
+			            	$!{mine.creator}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改人：</dt>
+			            <dd>
+			            	$!{mine.editor}
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>删除状态：</dt>
+			            <dd>
+			            	$!{mine.state}
+			            </dd>
+			        </dl> 
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>

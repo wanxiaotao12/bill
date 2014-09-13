@@ -1,0 +1,116 @@
+<!--mainContent-->
+<div class="mainContent fl">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span class="cur">添加利润账</span>
+    </div>
+    <div class="contentLog mb clearfix">
+        <div class="au_title mb15 font16">添加</div>
+        <div class="forms trade">
+            <form id="form" action="../profitbill/profitbillAdd.do" method="POST">
+                <div class="formsList1 clearfix">
+                    <dl class="w100">
+                        <dt>日期：</dt>
+                        <dd>
+                            <input type="text" value="$!{profitbill.createDatetime}" class="input160 required" name="createDatetime" id="createDatetime" onclick="WdatePicker()"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>矿名：</dt>
+                        <dd>
+                            <select name="mineName" class="select140  required">
+                                <option value="">请选择</option>
+                                #showMineList($!{mineList})
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>吨位：</dt>
+                        <dd>
+                            <input type="text" value="$!{profitbill.onnage}" class="input160  required" name="onnage" id="onnage"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>品种：</dt>
+                        <dd>
+                            <select name="variety" class="select140  required">
+                                <option value="">全部</option>
+                                #showDropdownList($!query.variety, $!{dstool.varietyList})
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>销售单价：</dt>
+                        <dd>
+                            <input type="text" value="$!{profitbill.saleUnitprice}" class="input160 required" name="saleUnitprice" id="saleUnitprice"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>销售总金额：</dt>
+                        <dd>
+                            <input type="text" value="$!{profitbill.saleTotalamount}" class="input160" readonly="readonly" name="saleTotalamount" id="saleTotalamount" style="background: #d5d5d5"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>成本单价：</dt>
+                        <dd>
+                            <input type="text" value="$!{profitbill.costUnitprice}" class="input160  required" name="costUnitprice" id="costUnitprice"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>成本总金额：</dt>
+                        <dd>
+                            <input type="text" value="$!{profitbill.costTotalamount}" class="input160" readonly="readonly" name="costTotalamount" id="costTotalamount" style="background: #d5d5d5"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>单价差价：</dt>
+                        <dd>
+                            <input type="text" value="$!{profitbill.unitpricedifferential}" class="input160" readonly="readonly" name="unitpricedifferential" id="unitpricedifferential" style="background: #d5d5d5"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>利润：</dt>
+                        <dd>
+                            <input type="text" value="$!{profitbill.profit}" class="input160" readonly="readonly" name="profit" id="profit" style="background: #d5d5d5"/>
+                        </dd>
+                        <div class="clear"></div>
+                </div>
+                <p class="tcenter">
+                    <input type="submit" class="button_Green" value="保 存"/>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(function() {
+        var showSaleTotalamount = function() {
+            var onnage = $.trim($("#onnage").val());
+            var saleUnitprice = $.trim($("#saleUnitprice").val());
+            var costUnitprice = $.trim($("#costUnitprice").val());
+
+            if (onnage != "" && saleUnitprice != "") {
+                var saleTotalamount = accMul(onnage,saleUnitprice);
+                $("#saleTotalamount").val(saleTotalamount);
+            }
+            if (onnage != "" && costUnitprice != "") {
+                var saleTotalamount = accMul(onnage,costUnitprice);
+                $("#costTotalamount").val(saleTotalamount);
+            }
+            if (onnage != "" && costUnitprice != "") {
+                var unitpricedifferential = accSub(saleUnitprice,costUnitprice);
+
+                $("#unitpricedifferential").val(unitpricedifferential);
+                $("#profit").val(accMul(unitpricedifferential,onnage));
+            }
+        };
+
+        $("#onnage").bind("blur", showSaleTotalamount);
+        $("#saleUnitprice").bind("blur", showSaleTotalamount);
+        $("#costUnitprice").bind("blur", showSaleTotalamount);
+
+        $("#form").validate();
+    });
+
+</script>

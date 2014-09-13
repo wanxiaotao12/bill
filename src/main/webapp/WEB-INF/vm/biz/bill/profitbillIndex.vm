@@ -1,0 +1,183 @@
+<!--mainContent-->
+   <div class="mainContent fl">
+    	<div class="crumb_fund">
+        	<span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span>
+        </div>
+        <form action="../profitbill/profitbillIndex.do" method="post"  id="formSubmit">
+        <div class="contentList borderNo">
+        	<div class="forms mb">
+            	<div class="formsList1 clearfix">
+					<!--
+                            <dl>
+								<dt>日期</dt>
+					            <dd>
+					            	 <input class="input160" name="createDatetime" id="createDatetime" value="$!{query.createDatetime}"/>
+					            </dd>
+					        </dl>
+					        -->
+							<dl>
+								<dt>矿名</dt>
+					            <dd>
+					            	 <input class="input160" name="mineName" id="mineName" value="$!{query.mineName}"/>
+					            </dd>
+					        </dl> 
+						    <!--<dl>
+								<dt>吨位</dt>
+					            <dd>
+					            	 <input class="input160" name="onnage" id="onnage" value="$!{query.onnage}"/>
+					            </dd>
+					        </dl> 
+							<dl>
+								<dt>品种</dt>
+					            <dd>
+					            	 <input class="input160" name="variety" id="variety" value="$!{query.variety}"/>
+					            </dd>
+					        </dl> 
+							<dl>
+								<dt>销售单价</dt>
+					            <dd>
+					            	 <input class="input160" name="saleUnitprice" id="saleUnitprice" value="$!{query.saleUnitprice}"/>
+					            </dd>
+					        </dl> 
+							<dl>
+								<dt>销售总金额</dt>
+					            <dd>
+					            	 <input class="input160" name="saleTotalamount" id="saleTotalamount" value="$!{query.saleTotalamount}"/>
+					            </dd>
+					        </dl> 
+							<dl>
+								<dt>成本单价</dt>
+					            <dd>
+					            	 <input class="input160" name="costUnitprice" id="costUnitprice" value="$!{query.costUnitprice}"/>
+					            </dd>
+					        </dl> 
+							<dl>
+								<dt>成本总金额</dt>
+					            <dd>
+					            	 <input class="input160" name="costTotalamount" id="costTotalamount" value="$!{query.costTotalamount}"/>
+					            </dd>
+					        </dl> 
+							<dl>
+								<dt>单价差价</dt>
+					            <dd>
+					            	 <input class="input160" name="unitpricedifferential" id="unitpricedifferential" value="$!{query.unitpricedifferential}"/>
+					            </dd>
+					        </dl> 
+							<dl>
+								<dt>利润</dt>
+					            <dd>
+					            	 <input class="input160" name="profit" id="profit" value="$!{query.profit}"/>
+					            </dd>
+					        </dl>
+					         -->
+
+							<dl>
+								<dt>创建人</dt>
+					            <dd>
+					            	 <input class="input160" name="creator" id="creator" value="$!{query.creator}" />
+					            </dd>
+					        </dl>
+                            <dl>
+								<dt></dt>
+					            <dd>
+
+					            </dd>
+					        </dl>
+                            <dl>
+								<dt>开始时间</dt>
+					            <dd>
+					            	 <input class="input160 Wdate " name="beginTime" id="beginTime" value="$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{query.beginTime})" onclick="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss',startDate:'%y-%M-%d 00:00:00'})"/>
+					            </dd>
+					        </dl>
+                            <dl>
+								<dt>结束时间</dt>
+					            <dd>
+                                     <input class="input160 Wdate " name="endTime" id="endTime" value="$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{query.endTime})" onclick="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss',startDate:'%y-%M-%d 23:59:59'})"/>
+					            </dd>
+					        </dl>
+							<!--
+                            <dl>
+								<dt>修改人</dt>
+					            <dd>
+					            	 <input class="input160" name="editor" id="editor" value="$!{query.editor}"/>
+					            </dd>
+					        </dl> 
+							<dl>
+								<dt>删除状态</dt>
+					            <dd>
+					            	 <input class="input160" name="state" id="state" value="$!{query.state}"/>
+					            </dd>
+					        </dl>
+					         -->
+                    <div class="clear"></div>
+                    <div><input type="button" class="button_Green searchBtn " value="搜 索"/></div>
+                </div>
+            </div>
+            <div class="createNew ">
+            		<div class="fl mb mt"></div>
+                <div class="fr mb"><input type="button" id="addButton" value="新 建" class="button_Green"/></div>
+            </div>
+        	<div class="tabBox queryCost1 mb">
+            	<table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+						<th>日期</th>
+						<th>矿名</th>
+						<th>吨位</th>
+						<th>品种</th>
+						<th>销售单价</th>
+						<th>销售总金额</th>
+						<th>成本单价</th>
+						<th>成本总金额</th>
+						<th>单价差价</th>
+						<th>利润</th>
+						<th>创建时间</th>
+                <th>操作</th>
+            </tr>
+             #if($!{pageInfos})
+                #foreach($!{info} in $!{pageInfos})
+	            	<tr>
+								<td>$!dateTool.format("yyyy-MM-dd",$!{info.createDatetime})</td>
+								<td>$!{info.mineName}</td>
+								<td>$!{info.onnage}</td>
+								<td>$!{dstool.getVarietyName($!{info.variety})}</td>
+								<td>$!{info.saleUnitprice}</td>
+								<td>$!{info.saleTotalamount}</td>
+								<td>$!{info.costUnitprice}</td>
+								<td>$!{info.costTotalamount}</td>
+								<td>$!{info.unitpricedifferential}</td>
+								<td>$!{info.profit}</td>
+								<td>$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.createTime})</td>
+		                <td>
+##			                <a href="../profitbill/toEdit.do?id=$!{info.id}">编辑</a>
+			                <a href="../profitbill/profitbillDelete.do?id=$!{info.id}">删除</a>
+##			                <a href="../profitbill/profitbillDetail.do?id=$!{info.id}">详情</a>
+		                </td>
+	           		</tr>
+	             #end
+	    	 #end
+        </table>
+			</div>
+            <div class="fr">
+            	<!--公用翻页代码-->
+                #set($attr='formSubmit')
+            	#showPageFormSubmit($pageInfos $attr)
+                <!--END公用翻页代码-->
+            </div>
+            <div class="clear"></div>
+            
+        </div>
+        </form>
+    </div>
+    <!--end mainContent-->
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".button_Green.searchBtn").bind("click",function(){
+		$("#formSubmit").submit();
+	});
+	
+	$("#addButton").bind("click",function(){
+		location.href="../profitbill/toAdd.do";
+	});
+});
+
+</script>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+功能模块: 
+开发信息: 
+-->
+<sqlMap namespace="MINE">
+	<typeAlias alias="Mine" type="com.guo.bill.pojo.Mine"/>
+	<typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>
+	<typeAlias alias="Query" type="com.guo.common.Query"/>
+	
+	<sql id="wherecontation">
+		<dynamic>
+				 /* 矿名 */ 
+				 <isNotEmpty prepend="and" property="query.mineName">
+	  		 		m.MINE_NAME = #query.mineName#
+				 </isNotEmpty>
+				 /* 创建时间 */ 
+				 <isNotEmpty prepend="and" property="query.createTime">
+	  		 		m.CREATE_TIME = #query.createTime#
+				 </isNotEmpty>
+				 /* 修改时间 */ 
+				 <isNotEmpty prepend="and" property="query.editTime">
+	  		 		m.EDIT_TIME = #query.editTime#
+				 </isNotEmpty>
+				 /* 创建人 */ 
+				 <isNotEmpty prepend="and" property="query.creator">
+	  		 		m.CREATOR = #query.creator#
+				 </isNotEmpty>
+				 /* 修改人 */ 
+				 <isNotEmpty prepend="and" property="query.editor">
+	  		 		m.EDITOR = #query.editor#
+				 </isNotEmpty>
+				 /* 删除状态 */ 
+				 <isNotEmpty prepend="and" property="query.state">
+	  		 		m.STATE = #query.state#
+				 </isNotEmpty>
+	  	</dynamic>
+	</sql>
+	
+	<!--
+	方法名称: insert
+	调用路径: MINE.insert
+	开发信息: 
+	处理信息: 保存记录
+	-->
+ 	<insert id="insert" parameterClass="Mine" >
+	 	INSERT  INTO  MINE   /*  */ 
+					(		
+					 ID		/*  */ 
+					,MINE_NAME		/* 矿名 */ 
+					,CREATE_TIME		/* 创建时间 */ 
+					,EDIT_TIME		/* 修改时间 */ 
+					,CREATOR		/* 创建人 */ 
+					,EDITOR		/* 修改人 */ 
+					,STATE		/* 删除状态 */ 
+					)
+			values (
+					 #id#		/*  */ 
+				  	,#mineName#		/* 矿名 */ 
+				  	,#createTime#		/* 创建时间 */ 
+				  	,#editTime#		/* 修改时间 */ 
+				  	,#creator#		/* 创建人 */ 
+				  	,#editor#		/* 修改人 */ 
+				  	,#state#		/* 删除状态 */ 
+					)
+	</insert>
+	
+	
+	<!--
+	方法名称: update
+	调用路径: MINE.update
+	开发信息: 
+	处理信息: 修改记录
+	-->
+ 	<update id="update" parameterClass="Mine" >
+		UPDATE   MINE  	/*  */ 
+	  		<dynamic prepend=" SET ">
+					 /* 矿名 */ 
+					 <isNotNull  property="mineName" prepend=",">
+	    		 		MINE_NAME = #mineName#
+					 </isNotNull>
+					 /* 创建时间 */ 
+					 <isNotNull  property="createTime" prepend=",">
+	    		 		CREATE_TIME = #createTime#
+					 </isNotNull>
+					 /* 修改时间 */ 
+					 <isNotNull  property="editTime" prepend=",">
+	    		 		EDIT_TIME = #editTime#
+					 </isNotNull>
+					 /* 创建人 */ 
+					 <isNotNull  property="creator" prepend=",">
+	    		 		CREATOR = #creator#
+					 </isNotNull>
+					 /* 修改人 */ 
+					 <isNotNull  property="editor" prepend=",">
+	    		 		EDITOR = #editor#
+					 </isNotNull>
+					 /* 删除状态 */ 
+					 <isNotNull  property="state" prepend=",">
+	    		 		STATE = #state#
+					 </isNotNull>
+	  	  </dynamic>
+				WHERE
+	  	 		 		ID = #id#		/*  */ 
+	</update>
+
+	
+	<!--
+	方法名称: deleteByPriKey
+	调用路径: MINE.deleteByPriKey
+	开发信息: 
+	处理信息: 删除记录
+	-->
+	<delete id="deleteByPriKey" parameterClass="Mine">
+		DELETE 	FROM MINE 	/*  */ 
+		WHERE 
+			ID = #id#		/*  */ 
+	</delete>
+	
+	<!--
+	方法名称: findByPriKey
+	调用路径: MINE.findByPriKey
+	开发信息: 
+	处理信息: 根据主键查询记录
+	-->
+	<select id="findByPriKey" parameterClass="Mine"  resultClass="Mine">
+		   SELECT   
+			      m.ID	   AS	id	/*  */ 
+				 ,m.MINE_NAME	   AS	mineName	/* 矿名 */ 
+				 ,m.CREATE_TIME	   AS	createTime	/* 创建时间 */ 
+				 ,m.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
+				 ,m.CREATOR	   AS	creator	/* 创建人 */ 
+				 ,m.EDITOR	   AS	editor	/* 修改人 */ 
+				 ,m.STATE	   AS	state	/* 删除状态 */ 
+		   FROM   MINE      AS m      /*  */ 
+		   WHERE
+				ID = #id#		/*  */ 
+	</select>
+	
+	<!--
+	方法名称: getPagenationList
+	调用路径: MINE.getPagenationList
+	开发信息: 
+	处理信息: 分页查询记录
+	-->
+	<select id="getPagenationList" parameterClass="PageQuery"  resultClass="Mine">
+			<!-- 分页条 -->
+		   <include refid="jrp.commons.pageBegin"/>
+		   SELECT   
+			      m.ID	   AS	id	/*  */ 
+				 ,m.MINE_NAME	   AS	mineName	/* 矿名 */ 
+				 ,m.CREATE_TIME	   AS	createTime	/* 创建时间 */ 
+				 ,m.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
+				 ,m.CREATOR	   AS	creator	/* 创建人 */ 
+				 ,m.EDITOR	   AS	editor	/* 修改人 */ 
+				 ,m.STATE	   AS	state	/* 删除状态 */ 
+		   FROM   MINE      AS m      /*  */ 
+		   WHERE 1=1
+		 	<include refid="wherecontation"/>
+		<!-- 分页条 -->
+		<include refid="jrp.commons.pageEnd"/>
+			
+	</select>
+	
+	
+	<!--
+	方法名称: getItemCount
+	调用路径: MINE.getItemCount
+	开发信息: 
+	处理信息: 查询记录数
+	-->
+	<select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
+		SELECT count(1)  FROM  MINE  AS m	/*  */   
+		 WHERE 1=1
+		<include refid="wherecontation"/>
+	</select>
+	
+	
+	
+	<!--
+	方法名称: getAllList
+	调用路径: MINE.getAllList
+	开发信息: 
+	处理信息: 查询所有的记录
+	-->
+	<select id="getAllList" parameterClass="Query"  resultClass="Mine">
+		   SELECT   
+			      m.ID	   AS	id	/*  */ 
+				 ,m.MINE_NAME	   AS	mineName	/* 矿名 */ 
+				 ,m.CREATE_TIME	   AS	createTime	/* 创建时间 */ 
+				 ,m.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
+				 ,m.CREATOR	   AS	creator	/* 创建人 */ 
+				 ,m.EDITOR	   AS	editor	/* 修改人 */ 
+				 ,m.STATE	   AS	state	/* 删除状态 */ 
+		   FROM   MINE      AS m      /*  */ 
+		   WHERE 1=1
+		 	<include refid="wherecontation"/>
+	</select>
+	
+	
+</sqlMap>

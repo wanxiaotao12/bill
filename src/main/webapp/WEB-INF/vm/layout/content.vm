@@ -1,0 +1,90 @@
+#* @vtlvariable name="receiverName" type="java.lang.String" *#
+#* @vtlvariable name="screen_content" type="java.lang.String" *#
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+#parse("common/head.vm")
+  <style type="text/css">
+
+    label.error {
+        color: red;/*错误信息的颜色*/
+    }
+  </style>
+ <body onload="">
+ <div class="mask"></div>
+<!--header-->
+<div class="NavBarText1 mb pr">
+	<div class="logo"></div>
+    <!--nav-->
+    <div class="nav">
+    	<div class="plst_pt jQ_ptLst">
+            <ul>
+                <li><a href="" class="cur">记账</a></li>
+##                <li><a href="">商品中心</a></li>
+##                <li><a href="">交易查询</a></li>
+##                <li><a href="">用户管理</a></li>
+##                <li><a href="">结算管理</a></li>
+##                <li><a href="">对账管理</a></li>
+##                <li><a href="">权限管理</a></li>
+##                <li><a href="">报表管理</a></li>
+##                <li><a href="">模板管理</a></li>
+##                <li><a href="">商品中心</a></li>
+##                <li><a href="">交易查询</a></li>
+##                <li><a href="">用户管理</a></li>
+##                <li><a href="">结算管理</a></li>
+##                <li><a href="">对账管理</a></li>
+##                <li><a href="">权限管理</a></li>
+##                <li><a href="">报表管理</a></li>
+##                <li><a href="">模板管理</a></li>*/
+            </ul>
+        </div>
+    </div>
+    <div class="nav_control">
+    	<span class="prev roll_lt jQ_plstRoLt">&lt;</span><span class="next roll_rt jQ_plstRoRt">&gt;</span>
+    </div>
+    <!--欢迎页面-->
+     <div class="welcome mb">
+        <h3>欢迎您，XXX！</h3>
+        <a href="">退出</a> | <a href="">修改密码</a>
+     </div>
+</div>
+<!--END header-->
+
+<div class="pr">
+	<div class="subBar fl">
+    	 <div class="subBarList">
+        	<h3 class="mb">记账</h3>
+            <ul>
+            	<li>
+                	<span><a href="/profitbill/profitbillIndex.do">利润账</a></span>
+                </li>
+                <li><span><a href="/shipperbill/shipperbillIndex.do">货主账</a></span></li>
+                <li><span><a href="/detailbill/detailbillIndex.do">详细账</a></span></li>
+                <li><span><a href="/mine/mineIndex.do">煤矿</a></span></li>
+                <li><span><a href="/cardDetail/cardDetailIndex.do">卡流水</a></span></li>
+                <li><span><a href="/cardStatistics/index.do">卡统计</a></span></li>
+            </ul>
+        </div>
+        <!--左侧菜单展开效果-->
+    </div>
+    <!--control-->
+     <div class="resizer">
+        <div class="opt">
+            <i></i>
+        </div>
+    </div>
+
+
+
+  <!--mainContent-->
+  <div id="contentDIV" style="width: 1024px; float: left">
+			$screen_content
+	</div>
+	##parse("common/bottom.vm")
+</body>
+</html>
+
+<script type="text/javascript">
+if(top.location == self.location){
+	//location.replace("/logout.do");
+}
+</script>

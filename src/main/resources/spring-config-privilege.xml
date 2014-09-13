@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+    ">
+
+    <bean id="cookieCipherTools" class="com.jd.common.web.cookie.CookieCipherTools">
+        <property name="charsetName" value="utf-8" />
+    </bean>
+
+    <bean id="_jdEncryptCookie" class="com.jd.common.web.cookie.JdCookie"
+          abstract="true">
+        <property name="cookieCipherTools" ref="cookieCipherTools" />
+        <property name="encrypt" value="true" />
+        <property name="key" value="${jrp.cookie.key}" />
+        <property name="path" value="/" />
+    </bean>
+
+    <bean id="cookieUtils" class="com.jd.common.web.cookie.CookieUtils">
+        <property name="jdCookie">
+            <util:list>
+                <bean parent="_jdEncryptCookie">
+                    <property name="name" value="${login.cookie.name}" />
+                </bean>
+                <bean class="com.jd.common.web.cookie.JdCookie">
+                    <property name="name" value="${auth.cookie.name}" />
+                    <property name="domain" value="${auth.cookie.domain}" />
+                </bean>
+            </util:list>
+        </property>
+    </bean>
+
+    <util:map id="_urlBuilderMap">
+        <entry key="homeModule">
+            <bean class="com.jd.common.web.url.UrlBuilder">
+                <constructor-arg value="http://${jrp.domain.name}/" />
+            </bean>
+        </entry>
+        <entry key="loginUrl">
+            <bean class="com.jd.common.web.url.UrlBuilder">
+                <constructor-arg value="${login.address}" />
+            </bean>
+        </entry>
+    </util:map>
+
+    <bean id="urlBuilders" class="com.jd.common.web.url.UrlBuilders">
+        <constructor-arg ref="_urlBuilderMap" />
+    </bean>
+
+    <!-- hrm webservice 认证接口(调用方式一) -->
+    <bean id="soapHeaderIntercepter" class="com.jd.common.ws.SOAPHeaderIntercepter">
+        <property name="authHeader">
+            <bean class="com.jd.common.ws.AuthHeader">
+                <property name="content" value="${jrp.ws.content}" />
+                <property name="seed" value="${jrp.ws.seed}" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="jcClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="com.jd.common.hrm.ws.DeptWebServiceSoap" />
+        <property name="address" value="${hrm.auth.address}" />
+        <property name="outInterceptors">
+            <list>
+                <ref local="soapHeaderIntercepter" />
+            </list>
+        </property>
+    </bean>
+    <bean id="deptWebServiceSoap" class="com.jd.common.hrm.ws.DeptWebServiceSoap"
+          factory-bean="jcClientFactory" factory-method="create" />
+
+    <bean id="authenProxy" class="com.jd.common.hrm.proxy.HrmAuthenProxy">
+    </bean>
+
+    <!-- 人事接口 -->
+    <bean id="hrmPrivilegeHelper" class="com.jd.common.hrm.HrmPrivilegeHelper">
+    </bean>
+
+    <!-- 权限拦截器 -->
+    <mvc:interceptors>
+        
+		<!--基于authenticationService的cookie认证 -->
+        <bean id="_DotnetTicketContextInterceptor"
+              class="com.jd.jrpcore.interceptor.DotnetTicketContextInterceptor">
+            <property name="cookieUtils" ref="cookieUtils" />
+            <property name="dotnetAuthCookieName" value="${auth.cookie.name}" />
+        </bean>
+        
+        <bean id="_HrmDotnetTicketLoginContextInterceptor"
+              class="com.jd.common.hrm.support.HrmDotnetTicketLoginContextInterceptor">
+            <property name="cookieUtils" ref="cookieUtils" />
+            <property name="loginCookieKey" value="${login.cookie.name}" />
+        </bean>
+        
+        <bean id="_LoginContextInterceptor"
+              class="com.jd.common.springmvc.interceptor.LoginContextInterceptor">
+            <property name="cookieUtils" ref="cookieUtils" />
+            <property name="loginCookieKey" value="${login.cookie.name}" />
+            <property name="sessionTimeout" value="${session.timeout}" />
+        </bean>
+        
+        <bean id="_DotnetTicketRequiredInterceptor"
+              class="com.jd.common.springmvc.interceptor.DotnetTicketRequiredInterceptor">
+            <property name="urlBuilders" ref="urlBuilders" />
+        </bean>
+        
+        <!-- 确定是否有权限执行，做的Logincontext认证 -->
+		<bean id="_HrmPrivilegeInterceptor" class="com.jd.common.hrm.support.HrmPrivilegeInterceptor">
+			<property name="hrmPrivilegeHelper" ref="hrmPrivilegeHelper" />
+		</bean>
+        
+        <!-- 登录拦截：获取权限 -->
+        <bean id="_privilegeInterceptor" class="com.jd.jrpcore.interceptor.PrivilegeInterceptor">
+        	<property name="excludeUri">
+			    <set>
+			     	<value>/logout.do</value>
+			     	<value>/index.do</value>
+			    </set>
+			</property>
+        </bean>
+        
+    </mvc:interceptors>
+
+</beans>

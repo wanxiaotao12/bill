@@ -1,0 +1,175 @@
+<!--mainContent-->
+   <div class="mainContent fl">
+    	<div class="crumb_fund">
+        	<span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span>
+        </div>
+        <form action="../detailbill/detailbillIndex.do" method="post"  id="formSubmit">
+        <div class="contentList borderNo">
+        	<div class="forms mb">
+            	<div class="formsList1 clearfix">
+							<dl>
+								<dt>品种</dt>
+					            <dd>
+					            	 <input class="input160" name="variety" id="variety" value="$!{query.variety}"/>
+					            </dd>
+					        </dl> 
+##							<dl>
+##								<dt>成本单价</dt>
+##					            <dd>
+##					            	 <input class="input160" name="costUnitprice" id="costUnitprice" value="$!{query.costUnitprice}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>成本总金额</dt>
+##					            <dd>
+##					            	 <input class="input160" name="costTotalamount" id="costTotalamount" value="$!{query.costTotalamount}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>含税已付款</dt>
+##					            <dd>
+##					            	 <input class="input160" name="taxPaid" id="taxPaid" value="$!{query.taxPaid}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>含税未付款</dt>
+##					            <dd>
+##					            	 <input class="input160" name="taxUnpaid" id="taxUnpaid" value="$!{query.taxUnpaid}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>不含税成本单价</dt>
+##					            <dd>
+##					            	 <input class="input160" name="notaxCostprice" id="notaxCostprice" value="$!{query.notaxCostprice}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>不含税成本总金额</dt>
+##					            <dd>
+##					            	 <input class="input160" name="notaxCosttotalamount" id="notaxCosttotalamount" value="$!{query.notaxCosttotalamount}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>不含税已付款</dt>
+##					            <dd>
+##					            	 <input class="input160" name="notaxPaid" id="notaxPaid" value="$!{query.notaxPaid}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>不含税未付款</dt>
+##					            <dd>
+##					            	 <input class="input160" name="notaxUnpaid" id="notaxUnpaid" value="$!{query.notaxUnpaid}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>不含税销售单价</dt>
+##					            <dd>
+##					            	 <input class="input160" name="notaxSaleunitprice" id="notaxSaleunitprice" value="$!{query.notaxSaleunitprice}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>不含税销售总金额</dt>
+##					            <dd>
+##					            	 <input class="input160" name="notaxSaletotalamount" id="notaxSaletotalamount" value="$!{query.notaxSaletotalamount}"/>
+##					            </dd>
+##					        </dl>
+##							<dl>
+##								<dt>销售已付金额</dt>
+##					            <dd>
+##					            	 <input class="input160" name="salePaid" id="salePaid" value="$!{query.salePaid}"/>
+##					            </dd>
+##					        </dl>
+							<dl>
+								<dt>货主</dt>
+					            <dd>
+					            	 <input class="input160" name="shipperName" id="shipperName" value="$!{query.shipperName}"/>
+					            </dd>
+					        </dl> 
+							<dl>
+								<dt>创建时间</dt>
+					            <dd>
+					            	 <input class="input160" name="createTime" id="createTime" value="$!{query.createTime}"/>
+					            </dd>
+					        </dl> 
+                    <div class="clear"></div>
+                    <div><input type="button" class="button_Green searchBtn " value="搜 索"/></div>
+                </div>
+            </div>
+            <div class="createNew ">
+            		<div class="fl mb mt"></div>
+                <div class="fr mb"><input type="button" id="addButton" value="新 建" class="button_Green"/></div>
+            </div>
+        	<div class="tabBox queryCost1 mb">
+            	<table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+						<th class="pl40"></th>
+						<th>品种</th>
+						<th>成本单价</th>
+						<th>成本总金额</th>
+						<th>含税已付款</th>
+						<th>含税未付款</th>
+						<th>不含税成本单价</th>
+						<th>不含税成本总金额</th>
+						<th>不含税已付款</th>
+						<th>不含税未付款</th>
+						<th>不含税销售单价</th>
+						<th>不含税销售总金额</th>
+						<th>销售已付金额</th>
+						<th>货主</th>
+						<th>创建时间</th>
+						<th>创建人</th>
+                <th>操作</th>
+            </tr>
+             #if($!{pageInfos})
+                #foreach($!{info} in $!{pageInfos})
+	            	<tr>
+								<td class="pl40">$!{info.id}</td>
+								<td>$!{info.variety}</td>
+								<td>$!{info.costUnitprice}</td>
+								<td>$!{info.costTotalamount}</td>
+								<td>$!{info.taxPaid}</td>
+								<td>$!{info.taxUnpaid}</td>
+								<td>$!{info.notaxCostprice}</td>
+								<td>$!{info.notaxCosttotalamount}</td>
+								<td>$!{info.notaxPaid}</td>
+								<td>$!{info.notaxUnpaid}</td>
+								<td>$!{info.notaxSaleunitprice}</td>
+								<td>$!{info.notaxSaletotalamount}</td>
+								<td>$!{info.salePaid}</td>
+								<td>$!{info.shipperName}</td>
+								<td>$!{info.createTime}</td>
+								<td>$!{info.creator}</td>
+		                <td>
+			                <a href="../detailbill/toEdit.do?id=$!{info.id}">编辑</a>
+			                <a href="../detailbill/detailbillDelete.do?id=$!{info.id}">删除</a>
+			                <a href="../detailbill/detailbillDetail.do?id=$!{info.id}">详情</a>
+		                </td>
+	           		</tr>
+	             #end
+	    	 #end
+        </table>
+			</div>
+            <div class="fr">
+            	<!--公用翻页代码-->
+                #set($attr='formSubmit')
+            	#showPageFormSubmit($pageInfos $attr)
+                <!--END公用翻页代码-->
+            </div>
+            <div class="clear"></div>
+            
+        </div>
+        </form>
+    </div>
+    <!--end mainContent-->
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".button_Green.searchBtn").bind("click",function(){
+		$("#formSubmit").submit();
+	});
+	
+	$("#addButton").bind("click",function(){
+		location.href="../detailbill/toAdd.do";
+	});
+});
+
+</script>

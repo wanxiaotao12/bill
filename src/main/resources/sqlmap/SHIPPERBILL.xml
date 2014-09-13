@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+功能模块: 
+开发信息: 
+-->
+<sqlMap namespace="SHIPPERBILL">
+	<typeAlias alias="Shipperbill" type="com.guo.bill.pojo.Shipperbill"/>
+	<typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>
+	<typeAlias alias="Query" type="com.guo.common.Query"/>
+	
+	<sql id="wherecontation">
+		<dynamic>
+				 /* 货主姓名 */ 
+				 <isNotEmpty prepend="and" property="query.shipperName">
+	  		 		s.SHIPPER_NAME = #query.shipperName#
+				 </isNotEmpty>
+				 /* 交易类型 */ 
+				 <isNotEmpty prepend="and" property="query.tradeType">
+	  		 		s.TRADE_TYPE = #query.tradeType#
+				 </isNotEmpty>
+				 /* 购买日期 */ 
+				 <isNotEmpty prepend="and" property="query.buyDatetime">
+	  		 		s.BUY_DATETIME = #query.buyDatetime#
+				 </isNotEmpty>
+				 /* 车牌号 */ 
+				 <isNotEmpty prepend="and" property="query.licenseplatenumber">
+	  		 		s.LICENSEPLATENUMBER = #query.licenseplatenumber#
+				 </isNotEmpty>
+				 /* 单价 */ 
+				 <isNotEmpty prepend="and" property="query.unitprice">
+	  		 		s.UNITPRICE = #query.unitprice#
+				 </isNotEmpty>
+				 /* 吨位 */ 
+				 <isNotEmpty prepend="and" property="query.onnage">
+	  		 		s.ONNAGE = #query.onnage#
+				 </isNotEmpty>
+				 /* 总金额 */ 
+				 <isNotEmpty prepend="and" property="query.totalamount">
+	  		 		s.TOTALAMOUNT = #query.totalamount#
+				 </isNotEmpty>
+				 /* 矿名 */ 
+				 <isNotEmpty prepend="and" property="query.mineName">
+	  		 		s.MINE_NAME = #query.mineName#
+				 </isNotEmpty>
+				 /* 已付金额 */ 
+				 <isNotEmpty prepend="and" property="query.paidAmount">
+	  		 		s.PAID_AMOUNT = #query.paidAmount#
+				 </isNotEmpty>
+				 /* 未付金额 */ 
+				 <isNotEmpty prepend="and" property="query.unpaidAmount">
+	  		 		s.UNPAID_AMOUNT = #query.unpaidAmount#
+				 </isNotEmpty>
+				 /* 创建时间 */ 
+				 <isNotEmpty prepend="and" property="query.createTime">
+	  		 		s.CREATE_TIME = #query.createTime#
+				 </isNotEmpty>
+				 /* 修改时间 */ 
+				 <isNotEmpty prepend="and" property="query.editTime">
+	  		 		s.EDIT_TIME = #query.editTime#
+				 </isNotEmpty>
+				 /* 创建人 */ 
+				 <isNotEmpty prepend="and" property="query.creator">
+	  		 		s.CREATOR = #query.creator#
+				 </isNotEmpty>
+				 /* 修改人 */ 
+				 <isNotEmpty prepend="and" property="query.editor">
+	  		 		s.EDITOR = #query.editor#
+				 </isNotEmpty>
+				 /* 删除状态 */ 
+				 <isNotEmpty prepend="and" property="query.state">
+	  		 		s.STATE = #query.state#
+				 </isNotEmpty>
+	  	</dynamic>
+	</sql>
+	
+	<!--
+	方法名称: insert
+	调用路径: SHIPPERBILL.insert
+	开发信息: 
+	处理信息: 保存记录
+	-->
+ 	<insert id="insert" parameterClass="Shipperbill" >
+	 	INSERT  INTO  SHIPPERBILL   /*  */ 
+					(		
+					 ID		/*  */ 
+					,SHIPPER_NAME		/* 货主姓名 */ 
+					,TRADE_TYPE		/* 交易类型 */ 
+					,BUY_DATETIME		/* 购买日期 */ 
+					,LICENSEPLATENUMBER		/* 车牌号 */ 
+					,UNITPRICE		/* 单价 */ 
+					,ONNAGE		/* 吨位 */ 
+					,TOTALAMOUNT		/* 总金额 */ 
+					,MINE_NAME		/* 矿名 */ 
+					,PAID_AMOUNT		/* 已付金额 */ 
+					,UNPAID_AMOUNT		/* 未付金额 */ 
+					,CREATE_TIME		/* 创建时间 */ 
+					,EDIT_TIME		/* 修改时间 */ 
+					,CREATOR		/* 创建人 */ 
+					,EDITOR		/* 修改人 */ 
+					,STATE		/* 删除状态 */ 
+					)
+			values (
+					 #id#		/*  */ 
+				  	,#shipperName#		/* 货主姓名 */ 
+				  	,#tradeType#		/* 交易类型 */ 
+				  	,#buyDatetime#		/* 购买日期 */ 
+				  	,#licenseplatenumber#		/* 车牌号 */ 
+				  	,#unitprice#		/* 单价 */ 
+				  	,#onnage#		/* 吨位 */ 
+				  	,#totalamount#		/* 总金额 */ 
+				  	,#mineName#		/* 矿名 */ 
+				  	,#paidAmount#		/* 已付金额 */ 
+				  	,#unpaidAmount#		/* 未付金额 */ 
+				  	,#createTime#		/* 创建时间 */ 
+				  	,#editTime#		/* 修改时间 */ 
+				  	,#creator#		/* 创建人 */ 
+				  	,#editor#		/* 修改人 */ 
+				  	,#state#		/* 删除状态 */ 
+					)
+	</insert>
+	
+	
+	<!--
+	方法名称: update
+	调用路径: SHIPPERBILL.update
+	开发信息: 
+	处理信息: 修改记录
+	-->
+ 	<update id="update" parameterClass="Shipperbill" >
+		UPDATE   SHIPPERBILL  	/*  */ 
+	  		<dynamic prepend=" SET ">
+					 /* 货主姓名 */ 
+					 <isNotNull  property="shipperName" prepend=",">
+	    		 		SHIPPER_NAME = #shipperName#
+					 </isNotNull>
+					 /* 交易类型 */ 
+					 <isNotNull  property="tradeType" prepend=",">
+	    		 		TRADE_TYPE = #tradeType#
+					 </isNotNull>
+					 /* 购买日期 */ 
+					 <isNotNull  property="buyDatetime" prepend=",">
+	    		 		BUY_DATETIME = #buyDatetime#
+					 </isNotNull>
+					 /* 车牌号 */ 
+					 <isNotNull  property="licenseplatenumber" prepend=",">
+	    		 		LICENSEPLATENUMBER = #licenseplatenumber#
+					 </isNotNull>
+					 /* 单价 */ 
+					 <isNotNull  property="unitprice" prepend=",">
+	    		 		UNITPRICE = #unitprice#
+					 </isNotNull>
+					 /* 吨位 */ 
+					 <isNotNull  property="onnage" prepend=",">
+	    		 		ONNAGE = #onnage#
+					 </isNotNull>
+					 /* 总金额 */ 
+					 <isNotNull  property="totalamount" prepend=",">
+	    		 		TOTALAMOUNT = #totalamount#
+					 </isNotNull>
+					 /* 矿名 */ 
+					 <isNotNull  property="mineName" prepend=",">
+	    		 		MINE_NAME = #mineName#
+					 </isNotNull>
+					 /* 已付金额 */ 
+					 <isNotNull  property="paidAmount" prepend=",">
+	    		 		PAID_AMOUNT = #paidAmount#
+					 </isNotNull>
+					 /* 未付金额 */ 
+					 <isNotNull  property="unpaidAmount" prepend=",">
+	    		 		UNPAID_AMOUNT = #unpaidAmount#
+					 </isNotNull>
+					 /* 创建时间 */ 
+					 <isNotNull  property="createTime" prepend=",">
+	    		 		CREATE_TIME = #createTime#
+					 </isNotNull>
+					 /* 修改时间 */ 
+					 <isNotNull  property="editTime" prepend=",">
+	    		 		EDIT_TIME = #editTime#
+					 </isNotNull>
+					 /* 创建人 */ 
+					 <isNotNull  property="creator" prepend=",">
+	    		 		CREATOR = #creator#
+					 </isNotNull>
+					 /* 修改人 */ 
+					 <isNotNull  property="editor" prepend=",">
+	    		 		EDITOR = #editor#
+					 </isNotNull>
+					 /* 删除状态 */ 
+					 <isNotNull  property="state" prepend=",">
+	    		 		STATE = #state#
+					 </isNotNull>
+	  	  </dynamic>
+				WHERE
+	  	 		 		ID = #id#		/*  */ 
+	</update>
+
+	
+	<!--
+	方法名称: deleteByPriKey
+	调用路径: SHIPPERBILL.deleteByPriKey
+	开发信息: 
+	处理信息: 删除记录
+	-->
+	<delete id="deleteByPriKey" parameterClass="Shipperbill">
+		DELETE 	FROM SHIPPERBILL 	/*  */ 
+		WHERE 
+			ID = #id#		/*  */ 
+	</delete>
+	
+	<!--
+	方法名称: findByPriKey
+	调用路径: SHIPPERBILL.findByPriKey
+	开发信息: 
+	处理信息: 根据主键查询记录
+	-->
+	<select id="findByPriKey" parameterClass="Shipperbill"  resultClass="Shipperbill">
+		   SELECT   
+			      s.ID	   AS	id	/*  */ 
+				 ,s.SHIPPER_NAME	   AS	shipperName	/* 货主姓名 */ 
+				 ,s.TRADE_TYPE	   AS	tradeType	/* 交易类型 */ 
+				 ,s.BUY_DATETIME	   AS	buyDatetime	/* 购买日期 */ 
+				 ,s.LICENSEPLATENUMBER	   AS	licenseplatenumber	/* 车牌号 */ 
+				 ,s.UNITPRICE	   AS	unitprice	/* 单价 */ 
+				 ,s.ONNAGE	   AS	onnage	/* 吨位 */ 
+				 ,s.TOTALAMOUNT	   AS	totalamount	/* 总金额 */ 
+				 ,s.MINE_NAME	   AS	mineName	/* 矿名 */ 
+				 ,s.PAID_AMOUNT	   AS	paidAmount	/* 已付金额 */ 
+				 ,s.UNPAID_AMOUNT	   AS	unpaidAmount	/* 未付金额 */ 
+				 ,s.CREATE_TIME	   AS	createTime	/* 创建时间 */ 
+				 ,s.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
+				 ,s.CREATOR	   AS	creator	/* 创建人 */ 
+				 ,s.EDITOR	   AS	editor	/* 修改人 */ 
+				 ,s.STATE	   AS	state	/* 删除状态 */ 
+		   FROM   SHIPPERBILL      AS s      /*  */ 
+		   WHERE
+				ID = #id#		/*  */ 
+	</select>
+	
+	<!--
+	方法名称: getPagenationList
+	调用路径: SHIPPERBILL.getPagenationList
+	开发信息: 
+	处理信息: 分页查询记录
+	-->
+	<select id="getPagenationList" parameterClass="PageQuery"  resultClass="Shipperbill">
+			<!-- 分页条 -->
+		   <include refid="jrp.commons.pageBegin"/>
+		   SELECT   
+			      s.ID	   AS	id	/*  */ 
+				 ,s.SHIPPER_NAME	   AS	shipperName	/* 货主姓名 */ 
+				 ,s.TRADE_TYPE	   AS	tradeType	/* 交易类型 */ 
+				 ,s.BUY_DATETIME	   AS	buyDatetime	/* 购买日期 */ 
+				 ,s.LICENSEPLATENUMBER	   AS	licenseplatenumber	/* 车牌号 */ 
+				 ,s.UNITPRICE	   AS	unitprice	/* 单价 */ 
+				 ,s.ONNAGE	   AS	onnage	/* 吨位 */ 
+				 ,s.TOTALAMOUNT	   AS	totalamount	/* 总金额 */ 
+				 ,s.MINE_NAME	   AS	mineName	/* 矿名 */ 
+				 ,s.PAID_AMOUNT	   AS	paidAmount	/* 已付金额 */ 
+				 ,s.UNPAID_AMOUNT	   AS	unpaidAmount	/* 未付金额 */ 
+				 ,s.CREATE_TIME	   AS	createTime	/* 创建时间 */ 
+				 ,s.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
+				 ,s.CREATOR	   AS	creator	/* 创建人 */ 
+				 ,s.EDITOR	   AS	editor	/* 修改人 */ 
+				 ,s.STATE	   AS	state	/* 删除状态 */ 
+		   FROM   SHIPPERBILL      AS s      /*  */ 
+		   WHERE 1=1
+		 	<include refid="wherecontation"/>
+		<!-- 分页条 -->
+		<include refid="jrp.commons.pageEnd"/>
+			
+	</select>
+	
+	
+	<!--
+	方法名称: getItemCount
+	调用路径: SHIPPERBILL.getItemCount
+	开发信息: 
+	处理信息: 查询记录数
+	-->
+	<select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
+		SELECT count(1)  FROM  SHIPPERBILL  AS s	/*  */   
+		 WHERE 1=1
+		<include refid="wherecontation"/>
+	</select>
+	
+	
+	
+	<!--
+	方法名称: getAllList
+	调用路径: SHIPPERBILL.getAllList
+	开发信息: 
+	处理信息: 查询所有的记录
+	-->
+	<select id="getAllList" parameterClass="Query"  resultClass="Shipperbill">
+		   SELECT   
+			      s.ID	   AS	id	/*  */ 
+				 ,s.SHIPPER_NAME	   AS	shipperName	/* 货主姓名 */ 
+				 ,s.TRADE_TYPE	   AS	tradeType	/* 交易类型 */ 
+				 ,s.BUY_DATETIME	   AS	buyDatetime	/* 购买日期 */ 
+				 ,s.LICENSEPLATENUMBER	   AS	licenseplatenumber	/* 车牌号 */ 
+				 ,s.UNITPRICE	   AS	unitprice	/* 单价 */ 
+				 ,s.ONNAGE	   AS	onnage	/* 吨位 */ 
+				 ,s.TOTALAMOUNT	   AS	totalamount	/* 总金额 */ 
+				 ,s.MINE_NAME	   AS	mineName	/* 矿名 */ 
+				 ,s.PAID_AMOUNT	   AS	paidAmount	/* 已付金额 */ 
+				 ,s.UNPAID_AMOUNT	   AS	unpaidAmount	/* 未付金额 */ 
+				 ,s.CREATE_TIME	   AS	createTime	/* 创建时间 */ 
+				 ,s.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
+				 ,s.CREATOR	   AS	creator	/* 创建人 */ 
+				 ,s.EDITOR	   AS	editor	/* 修改人 */ 
+				 ,s.STATE	   AS	state	/* 删除状态 */ 
+		   FROM   SHIPPERBILL      AS s      /*  */ 
+		   WHERE 1=1
+		 	<include refid="wherecontation"/>
+	</select>
+	
+	
+</sqlMap>

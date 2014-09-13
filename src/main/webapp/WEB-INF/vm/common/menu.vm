@@ -1,0 +1,52 @@
+<div class="subBar fl">
+	 <div class="subBarList">
+    	<h3 class="mb">${JD_OPERATE_WEB_CUR_MENUNAME}</h3>
+        <ul>
+			  #foreach($entry in $JD_OPERATE_WEB_MENU_TREE.entrySet())
+					#if($entry.value)
+						<li  class = "open">
+                        	<span><a href="javascript:;">${entry.key.authNam}</a></span>
+							<ul id="ul1">
+								#foreach($sub in $entry.value)
+    								<li class = "menu"  onclick="loadContent('${sub.authContr}')">
+    									<a href="javascript:;">${sub.authNam}</a>
+    								</li>
+								#end
+							  </ul>
+						</li>
+					#else 
+						<li class = "menu" onclick="loadContent('${entry.key.authContr}')"><span><a href="javascript:;" >${entry.key.authNam}</a></span></li>
+					#end
+			  #end
+           
+        </ul>
+    </div>
+    <!--左侧菜单展开效果-->
+</div>
+<!--control-->
+ #*
+ <div class="resizer">
+    <div class="opt">
+        <i></i>
+    </div>
+</div>
+*#
+
+<script type="text/javascript">
+	 /**加载主体页面**/
+    function loadContent(url){
+			$("#center").attr("src",url);
+	}
+	 
+	/**显示当前菜单**/
+    var obj=$("li.menu");
+    $(obj).click(function(){
+        $("li.menu").removeClass('cur');
+        $(this).addClass('cur');
+    });
+	
+	/**触发第一个菜单**/
+	function load(){
+           $("li.menu:first").trigger("click");
+      }
+</script>

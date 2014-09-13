@@ -1,0 +1,139 @@
+<!--mainContent-->
+<div class="mainContent fl">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span> &gt; <span class="cur">编辑</span>
+    </div>
+    <div class="contentLog mb clearfix">
+        <div class="au_title mb15 font16">编辑</div>
+        <div class="forms trade">
+        	<form id="form"  action="../detailbill/detailbillEdit.do" method="POST">
+        	<input type="hidden" value="$!{detailbill.id}" name="id"/>
+            <div class="formsList1 clearfix">
+					<dl class="w100">
+						<dt>：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.id}" class="input160" name="id" id="id"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>品种：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.variety}" class="input160" name="variety" id="variety"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>成本单价：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.costUnitprice}" class="input160" name="costUnitprice" id="costUnitprice"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>成本总金额：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.costTotalamount}" class="input160" name="costTotalamount" id="costTotalamount"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>含税已付款：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.taxPaid}" class="input160" name="taxPaid" id="taxPaid"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>含税未付款：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.taxUnpaid}" class="input160" name="taxUnpaid" id="taxUnpaid"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税成本单价：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.notaxCostprice}" class="input160" name="notaxCostprice" id="notaxCostprice"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税成本总金额：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.notaxCosttotalamount}" class="input160" name="notaxCosttotalamount" id="notaxCosttotalamount"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税已付款：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.notaxPaid}" class="input160" name="notaxPaid" id="notaxPaid"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税未付款：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.notaxUnpaid}" class="input160" name="notaxUnpaid" id="notaxUnpaid"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税销售单价：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.notaxSaleunitprice}" class="input160" name="notaxSaleunitprice" id="notaxSaleunitprice"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>不含税销售总金额：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.notaxSaletotalamount}" class="input160" name="notaxSaletotalamount" id="notaxSaletotalamount"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>销售已付金额：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.salePaid}" class="input160" name="salePaid" id="salePaid"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>货主：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.shipperName}" class="input160" name="shipperName" id="shipperName"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建时间：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.createTime}" class="input160" name="createTime" id="createTime"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改时间：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.editTime}" class="input160" name="editTime" id="editTime"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建人：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.creator}" class="input160" name="creator" id="creator"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改人：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.editor}" class="input160" name="editor" id="editor"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>删除状态：</dt>
+			            <dd>
+			            	<input type="text" value="$!{detailbill.state}" class="input160" name="state" id="state"/>
+			            </dd>
+			        </dl> 
+                <div class="clear"></div>
+            </div>
+            <p class="tcenter">
+	            <input type="submit" class="button_Green" value="保 存" />
+	        </p>
+	        </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+     $(function(){
+         $("#form").validate();
+     });
+</script>

@@ -1,0 +1,67 @@
+<!--mainContent-->
+<div class="mainContent fl">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span> &gt; <span class="cur">编辑</span>
+    </div>
+    <div class="contentLog mb clearfix">
+        <div class="au_title mb15 font16">编辑</div>
+        <div class="forms trade">
+        	<form id="form"  action="../mine/mineEdit.do" method="POST">
+        	<input type="hidden" value="$!{mine.id}" name="id"/>
+            <div class="formsList1 clearfix">
+					<dl class="w100">
+						<dt>：</dt>
+			            <dd>
+			            	<input type="text" value="$!{mine.id}" class="input160" name="id" id="id"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>矿名：</dt>
+			            <dd>
+			            	<input type="text" value="$!{mine.mineName}" class="input160" name="mineName" id="mineName"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建时间：</dt>
+			            <dd>
+			            	<input type="text" value="$!{mine.createTime}" class="input160" name="createTime" id="createTime"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改时间：</dt>
+			            <dd>
+			            	<input type="text" value="$!{mine.editTime}" class="input160" name="editTime" id="editTime"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>创建人：</dt>
+			            <dd>
+			            	<input type="text" value="$!{mine.creator}" class="input160" name="creator" id="creator"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>修改人：</dt>
+			            <dd>
+			            	<input type="text" value="$!{mine.editor}" class="input160" name="editor" id="editor"/>
+			            </dd>
+			        </dl> 
+					<dl class="w100">
+						<dt>删除状态：</dt>
+			            <dd>
+			            	<input type="text" value="$!{mine.state}" class="input160" name="state" id="state"/>
+			            </dd>
+			        </dl> 
+                <div class="clear"></div>
+            </div>
+            <p class="tcenter">
+	            <input type="submit" class="button_Green" value="保 存" />
+	        </p>
+	        </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+     $(function(){
+         $("#form").validate();
+     });
+</script>
