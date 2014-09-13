@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 /**
  * Created with IntelliJ IDEA.
- * User:
+ * User:22
  * Date: 13-12-06
  * Time: 下午7:49
  */
