@@ -72,6 +72,7 @@ public class CardDetailServiceImpl implements CardDetailService {
 
     @Override
     public BasicResult deleteByPriKey(Integer id) {
+        cardDetailDao.deleteByPriKey(id);
         return null;
     }
 

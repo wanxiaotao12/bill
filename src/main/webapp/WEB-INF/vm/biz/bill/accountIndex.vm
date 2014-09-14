@@ -1,31 +1,30 @@
 <!--mainContent-->
 <div class="mainContent fl">
     <div class="crumb_fund">
-        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span>
+        <span>运营后台</span> &gt; <span class="cur">账户信息</span>
     </div>
-    <form action="../cardDetail/cardDetailIndex.do" method="post" id="formSubmit">
+    <form action="../account/index.do" method="post" id="formSubmit">
         <div class="contentList borderNo">
             <div class="forms mb">
                 <div class="formsList1 clearfix">
                     <dl>
-                        <dt>日期</dt>
+                        <dt>账户类型</dt>
                         <dd>
-                            <input class="input160" name="datetime" id="datetime"
-                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="$!{query.datetime}"/>
+                            <select name="accounttype">
+                                <option value="">全部</option>
+                                <option value="1" #if($!{query.accounttype}=="1")selected#end>银行卡</option>
+                                <option value="2" #if($!{query.accounttype}=="2")selected#end>账户</option>
+                            </select>
                         </dd>
                     </dl>
                     <dl>
-                        <dt>操作类型</dt>
+                        <dt></dt>
                         <dd>
-                            <select name="operation">
-                                <option value="1">收入</option>
-                                <option value="2">支出</option>
-                            </select></dd>
+                          </dd>
                     </dl>
                     <dl>
-                        <dt>卡号</dt>
+                        <dt></dt>
                         <dd>
-                            <input class="input160" name="cardno" id="cardno" value="$!{query.cardno}"/>
                         </dd>
                     </dl>
                     <div class="clear"></div>
@@ -34,31 +33,30 @@
             </div>
             <div class="createNew ">
                 <div class="fl mb mt"></div>
-                <div class="fr mb"><input type="button" id="addButton" value="生成当天汇总" class="button_Green"/></div>
             </div>
             <div class="tabBox queryCost1 mb">
                 <table width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                         <th class="pl40"></th>
-                        <th>日期</th>
-                        <th>卡号</th>
-                        <th>收入</th>
-                        <th>支出</th>
-                        <th>结余</th>
-                        <th>当前余额</th>
+                        <th>账户类型</th>
+                        <th>账户名</th>
+                        <th>金额</th>
                     </tr>
                     #if($!{pageInfos})
                         #foreach($!{info} in $!{pageInfos})
                             <tr>
                                 <td class="pl40">$!{info.id}</td>
-                                <td>$!dateTool.format("yyyy-MM-dd",$!{info.datetime})</td>
                                 <td>
-                                    $!{info.cardno}
+                                    #if($!{info.accounttype} && $!{info.accounttype}=="1")
+                                        银行卡
+                                    #elseif($!{info.accounttype}=="2")
+                                        客户
+                                    #end
                                 </td>
-                                <td>$!{info.income}</td>
-                                <td>$!{info.outlay}</td>
-                                <td>$!{info.surplus}</td>
-                                <td>$!{info.curSurplus}</td>
+                                <td>
+                                    $!{info.accountname}
+                                </td>
+                                <td>$!{info.price}</td>
                             </tr>
                         #end
                     #end

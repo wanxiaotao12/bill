@@ -3,6 +3,7 @@ package com.guo.bill.dao.impl;
 import com.guo.bill.CardDetailQuery;
 import com.guo.bill.dao.BaseDao;
 import com.guo.bill.dao.CardDetailDao;
+import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.CardDetail;
 import com.guo.bill.pojo.DetailbillQuery;
 import com.guo.bill.pojo.Mine;
@@ -20,6 +21,7 @@ import java.util.List;
 public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
     @Override
     public void insert(CardDetail cardDetail) {
+        cardDetail.setState(StateEnum.NORMAL.getCode());
         insert("CardDetail.insert", cardDetail);
     }
 
@@ -30,7 +32,7 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
 
     @Override
     public void deleteByPriKey(Integer id) {
-
+        update("CardDetail.del",id);
     }
 
     @Override
@@ -53,7 +55,6 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
 
     @Override public List<CardDetail> getPageList(PageQuery<CardDetailQuery> pageQuery, Integer itemCount) {
         PageQueryWrapper<CardDetailQuery> wrapper = new PageQueryWrapper<CardDetailQuery>(pageQuery.getPageNo(), pageQuery.getPageSize(),itemCount, pageQuery.getQuery());
-
         return this.queryForList("CardDetail.getPagenationList",wrapper);
     }
 }

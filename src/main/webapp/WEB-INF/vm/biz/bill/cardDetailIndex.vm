@@ -53,7 +53,7 @@
                 #foreach($!{info} in $!{pageInfos})
 	            	<tr>
 								<td class="pl40">$!{info.id}</td>
-								<td>$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.datetime})</td>
+								<td>$!dateTool.format("yyyy-MM-dd",$!{info.datetime})</td>
 								<td>
                                    #if($!{info.operation} ==1)
 								    收入
@@ -65,9 +65,9 @@
 								<td>$!{info.price}</td>
 								<td>$!{info.remark}</td>
 		                <td>
-			                <a href="../detailbill/toEdit.do?id=$!{info.id}">编辑</a>
-			                <a href="../detailbill/detailbillDelete.do?id=$!{info.id}">删除</a>
-			                <a href="../detailbill/detailbillDetail.do?id=$!{info.id}">详情</a>
+                            #if($!dateTool.format("yyyy-MM-dd",$!{info.datetime}) == $!{today})
+                                <a href="/cardDetail/del.do?id=$!{info.id}">删除</a>
+                            #end
 		                </td>
 	           		</tr>
 	             #end

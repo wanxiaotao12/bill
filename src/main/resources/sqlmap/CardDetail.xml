@@ -5,282 +5,256 @@
 开发信息: 
 -->
 <sqlMap namespace="CardDetail">
-	<typeAlias alias="CardDetail" type="com.guo.bill.pojo.CardDetail"/>
-	<typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>
-	<typeAlias alias="Query" type="com.guo.common.Query"/>
-	
-	<sql id="wherecontation">
-		<dynamic>
-				 /* 品种 */ 
-				 <isNotEmpty prepend="and" property="query.datetime">
-	  		 		d.datetime = #query.datetime#
-				 </isNotEmpty>
+    <typeAlias alias="CardDetail" type="com.guo.bill.pojo.CardDetail"/>
+    <typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>
+    <typeAlias alias="Query" type="com.guo.common.Query"/>
 
-	  	</dynamic>
-	</sql>
-	
-	<!--
-	方法名称: insert
-	调用路径: carddetail.insert
-	开发信息: 
-	处理信息: 保存记录
-	-->
- 	<insert id="insert" parameterClass="CardDetail" >
-	 	INSERT  INTO  carddetail   /*  */
-					(		
-					 ID		/*  */ 
-					,datetime		/*  */
-					,operation		/*  */
-					,cardno		/*  */
-					,price		/*  */
-					,remark		/*  */
-					,CREATE_TIME		/* 创建时间 */
-					,EDIT_TIME		/* 修改时间 */ 
-					,CREATOR		/* 创建人 */ 
-					,EDITOR		/* 修改人 */ 
-					,STATE		/* 删除状态 */ 
-					)
-			values (
-					 #id#		/*  */ 
-				  	,#datetime#		/*  */
-				  	,#operation#		/*  */
-				  	,#cardno#		/*  */
-				  	,#price#		/*  */
-				  	,#remark#		/*  */
-				  	,#createTime#		/* 创建时间 */
-				  	,#editTime#		/* 修改时间 */ 
-				  	,#creator#		/* 创建人 */ 
-				  	,#editor#		/* 修改人 */ 
-				  	,#state#		/* 删除状态 */ 
-					)
-	</insert>
+    <sql id="wherecontation">
+        <dynamic>
+            <isNotEmpty prepend="and" property="query.datetime">
+                d.datetime = #query.datetime#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="query.state">
+                d.state = #query.state#
+            </isNotEmpty>
 
-    <select id="getListByDateTime" parameterClass="String"  resultClass="CardDetail">
+        </dynamic>
+    </sql>
+
+    <!--
+    方法名称: insert
+    调用路径: carddetail.insert
+    开发信息:
+    处理信息: 保存记录
+    -->
+    <insert id="insert" parameterClass="CardDetail">
+        INSERT INTO carddetail /* */
+        (
+        ID /* */
+        ,datetime /* */
+        ,operation /* */
+        ,cardno /* */
+        ,price /* */
+        ,remark /* */
+        ,CREATE_TIME /* 创建时间 */
+        ,EDIT_TIME /* 修改时间 */
+        ,CREATOR /* 创建人 */
+        ,EDITOR /* 修改人 */
+        ,STATE /* 删除状态 */
+        )
+        values (
+        #id# /* */
+        ,#datetime# /* */
+        ,#operation# /* */
+        ,#cardno# /* */
+        ,#price# /* */
+        ,#remark# /* */
+        ,#createTime# /* 创建时间 */
+        ,#editTime# /* 修改时间 */
+        ,#creator# /* 创建人 */
+        ,#editor# /* 修改人 */
+        ,#state# /* 删除状态 */
+        )
+    </insert>
+
+    <select id="getListByDateTime" parameterClass="String" resultClass="CardDetail">
 
         SELECT
-        d.ID	   AS	id	/*  */
+        d.ID AS id /* */
         ,d.datetime
         ,d.operation
         ,d.cardno
         ,d.price
         ,d.remark
-        ,d.CREATE_TIME	   AS	createTime	/* 创建时间 */
-        ,d.EDIT_TIME	   AS	editTime	/* 修改时间 */
-        ,d.CREATOR	   AS	creator	/* 创建人 */
-        ,d.EDITOR	   AS	editor	/* 修改人 */
-        ,d.STATE	   AS	state	/* 删除状态 */
-        FROM   carddetail      AS d      /*  */
+        ,d.CREATE_TIME AS createTime /* 创建时间 */
+        ,d.EDIT_TIME AS editTime /* 修改时间 */
+        ,d.CREATOR AS creator /* 创建人 */
+        ,d.EDITOR AS editor /* 修改人 */
+        ,d.STATE AS state /* 删除状态 */
+        FROM carddetail AS d /* */
         WHERE datetime=#datetime#
+        and state="1"
+        order by id desc
+    </select>
 
+    <!--
+    方法名称: update
+    调用路径: DETAILBILL.update
+    开发信息:
+    处理信息: 修改记录
+    -->
+    <!--<update id="update" parameterClass="Detailbill" >-->
+    <!--UPDATE   DETAILBILL  	/*  */ -->
+    <!--<dynamic prepend=" SET ">-->
+    <!--/* 品种 */ -->
+    <!--<isNotNull  property="variety" prepend=",">-->
+    <!--VARIETY = #variety#-->
+    <!--</isNotNull>-->
+    <!--/* 成本单价 */ -->
+    <!--<isNotNull  property="costUnitprice" prepend=",">-->
+    <!--COST_UNITPRICE = #costUnitprice#-->
+    <!--</isNotNull>-->
+    <!--/* 成本总金额 */ -->
+    <!--<isNotNull  property="costTotalamount" prepend=",">-->
+    <!--COST_TOTALAMOUNT = #costTotalamount#-->
+    <!--</isNotNull>-->
+    <!--/* 含税已付款 */ -->
+    <!--<isNotNull  property="taxPaid" prepend=",">-->
+    <!--TAX_PAID = #taxPaid#-->
+    <!--</isNotNull>-->
+    <!--/* 含税未付款 */ -->
+    <!--<isNotNull  property="taxUnpaid" prepend=",">-->
+    <!--TAX_UNPAID = #taxUnpaid#-->
+    <!--</isNotNull>-->
+    <!--/* 不含税成本单价 */ -->
+    <!--<isNotNull  property="notaxCostprice" prepend=",">-->
+    <!--NOTAX_COSTPRICE = #notaxCostprice#-->
+    <!--</isNotNull>-->
+    <!--/* 不含税成本总金额 */ -->
+    <!--<isNotNull  property="notaxCosttotalamount" prepend=",">-->
+    <!--NOTAX_COSTTOTALAMOUNT = #notaxCosttotalamount#-->
+    <!--</isNotNull>-->
+    <!--/* 不含税已付款 */ -->
+    <!--<isNotNull  property="notaxPaid" prepend=",">-->
+    <!--NOTAX_PAID = #notaxPaid#-->
+    <!--</isNotNull>-->
+    <!--/* 不含税未付款 */ -->
+    <!--<isNotNull  property="notaxUnpaid" prepend=",">-->
+    <!--NOTAX_UNPAID = #notaxUnpaid#-->
+    <!--</isNotNull>-->
+    <!--/* 不含税销售单价 */ -->
+    <!--<isNotNull  property="notaxSaleunitprice" prepend=",">-->
+    <!--NOTAX_SALEUNITPRICE = #notaxSaleunitprice#-->
+    <!--</isNotNull>-->
+    <!--/* 不含税销售总金额 */ -->
+    <!--<isNotNull  property="notaxSaletotalamount" prepend=",">-->
+    <!--NOTAX_SALETOTALAMOUNT = #notaxSaletotalamount#-->
+    <!--</isNotNull>-->
+    <!--/* 销售已付金额 */ -->
+    <!--<isNotNull  property="salePaid" prepend=",">-->
+    <!--SALE_PAID = #salePaid#-->
+    <!--</isNotNull>-->
+    <!--/* 货主 */ -->
+    <!--<isNotNull  property="shipperName" prepend=",">-->
+    <!--SHIPPER_NAME = #shipperName#-->
+    <!--</isNotNull>-->
+    <!--/* 创建时间 */ -->
+    <!--<isNotNull  property="createTime" prepend=",">-->
+    <!--CREATE_TIME = #createTime#-->
+    <!--</isNotNull>-->
+    <!--/* 修改时间 */ -->
+    <!--<isNotNull  property="editTime" prepend=",">-->
+    <!--EDIT_TIME = #editTime#-->
+    <!--</isNotNull>-->
+    <!--/* 创建人 */ -->
+    <!--<isNotNull  property="creator" prepend=",">-->
+    <!--CREATOR = #creator#-->
+    <!--</isNotNull>-->
+    <!--/* 修改人 */ -->
+    <!--<isNotNull  property="editor" prepend=",">-->
+    <!--EDITOR = #editor#-->
+    <!--</isNotNull>-->
+    <!--/* 删除状态 */ -->
+    <!--<isNotNull  property="state" prepend=",">-->
+    <!--STATE = #state#-->
+    <!--</isNotNull>-->
+    <!--</dynamic>-->
+    <!--WHERE-->
+    <!--ID = #id#		/*  */ -->
+    <!--</update>-->
+
+
+    <!--
+    方法名称: deleteByPriKey
+    调用路径: DETAILBILL.deleteByPriKey
+    开发信息:
+    处理信息: 删除记录
+    -->
+    <!--<delete id="deleteByPriKey" parameterClass="Detailbill">-->
+    <!--DELETE 	FROM DETAILBILL 	/*  */ -->
+    <!--WHERE -->
+    <!--ID = #id#		/*  */ -->
+    <!--</delete>-->
+
+    <!--
+    方法名称: findByPriKey
+    调用路径: DETAILBILL.findByPriKey
+    开发信息:
+    处理信息: 根据主键查询记录
+    -->
+    <!--<select id="findByPriKey" parameterClass="Detailbill"  resultClass="Detailbill">-->
+    <!--SELECT   -->
+    <!--d.ID	   AS	id	/*  */ -->
+    <!--,d.VARIETY	   AS	variety	/* 品种 */ -->
+    <!--,d.COST_UNITPRICE	   AS	costUnitprice	/* 成本单价 */ -->
+    <!--,d.COST_TOTALAMOUNT	   AS	costTotalamount	/* 成本总金额 */ -->
+    <!--,d.TAX_PAID	   AS	taxPaid	/* 含税已付款 */ -->
+    <!--,d.TAX_UNPAID	   AS	taxUnpaid	/* 含税未付款 */ -->
+    <!--,d.NOTAX_COSTPRICE	   AS	notaxCostprice	/* 不含税成本单价 */ -->
+    <!--,d.NOTAX_COSTTOTALAMOUNT	   AS	notaxCosttotalamount	/* 不含税成本总金额 */ -->
+    <!--,d.NOTAX_PAID	   AS	notaxPaid	/* 不含税已付款 */ -->
+    <!--,d.NOTAX_UNPAID	   AS	notaxUnpaid	/* 不含税未付款 */ -->
+    <!--,d.NOTAX_SALEUNITPRICE	   AS	notaxSaleunitprice	/* 不含税销售单价 */ -->
+    <!--,d.NOTAX_SALETOTALAMOUNT	   AS	notaxSaletotalamount	/* 不含税销售总金额 */ -->
+    <!--,d.SALE_PAID	   AS	salePaid	/* 销售已付金额 */ -->
+    <!--,d.SHIPPER_NAME	   AS	shipperName	/* 货主 */ -->
+    <!--,d.CREATE_TIME	   AS	createTime	/* 创建时间 */ -->
+    <!--,d.EDIT_TIME	   AS	editTime	/* 修改时间 */ -->
+    <!--,d.CREATOR	   AS	creator	/* 创建人 */ -->
+    <!--,d.EDITOR	   AS	editor	/* 修改人 */ -->
+    <!--,d.STATE	   AS	state	/* 删除状态 */ -->
+    <!--FROM   DETAILBILL      AS d      /*  */ -->
+    <!--WHERE-->
+    <!--ID = #id#		/*  */ -->
+    <!--</select>-->
+
+    <!--
+    方法名称: getPagenationList
+    调用路径: DETAILBILL.getPagenationList
+    开发信息:
+    处理信息: 分页查询记录
+    -->
+    <select id="getPagenationList" parameterClass="PageQuery" resultClass="CardDetail">
+        <!-- 分页条 -->
+        <include refid="jrp.commons.pageBegin"/>
+        SELECT
+        d.ID AS id /* */
+        ,d.datetime
+        ,d.operation
+        ,d.cardno
+        ,d.price
+        ,d.remark
+        ,d.CREATE_TIME AS createTime /* 创建时间 */
+        ,d.EDIT_TIME AS editTime /* 修改时间 */
+        ,d.CREATOR AS creator /* 创建人 */
+        ,d.EDITOR AS editor /* 修改人 */
+        ,d.STATE AS state /* 删除状态 */
+        FROM carddetail AS d /* */
+        WHERE 1=1
+        <include refid="wherecontation"/>
+        order by id desc
+        <!-- 分页条 -->
+        <include refid="jrp.commons.pageEnd"/>
 
     </select>
-	
-	<!--
-	方法名称: update
-	调用路径: DETAILBILL.update
-	开发信息: 
-	处理信息: 修改记录
-	-->
- 	<!--<update id="update" parameterClass="Detailbill" >-->
-		<!--UPDATE   DETAILBILL  	/*  */ -->
-	  		<!--<dynamic prepend=" SET ">-->
-					 <!--/* 品种 */ -->
-					 <!--<isNotNull  property="variety" prepend=",">-->
-	    		 		<!--VARIETY = #variety#-->
-					 <!--</isNotNull>-->
-					 <!--/* 成本单价 */ -->
-					 <!--<isNotNull  property="costUnitprice" prepend=",">-->
-	    		 		<!--COST_UNITPRICE = #costUnitprice#-->
-					 <!--</isNotNull>-->
-					 <!--/* 成本总金额 */ -->
-					 <!--<isNotNull  property="costTotalamount" prepend=",">-->
-	    		 		<!--COST_TOTALAMOUNT = #costTotalamount#-->
-					 <!--</isNotNull>-->
-					 <!--/* 含税已付款 */ -->
-					 <!--<isNotNull  property="taxPaid" prepend=",">-->
-	    		 		<!--TAX_PAID = #taxPaid#-->
-					 <!--</isNotNull>-->
-					 <!--/* 含税未付款 */ -->
-					 <!--<isNotNull  property="taxUnpaid" prepend=",">-->
-	    		 		<!--TAX_UNPAID = #taxUnpaid#-->
-					 <!--</isNotNull>-->
-					 <!--/* 不含税成本单价 */ -->
-					 <!--<isNotNull  property="notaxCostprice" prepend=",">-->
-	    		 		<!--NOTAX_COSTPRICE = #notaxCostprice#-->
-					 <!--</isNotNull>-->
-					 <!--/* 不含税成本总金额 */ -->
-					 <!--<isNotNull  property="notaxCosttotalamount" prepend=",">-->
-	    		 		<!--NOTAX_COSTTOTALAMOUNT = #notaxCosttotalamount#-->
-					 <!--</isNotNull>-->
-					 <!--/* 不含税已付款 */ -->
-					 <!--<isNotNull  property="notaxPaid" prepend=",">-->
-	    		 		<!--NOTAX_PAID = #notaxPaid#-->
-					 <!--</isNotNull>-->
-					 <!--/* 不含税未付款 */ -->
-					 <!--<isNotNull  property="notaxUnpaid" prepend=",">-->
-	    		 		<!--NOTAX_UNPAID = #notaxUnpaid#-->
-					 <!--</isNotNull>-->
-					 <!--/* 不含税销售单价 */ -->
-					 <!--<isNotNull  property="notaxSaleunitprice" prepend=",">-->
-	    		 		<!--NOTAX_SALEUNITPRICE = #notaxSaleunitprice#-->
-					 <!--</isNotNull>-->
-					 <!--/* 不含税销售总金额 */ -->
-					 <!--<isNotNull  property="notaxSaletotalamount" prepend=",">-->
-	    		 		<!--NOTAX_SALETOTALAMOUNT = #notaxSaletotalamount#-->
-					 <!--</isNotNull>-->
-					 <!--/* 销售已付金额 */ -->
-					 <!--<isNotNull  property="salePaid" prepend=",">-->
-	    		 		<!--SALE_PAID = #salePaid#-->
-					 <!--</isNotNull>-->
-					 <!--/* 货主 */ -->
-					 <!--<isNotNull  property="shipperName" prepend=",">-->
-	    		 		<!--SHIPPER_NAME = #shipperName#-->
-					 <!--</isNotNull>-->
-					 <!--/* 创建时间 */ -->
-					 <!--<isNotNull  property="createTime" prepend=",">-->
-	    		 		<!--CREATE_TIME = #createTime#-->
-					 <!--</isNotNull>-->
-					 <!--/* 修改时间 */ -->
-					 <!--<isNotNull  property="editTime" prepend=",">-->
-	    		 		<!--EDIT_TIME = #editTime#-->
-					 <!--</isNotNull>-->
-					 <!--/* 创建人 */ -->
-					 <!--<isNotNull  property="creator" prepend=",">-->
-	    		 		<!--CREATOR = #creator#-->
-					 <!--</isNotNull>-->
-					 <!--/* 修改人 */ -->
-					 <!--<isNotNull  property="editor" prepend=",">-->
-	    		 		<!--EDITOR = #editor#-->
-					 <!--</isNotNull>-->
-					 <!--/* 删除状态 */ -->
-					 <!--<isNotNull  property="state" prepend=",">-->
-	    		 		<!--STATE = #state#-->
-					 <!--</isNotNull>-->
-	  	  <!--</dynamic>-->
-				<!--WHERE-->
-	  	 		 		<!--ID = #id#		/*  */ -->
-	<!--</update>-->
 
-	
-	<!--
-	方法名称: deleteByPriKey
-	调用路径: DETAILBILL.deleteByPriKey
-	开发信息: 
-	处理信息: 删除记录
-	-->
-	<!--<delete id="deleteByPriKey" parameterClass="Detailbill">-->
-		<!--DELETE 	FROM DETAILBILL 	/*  */ -->
-		<!--WHERE -->
-			<!--ID = #id#		/*  */ -->
-	<!--</delete>-->
-	
-	<!--
-	方法名称: findByPriKey
-	调用路径: DETAILBILL.findByPriKey
-	开发信息: 
-	处理信息: 根据主键查询记录
-	-->
-	<!--<select id="findByPriKey" parameterClass="Detailbill"  resultClass="Detailbill">-->
-		   <!--SELECT   -->
-			      <!--d.ID	   AS	id	/*  */ -->
-				 <!--,d.VARIETY	   AS	variety	/* 品种 */ -->
-				 <!--,d.COST_UNITPRICE	   AS	costUnitprice	/* 成本单价 */ -->
-				 <!--,d.COST_TOTALAMOUNT	   AS	costTotalamount	/* 成本总金额 */ -->
-				 <!--,d.TAX_PAID	   AS	taxPaid	/* 含税已付款 */ -->
-				 <!--,d.TAX_UNPAID	   AS	taxUnpaid	/* 含税未付款 */ -->
-				 <!--,d.NOTAX_COSTPRICE	   AS	notaxCostprice	/* 不含税成本单价 */ -->
-				 <!--,d.NOTAX_COSTTOTALAMOUNT	   AS	notaxCosttotalamount	/* 不含税成本总金额 */ -->
-				 <!--,d.NOTAX_PAID	   AS	notaxPaid	/* 不含税已付款 */ -->
-				 <!--,d.NOTAX_UNPAID	   AS	notaxUnpaid	/* 不含税未付款 */ -->
-				 <!--,d.NOTAX_SALEUNITPRICE	   AS	notaxSaleunitprice	/* 不含税销售单价 */ -->
-				 <!--,d.NOTAX_SALETOTALAMOUNT	   AS	notaxSaletotalamount	/* 不含税销售总金额 */ -->
-				 <!--,d.SALE_PAID	   AS	salePaid	/* 销售已付金额 */ -->
-				 <!--,d.SHIPPER_NAME	   AS	shipperName	/* 货主 */ -->
-				 <!--,d.CREATE_TIME	   AS	createTime	/* 创建时间 */ -->
-				 <!--,d.EDIT_TIME	   AS	editTime	/* 修改时间 */ -->
-				 <!--,d.CREATOR	   AS	creator	/* 创建人 */ -->
-				 <!--,d.EDITOR	   AS	editor	/* 修改人 */ -->
-				 <!--,d.STATE	   AS	state	/* 删除状态 */ -->
-		   <!--FROM   DETAILBILL      AS d      /*  */ -->
-		   <!--WHERE-->
-				<!--ID = #id#		/*  */ -->
-	<!--</select>-->
-	
-	<!--
-	方法名称: getPagenationList
-	调用路径: DETAILBILL.getPagenationList
-	开发信息: 
-	处理信息: 分页查询记录
-	-->
-	<select id="getPagenationList" parameterClass="PageQuery"  resultClass="CardDetail">
-			<!-- 分页条 -->
-		   <include refid="jrp.commons.pageBegin"/>
-		   SELECT   
-			      d.ID	   AS	id	/*  */ 
-				  ,d.datetime
-                  ,d.operation
-                  ,d.cardno
-                  ,d.price
-                  ,d.remark
-				 ,d.CREATE_TIME	   AS	createTime	/* 创建时间 */
-				 ,d.EDIT_TIME	   AS	editTime	/* 修改时间 */ 
-				 ,d.CREATOR	   AS	creator	/* 创建人 */ 
-				 ,d.EDITOR	   AS	editor	/* 修改人 */ 
-				 ,d.STATE	   AS	state	/* 删除状态 */ 
-		   FROM   carddetail      AS d      /*  */
-		   WHERE 1=1
-		 	<include refid="wherecontation"/>
-		<!-- 分页条 -->
-		<include refid="jrp.commons.pageEnd"/>
-			
-	</select>
-	
-	
-	<!--
-	方法名称: getItemCount
-	调用路径: DETAILBILL.getItemCount
-	开发信息: 
-	处理信息: 查询记录数
-	-->
-	<select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
-		SELECT count(1)  FROM  carddetail  AS d	/*  */
-		 WHERE 1=1
-		<include refid="wherecontation"/>
-	</select>
-	
-	
-	
-	<!--
-	方法名称: getAllList
-	调用路径: DETAILBILL.getAllList
-	开发信息: 
-	处理信息: 查询所有的记录
-	-->
-	<!--<select id="getAllList" parameterClass="Query"  resultClass="Detailbill">-->
-		   <!--SELECT   -->
-			      <!--d.ID	   AS	id	/*  */ -->
-				 <!--,d.VARIETY	   AS	variety	/* 品种 */ -->
-				 <!--,d.COST_UNITPRICE	   AS	costUnitprice	/* 成本单价 */ -->
-				 <!--,d.COST_TOTALAMOUNT	   AS	costTotalamount	/* 成本总金额 */ -->
-				 <!--,d.TAX_PAID	   AS	taxPaid	/* 含税已付款 */ -->
-				 <!--,d.TAX_UNPAID	   AS	taxUnpaid	/* 含税未付款 */ -->
-				 <!--,d.NOTAX_COSTPRICE	   AS	notaxCostprice	/* 不含税成本单价 */ -->
-				 <!--,d.NOTAX_COSTTOTALAMOUNT	   AS	notaxCosttotalamount	/* 不含税成本总金额 */ -->
-				 <!--,d.NOTAX_PAID	   AS	notaxPaid	/* 不含税已付款 */ -->
-				 <!--,d.NOTAX_UNPAID	   AS	notaxUnpaid	/* 不含税未付款 */ -->
-				 <!--,d.NOTAX_SALEUNITPRICE	   AS	notaxSaleunitprice	/* 不含税销售单价 */ -->
-				 <!--,d.NOTAX_SALETOTALAMOUNT	   AS	notaxSaletotalamount	/* 不含税销售总金额 */ -->
-				 <!--,d.SALE_PAID	   AS	salePaid	/* 销售已付金额 */ -->
-				 <!--,d.SHIPPER_NAME	   AS	shipperName	/* 货主 */ -->
-				 <!--,d.CREATE_TIME	   AS	createTime	/* 创建时间 */ -->
-				 <!--,d.EDIT_TIME	   AS	editTime	/* 修改时间 */ -->
-				 <!--,d.CREATOR	   AS	creator	/* 创建人 */ -->
-				 <!--,d.EDITOR	   AS	editor	/* 修改人 */ -->
-				 <!--,d.STATE	   AS	state	/* 删除状态 */ -->
-		   <!--FROM   DETAILBILL      AS d      /*  */ -->
-		   <!--WHERE 1=1-->
-		 	<!--<include refid="wherecontation"/>-->
-	<!--</select>-->
-	
-	
+
+    <!--
+    方法名称: getItemCount
+    调用路径: DETAILBILL.getItemCount
+    开发信息:
+    处理信息: 查询记录数
+    -->
+    <select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
+        SELECT count(1) FROM carddetail AS d /* */
+        WHERE 1=1
+        <include refid="wherecontation"/>
+    </select>
+
+
+    <update id="del" parameterClass="int">
+        update carddetail set state="0" where id=#id#
+    </update>
+
+
 </sqlMap>

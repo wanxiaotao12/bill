@@ -1,10 +1,9 @@
 package com.guo.web.bill;
 
 import com.guo.bill.CardDetailQuery;
+import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.CardDetail;
-import com.guo.bill.pojo.Detailbill;
 import com.guo.bill.service.CardDetailService;
-import com.guo.common.BasicResult;
 import com.guo.common.GenericResult;
 import com.guo.common.PageQuery;
 import com.guo.util.SystemTools;
@@ -19,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 描述：</b>DetailbillController<br>
@@ -49,27 +50,32 @@ public class CardDetailController extends BaseController {
         pageQuery.setPageSize(pageSize);
         pageQuery.setPageSize(Integer.MAX_VALUE);
         ModelAndView mav = new ModelAndView();
+        query.setState(StateEnum.NORMAL.getCode());
         pageQuery.setQuery(query);
         mav.addObject("query", query);
         mav.setViewName("bill/cardDetailIndex");
         mav.addObject("pageInfos", SystemTools.convertPaginatedList(cardDetailService.searchPageCardDetail(pageQuery)));
 
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        String today = sf.format(new Date());
+
+        mav.addObject("today", today);
         return mav;
     }
 
     /**
-     * 详情
+     * 删除
      *
+     * @param id
      * @return
      */
-    //    @RequestMapping(value = "detailbillDetail", method = RequestMethod.GET)
-    //    public ModelAndView detailbillDetail(@RequestParam(required = true, value = "id") Integer id) {
-    //        ModelAndView mav = new ModelAndView();
-    //        mav.setViewName("bill/detailbillDetail");
-    //        GenericResult<Detailbill> result = detailbillService.findByPriKey(id);
-    //        mav.addObject("detailbill", result.getValue());
-    //        return mav;
-    //    }
+    @RequestMapping(value = "del", method = RequestMethod.GET)
+    public ModelAndView detailbillDetail(@RequestParam(required = true, value = "id") Integer id) {
+        cardDetailService.deleteByPriKey(id);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/cardDetail/cardDetailIndex.do");
+        return mav;
+    }
 
     /**
      * 跳转到添加页面
@@ -99,52 +105,6 @@ public class CardDetailController extends BaseController {
         return mav;
     }
 
-    /**
-     * 跳转到编辑页面
-     *
-     * @return
-     */
-    //    @RequestMapping(value = "toEdit", method = RequestMethod.GET)
-    //    public ModelAndView toEdit(@RequestParam(required = true, value = "id") Integer id) {
-    //        ModelAndView mav = new ModelAndView();
-    //        mav.setViewName("bill/detailbillEdit");
-    //        GenericResult<Detailbill> result = detailbillService.findByPriKey(id);
-    //        mav.addObject("detailbill", result.getValue());
-    //        return mav;
-    //    }
 
-    /**
-     * 编辑
-     *
-     * @return
-     */
-    //    @RequestMapping(value = "/detailbillEdit", method = {RequestMethod.GET, RequestMethod.POST})
-    //    public ModelAndView detailbillEdit(@ModelAttribute Detailbill detailbill) {
-    //        BasicResult result = detailbillService.modifyDetailbill(detailbill);
-    //        ModelAndView mav = new ModelAndView();
-    //        if ("FPXS0000".equals(result.getCode())) {
-    //            mav.setViewName("redirect:/detailbill/detailbillIndex.do");
-    //        } else {
-    //            mav.setViewName("bill/detailbillEdit");
-    //            mav.addObject("detailbill", detailbill);
-    //        }
-    //        return mav;
-    //    }
-
-    /**
-     * 删除
-     *
-     * @return
-     */
-    @RequestMapping(value = "detailbillDelete", method = RequestMethod.GET)
-    public ModelAndView detailbillDelete(@RequestParam(required = true, value = "id") String id) {
-        ModelAndView mav = new ModelAndView();
-        //		mav.setViewName("redirect:/detailbill/detailbillIndex.do");
-        //		BasicResult result = detailbillService.deleteByPriKey(id);
-        //		if(!"FPXS0000".equals(result.getCode())){
-        //			//TODO 删除失败
-        //		}
-        return mav;
-    }
 
 }

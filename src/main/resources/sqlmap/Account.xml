@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+功能模块: 
+开发信息: 
+-->
+<sqlMap namespace="Account">
+    <typeAlias alias="Account" type="com.guo.bill.pojo.Account"/>
+    <typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>
+    <typeAlias alias="Query" type="com.guo.common.Query"/>
+
+    <sql id="slq_fields">
+        select
+        id,
+        accounttype,
+        accountname,
+        price
+        ,CREATE_TIME AS createTime /* 创建时间 */
+        ,EDIT_TIME AS editTime /* 修改时间 */
+        ,CREATOR AS creator /* 创建人 */
+        ,EDITOR AS editor /* 修改人 */
+        ,STATE AS state /* 删除状态 */
+    </sql>
+    <select id="findByType" parameterClass="String" resultClass="Account">
+        <include refid="slq_fields"/>
+        from account
+        where accounttype =#accounttype# and state="1"
+    </select>
+
+    <update id="update" parameterClass="Account">
+        update account
+        set price =#price#,
+        edit_time = now()
+        where accountname=#accountname#
+        and accounttype=#accounttype#
+        and state='1'
+    </update>
+
+    <sql id="wherecontation">
+        <dynamic prepend="WHERE">
+            <isNotEmpty property="query.accounttype" prepend="and">
+                accounttype=#query.accounttype#
+            </isNotEmpty>
+            <isNotEmpty property="query.state" prepend="and">
+                state=#query.state#
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <select id="getPagenationList" parameterClass="PageQuery" resultClass="Account">
+        <include refid="slq_fields"/>
+        from account
+        <include refid="wherecontation"/>
+        <!-- 分页条 -->
+        <include refid="jrp.commons.pageEnd"/>
+    </select>
+
+    <select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
+        SELECT count(1) FROM account
+        <include refid="wherecontation"/>
+    </select>
+</sqlMap>

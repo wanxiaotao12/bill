@@ -1,6 +1,7 @@
 package com.guo.bill.dao;
 
 import com.guo.bill.pojo.Account;
+import com.guo.common.PageQuery;
 
 import java.util.List;
 
@@ -9,4 +10,10 @@ import java.util.List;
  */
 public interface AccountDao {
     public List<Account>   findByType(String accountType);
+
+    public void update(Account account);
+
+    public List<Account> getPageList(PageQuery<Account> pageQuery, Integer itemCount);
+
+    public int getItemCount(PageQuery<Account> pageQuery);
 }

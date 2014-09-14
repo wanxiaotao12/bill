@@ -1,9 +1,12 @@
 package com.guo.bill.service.impl;
 
+import com.guo.bill.dao.AccountDao;
 import com.guo.bill.dao.CardDailyStatisticsDao;
 import com.guo.bill.dao.CardDetailDao;
+import com.guo.bill.enumtype.AccountTypeEnum;
 import com.guo.bill.enumtype.OperationEnum;
 import com.guo.bill.enumtype.StateEnum;
+import com.guo.bill.pojo.Account;
 import com.guo.bill.pojo.CardDailyStatistics;
 import com.guo.bill.pojo.CardDetail;
 import com.guo.bill.service.CardStatisticsService;
@@ -15,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,9 @@ public class CardStatisticsServiceImpl implements CardStatisticsService {
 
     @Autowired
     private CardDetailDao cardDetailDao;
+
+    @Autowired
+    private AccountDao accountDao;
 
     @Override public PageListResult<CardDailyStatistics> searchPageCardStatistics(
             PageQuery<CardDailyStatistics> pageQuery) {
@@ -83,9 +88,23 @@ public class CardStatisticsServiceImpl implements CardStatisticsService {
             }
 
             cardDailyStatisticsDao.del(datetime);
+
+            List<Account> accountsList = accountDao.findByType(AccountTypeEnum.CARD.getCode());
+            Map<String, Account> accountMap = new HashMap<String, Account>();
+            for(Account account :accountsList) {
+                accountMap.put(account.getAccountname(),account);
+            }
             for (String key : map.keySet()) {
                 CardDailyStatistics cardDailyStatistics = map.get(key);
                 cardDailyStatistics.setSurplus(cardDailyStatistics.getIncome().subtract(cardDailyStatistics.getOutlay()));
+
+                Account account = accountMap.get(cardDailyStatistics.getCardno());
+                if(account!=null) {
+                    BigDecimal price = account.getPrice().add(cardDailyStatistics.getSurplus());
+                    cardDailyStatistics.setCurSurplus(price);
+                    account.setPrice(price);
+                    accountDao.update(account);
+                }
                 cardDailyStatisticsDao.insert(map.get(key));
             }
 
