@@ -6,13 +6,15 @@ import java.util.Date;
 /**
  * Created by xiaotao.wxt on 2014/9/11.
  */
-public class CardDailyStatistics extends BasePojo{
+public class CardDailyStatistics extends BasePojo {
 
     private Integer    id;
     private Date       datetime;
     private String     cardno;
     private BigDecimal income;
-    private BigDecimal     outlay;
+    private BigDecimal outlay;
+    private BigDecimal surplus;//结余
+    private BigDecimal curSurplus;//当前余额
 
     public Integer getId() {
         return id;
@@ -52,5 +54,21 @@ public class CardDailyStatistics extends BasePojo{
 
     public void setOutlay(BigDecimal outlay) {
         this.outlay = outlay;
+    }
+
+    public BigDecimal getSurplus() {
+        return surplus;
+    }
+
+    public void setSurplus(BigDecimal surplus) {
+        this.surplus = surplus;
+    }
+
+    public BigDecimal getCurSurplus() {
+        return curSurplus;
+    }
+
+    public void setCurSurplus(BigDecimal curSurplus) {
+        this.curSurplus = curSurplus;
     }
 }

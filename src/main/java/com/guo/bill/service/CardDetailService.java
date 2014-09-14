@@ -28,6 +28,6 @@ public interface CardDetailService {
     public PageListResult<CardDetail> searchPageCardDetail(PageQuery<CardDetailQuery> pageQuery);
 
 
-    public BasicResult createDailyStatistics(String datetime);
+
 
 }

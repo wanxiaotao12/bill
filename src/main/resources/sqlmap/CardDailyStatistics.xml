@@ -5,40 +5,86 @@
 开发信息: 
 -->
 <sqlMap namespace="CardDailyStatistics">
-	<typeAlias alias="CardDailyStatistics" type="com.guo.bill.pojo.CardDailyStatistics"/>
-	<!--<typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>-->
-	<!--<typeAlias alias="Query" type="com.guo.common.Query"/>-->
-	
-
- 	<insert id="insert" parameterClass="CardDailyStatistics" >
-	 	INSERT  INTO  card_daily_statistics   /*  */
-					(		
-					 ID		/*  */ 
-					,datetime		/*  */
-					,cardno		/*  */
-					,income		/*  */
-					,outlay		/*  */
-					,CREATE_TIME		/* 创建时间 */
-					,EDIT_TIME		/* 修改时间 */ 
-					,CREATOR		/* 创建人 */ 
-					,EDITOR		/* 修改人 */ 
-					,STATE		/* 删除状态 */ 
-					)
-			values (
-					 #id#		/*  */ 
-				  	,#datetime#		/*  */
-				  	,#cardno#		/*  */
-				  	,#income#		/*  */
-				  	,#outlay#		/*  */
-				  	,#createTime#		/* 创建时间 */
-				  	,#editTime#		/* 修改时间 */ 
-				  	,#creator#		/* 创建人 */ 
-				  	,#editor#		/* 修改人 */ 
-				  	,#state#		/* 删除状态 */ 
-					)
-	</insert>
+    <typeAlias alias="CardDailyStatistics" type="com.guo.bill.pojo.CardDailyStatistics"/>
+    <typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>
+    <typeAlias alias="Query" type="com.guo.common.Query"/>
 
 
-	
-	
+    <insert id="insert" parameterClass="CardDailyStatistics">
+        INSERT INTO card_daily_statistics /* */
+        (
+        ID /* */
+        ,datetime /* */
+        ,cardno /* */
+        ,income /* */
+        ,outlay /* */
+        ,surplus
+        ,CREATE_TIME /* 创建时间 */
+        ,EDIT_TIME /* 修改时间 */
+        ,CREATOR /* 创建人 */
+        ,EDITOR /* 修改人 */
+        ,STATE /* 删除状态 */
+        )
+        values (
+        #id# /* */
+        ,#datetime# /* */
+        ,#cardno# /* */
+        ,#income# /* */
+        ,#outlay# /* */
+        ,#surplus#
+        ,#createTime# /* 创建时间 */
+        ,#editTime# /* 修改时间 */
+        ,#creator# /* 创建人 */
+        ,#editor# /* 修改人 */
+        ,#state# /* 删除状态 */
+        )
+    </insert>
+
+    <update id="update" parameterClass="String">
+        update card_daily_statistics
+        set state='0'
+        where datetime=#datetime# and state='1'
+    </update>
+
+    <sql id="wherecontation">
+        <dynamic prepend="WHERE">
+            <isNotEmpty property="query.datetime" prepend="and">
+                datetime=#query.datetime#
+            </isNotEmpty>
+            <isNotEmpty property="query.state" prepend="and">
+                state=#query.state#
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <select id="getPagenationList" parameterClass="PageQuery" resultClass="CardDailyStatistics">
+        <!-- 分页条 -->
+        <include refid="jrp.commons.pageBegin"/>
+        SELECT
+            id,
+            datetime,
+            cardno,
+            income,
+            outlay,
+            surplus
+            ,CREATE_TIME AS createTime /* 创建时间 */
+            ,EDIT_TIME AS editTime /* 修改时间 */
+            ,CREATOR AS creator /* 创建人 */
+            ,EDITOR AS editor /* 修改人 */
+            ,STATE AS state /* 删除状态 */
+        FROM card_daily_statistics
+        <include refid="wherecontation"/>
+        <!-- 分页条 -->
+        <include refid="jrp.commons.pageEnd"/>
+    </select>
+
+
+    <select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
+        SELECT count(1) FROM card_daily_statistics  /* */
+        <include refid="wherecontation"/>
+    </select>
+
+
+
+
 </sqlMap>

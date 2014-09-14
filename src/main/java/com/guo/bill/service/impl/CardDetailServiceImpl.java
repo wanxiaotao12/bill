@@ -143,41 +143,5 @@ public class CardDetailServiceImpl implements CardDetailService {
         return result;
     }
 
-    @Override
-    public BasicResult createDailyStatistics(String datetime) {
 
-        BasicResult result = new BasicResult();
-        try {
-            List<CardDetail> list = cardDetailDao.getListByDateTime(datetime);
-            Map<String, CardDailyStatistics> map = new HashMap<String, CardDailyStatistics>();
-            for (CardDetail cardDetail : list) {
-                if (map.get(cardDetail.getCardno()) == null) {
-                    CardDailyStatistics cardDailyStatistics = new CardDailyStatistics();
-                    cardDailyStatistics.setCardno(cardDetail.getCardno());
-                    cardDailyStatistics.setIncome(new BigDecimal(0));
-                    cardDailyStatistics.setOutlay(new BigDecimal(0));
-                    map.put(cardDetail.getCardno(), cardDailyStatistics);
-                }
-                CardDailyStatistics cardDailyStatistics = map.get(cardDetail.getCardno());
-                if (OperationEnum.INCOME.getCode().equals(cardDetail.getOperation())) {
-                    cardDailyStatistics.setIncome(cardDailyStatistics.getIncome().add(cardDetail.getPrice()));
-                } else if (OperationEnum.EXPEND.getCode().equals(cardDetail.getOperation())) {
-                    cardDailyStatistics.setOutlay(cardDailyStatistics.getOutlay().add(cardDetail.getPrice()));
-                }
-
-            }
-
-            for (String key : map.keySet()) {
-                cardDailyStatisticsDao.insert(map.get(key));
-            }
-
-            result.setMessage("查询成功");
-            log.debug("------DetailbillServiceImpl.searchPageCardDetail 查询成功------");
-        } catch (Exception ex) {
-            log.error("------DetailbillServiceImpl.searchPageCardDetail 异常", ex);
-            result.setCode(CodeEnum.SuccessOrFaildEnum.UNKNOWN.getCode());
-            result.setMessage("未知异常");
-        }
-        return result;
-    }
 }
