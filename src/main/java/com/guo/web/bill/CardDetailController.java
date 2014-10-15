@@ -3,8 +3,12 @@ package com.guo.web.bill;
 import com.guo.bill.CardDetailQuery;
 import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.CardDetail;
+import com.guo.bill.pojo.Mine;
 import com.guo.bill.service.CardDetailService;
+import com.guo.bill.service.MineService;
+import com.guo.common.CodeEnum;
 import com.guo.common.GenericResult;
+import com.guo.common.ListResult;
 import com.guo.common.PageQuery;
 import com.guo.util.SystemTools;
 import com.guo.web.BaseController;
@@ -33,6 +37,9 @@ import java.util.Date;
 public class CardDetailController extends BaseController {
     @Autowired
     private CardDetailService cardDetailService;
+
+    @Autowired
+    private MineService mineService;
 
     /**
      * 列表页面
@@ -83,8 +90,15 @@ public class CardDetailController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/toAdd", method = { RequestMethod.GET, RequestMethod.POST })
-    public String toAdd(HttpServletRequest request, ModelMap model) {
-        return "bill/cardDetailAdd";
+    public ModelAndView toAdd(HttpServletRequest request, ModelMap model) {
+        ModelAndView mav = new ModelAndView();
+
+        ListResult<Mine> mineListResult = mineService.searchMine(null);
+        if (CodeEnum.SuccessOrFaildEnum.SUCCESS.getCode().equals(mineListResult.getCode())) {
+            mav.addObject("mineList", mineListResult.getValues());
+        }
+        mav.setViewName("bill/cardDetailAdd");
+        return mav;
     }
 
     /**
@@ -104,7 +118,5 @@ public class CardDetailController extends BaseController {
         }
         return mav;
     }
-
-
 
 }

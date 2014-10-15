@@ -29,8 +29,9 @@ public class AccountServiceImpl implements AccountService {
             PageQuery<Account> pageQuery) {
         PageListResult<Account> result = new PageListResult<Account>();
         try {
-            List<Account> list = accountDao.getPageList(pageQuery, 0);
             Integer itemCount = accountDao.getItemCount(pageQuery);
+
+            List<Account> list = accountDao.getPageList(pageQuery, itemCount);
             Pagenation pagenation = new Pagenation(pageQuery.getPageNo(), itemCount, pageQuery.getPageSize());
             result.setPagenation(pagenation);
             result.setValues(list);

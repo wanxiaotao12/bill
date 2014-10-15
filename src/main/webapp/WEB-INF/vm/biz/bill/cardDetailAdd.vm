@@ -7,52 +7,83 @@
     <div class="contentLog mb clearfix">
         <div class="au_title mb15 font16">添加</div>
         <div class="forms trade">
-        	<form id="form"  action="../cardDetail/cardDetailAdd.do" method="POST">
-            <div class="formsList1 clearfix">
-					<dl class="w100">
-						<dt>日期：</dt>
-			            <dd>
-			            	<input type="text" value="$!{cardDetail.datetime}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="input160" name="datetime" id="variety"/>
-			            </dd>
-			        </dl> 
-					<dl class="w100">
-						<dt>操作类型：</dt>
-			            <dd>
-			            	<select name="operation">
+            <form id="form" action="../cardDetail/cardDetailAdd.do" method="POST">
+                <div class="formsList1 clearfix">
+                    <dl class="w100">
+                        <dt>卡号：</dt>
+                        <dd>
+                            <input type="text" value="$!{cardDetail.cardno}" class="input160" name="cardno"
+                                   id="costTotalamount"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>日期：</dt>
+                        <dd>
+                            <input type="text" value="$!{cardDetail.datetime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="input160"
+                                   name="datetime" id="variety"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>操作类型：</dt>
+                        <dd>
+                            <select name="operation">
                                 <option value="1">收入</option>
                                 <option value="2">支出</option>
+                                <option value="2">转入</option>
+                                <option value="2">转出</option>
+                                <option value="2">工资</option>
                             </select>
-			            </dd>
-			        </dl> 
-					<dl class="w100">
-						<dt>卡号：</dt>
-			            <dd>
-			            	<input type="text" value="$!{cardDetail.cardno}" class="input160" name="cardno" id="costTotalamount"/>
-			            </dd>
-			        </dl> 
-					<dl class="w100">
-						<dt>金额：</dt>
-			            <dd>
-			            	<input type="text" value="$!{detailbill.price}" class="input160" name="price" id="taxPaid"/>
-			            </dd>
-			        </dl> 
-					<dl class="w100">
-						<dt>备注：</dt>
-			            <dd>
-			            	<input type="text" value="$!{detailbill.remark}" class="input160" name="remark" id="taxUnpaid"/>
-			            </dd>
-			        </dl> 
-                <div class="clear"></div>
-            </div>
-            <p class="tcenter">
-	            <input type="submit" class="button_Green" value="保 存" />
-	        </p>
-	        </form>
+                        </dd>
+                    </dl>
+
+                    <dl class="w100">
+                        <dt>金额：</dt>
+                        <dd>
+                            <input type="text" value="$!{detailbill.price}" class="input160" name="price" id="taxPaid"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>矿名：</dt>
+                        <dd>
+                            <select name="mineId">
+                                #foreach($mine in $!mineList)
+                                    <option value="mine.id">$!mine.mineName</option>
+                                #end
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>卡余额：</dt>
+                        <dd>
+                            <input type="text" value="$!{detailbill.price}" class="input160" name="price" id="taxPaid"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>收/打款人：</dt>
+                        <dd>
+                            <input type="text" value="$!{detailbill.remark}" class="input160" name="remark"
+                                   id="taxUnpaid"/>
+                        </dd>
+                    </dl>
+                    <dl class="w100">
+                        <dt>备注：</dt>
+                        <dd>
+                            <input type="text" value="$!{detailbill.remark}" class="input160" name="remark"
+                                   id="taxUnpaid"/>
+                        </dd>
+                    </dl>
+                    <div class="clear"></div>
+                </div>
+                <p class="tcenter">
+                    <input type="submit" class="button_Green" value="保 存"/>
+                </p>
+            </form>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-     $(function(){
-         $("#form").validate();
-     });
+    $(function () {
+        $("#form").validate();
+    });
 </script>
