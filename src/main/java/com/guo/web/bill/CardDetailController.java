@@ -1,8 +1,11 @@
 package com.guo.web.bill;
 
 import com.guo.bill.CardDetailQuery;
+import com.guo.bill.dao.DictionaryDao;
+import com.guo.bill.enumtype.DictionaryEnum;
 import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.CardDetail;
+import com.guo.bill.pojo.Dictionary;
 import com.guo.bill.pojo.Mine;
 import com.guo.bill.service.CardDetailService;
 import com.guo.bill.service.MineService;
@@ -12,6 +15,7 @@ import com.guo.common.ListResult;
 import com.guo.common.PageQuery;
 import com.guo.util.SystemTools;
 import com.guo.web.BaseController;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 描述：</b>DetailbillController<br>
@@ -37,6 +42,9 @@ import java.util.Date;
 public class CardDetailController extends BaseController {
     @Autowired
     private CardDetailService cardDetailService;
+
+    @Autowired
+    private DictionaryDao dictionaryDao;
 
     @Autowired
     private MineService mineService;
@@ -93,9 +101,14 @@ public class CardDetailController extends BaseController {
     public ModelAndView toAdd(HttpServletRequest request, ModelMap model) {
         ModelAndView mav = new ModelAndView();
 
-        ListResult<Mine> mineListResult = mineService.searchMine(null);
-        if (CodeEnum.SuccessOrFaildEnum.SUCCESS.getCode().equals(mineListResult.getCode())) {
-            mav.addObject("mineList", mineListResult.getValues());
+//        ListResult<Mine> mineListResult = mineService.searchMine(null);
+        List<Dictionary> mineList = dictionaryDao.findByType(DictionaryEnum.MINE);
+        List<Dictionary> cardNOList = dictionaryDao.findByType(DictionaryEnum.CARD_NO);
+        if (CollectionUtils.isNotEmpty(mineList)) {
+            mav.addObject("mineList", mineList);
+        }
+        if (CollectionUtils.isNotEmpty(cardNOList)) {
+            mav.addObject("cardNOList", cardNOList);
         }
         mav.setViewName("bill/cardDetailAdd");
         return mav;
@@ -109,6 +122,7 @@ public class CardDetailController extends BaseController {
     @RequestMapping(value = "/cardDetailAdd", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView detailbillAdd(@ModelAttribute CardDetail cardDetail) {
         GenericResult<String> result = cardDetailService.addDetailbill(cardDetail);
+
         ModelAndView mav = new ModelAndView();
         if ("FPXS0000".equals(result.getCode())) {
             mav.setViewName("redirect:/cardDetail/cardDetailIndex.do");

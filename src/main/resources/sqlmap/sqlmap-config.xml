@@ -16,5 +16,6 @@
 	<sqlMap resource="sqlmap/CardDetail.xml" />
 	<sqlMap resource="sqlmap/CardDailyStatistics.xml" />
 	<sqlMap resource="sqlmap/Account.xml" />
+	<sqlMap resource="sqlmap/Dictionary.xml" />
 
 </sqlMapConfig>

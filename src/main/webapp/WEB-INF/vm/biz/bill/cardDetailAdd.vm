@@ -12,8 +12,12 @@
                     <dl class="w100">
                         <dt>卡号：</dt>
                         <dd>
-                            <input type="text" value="$!{cardDetail.cardno}" class="input160" name="cardno"
-                                   id="costTotalamount"/>
+                            <select name="cardno" class="input160">
+                                <option value="" ></option>
+                                #foreach($mine in $!mineList)
+                                    <option value="mine.code">$!mine.name</option>
+                                #end
+                            </select>
                         </dd>
                     </dl>
                     <dl class="w100">
@@ -47,8 +51,9 @@
                         <dt>矿名：</dt>
                         <dd>
                             <select name="mineId">
+                                <option value="" ></option>
                                 #foreach($mine in $!mineList)
-                                    <option value="mine.id">$!mine.mineName</option>
+                                    <option value="mine.code">$!mine.name</option>
                                 #end
                             </select>
                         </dd>
