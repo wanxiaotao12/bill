@@ -1,6 +1,6 @@
 package com.guo.bill.service;
 
-import com.guo.bill.pojo.Shipperbill;
+import com.guo.bill.pojo.SaleDetail;
 import com.guo.bill.pojo.ShipperbillQuery;
 import com.guo.common.*;
 
@@ -12,16 +12,16 @@ import com.guo.common.*;
  */
 public interface ShipperbillService {
 
-	public GenericResult<String> addShipperbill(Shipperbill shipperbill);
+	public GenericResult<String> addShipperbill(SaleDetail shipperbill);
 	
-    public BasicResult modifyShipperbill(Shipperbill shipperbill);
+    public BasicResult modifyShipperbill(SaleDetail shipperbill);
     
-    public GenericResult<Shipperbill> findByPriKey(Integer id);
+    public GenericResult<SaleDetail> findByPriKey(Integer id);
     
     public BasicResult deleteByPriKey(Integer id);
     
-    public ListResult<Shipperbill> searchShipperbill(Query<ShipperbillQuery> query);
+    public ListResult<SaleDetail> searchShipperbill(Query<ShipperbillQuery> query);
     
-    public PageListResult<Shipperbill> searchPageShipperbill(PageQuery<ShipperbillQuery> pageQuery);
+    public PageListResult<SaleDetail> searchPageShipperbill(PageQuery<ShipperbillQuery> pageQuery);
 	
 }

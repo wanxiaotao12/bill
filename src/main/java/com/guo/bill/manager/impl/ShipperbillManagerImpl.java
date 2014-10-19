@@ -1,9 +1,8 @@
 package com.guo.bill.manager.impl;
 
-import java.util.Date;
 import java.util.List;
-import java.util.HashMap;
 
+import com.guo.bill.pojo.SaleDetail;
 import com.guo.common.PageQuery;
 import com.guo.common.Query;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.guo.bill.manager.ShipperbillManager;
 import com.guo.bill.dao.ShipperbillDao;
-import com.guo.bill.pojo.Shipperbill;
 import com.guo.bill.pojo.ShipperbillQuery;
 
 
@@ -30,12 +28,12 @@ public class ShipperbillManagerImpl implements ShipperbillManager {
 	private ShipperbillDao shipperbillDao;
 
 	@Override
-	public void insertShipperbill(Shipperbill shipperbill) {
+	public void insertShipperbill(SaleDetail shipperbill) {
 		shipperbillDao.insert(shipperbill);
 	}
 	
 	@Override
-	public void updateShipperbill(Shipperbill shipperbill) {
+	public void updateShipperbill(SaleDetail shipperbill) {
 		shipperbillDao.update(shipperbill);
 	}
 	
@@ -45,12 +43,12 @@ public class ShipperbillManagerImpl implements ShipperbillManager {
 	}
 	
 	@Override
-	public Shipperbill findShipperbillByPriKey(Integer id) {
+	public SaleDetail findShipperbillByPriKey(Integer id) {
 		return shipperbillDao.findByPriKey(id);
 	}
 	
 	@Override
-	public List<Shipperbill> searchShipperbillList(Query<ShipperbillQuery> query) {
+	public List<SaleDetail> searchShipperbillList(Query<ShipperbillQuery> query) {
 		return shipperbillDao.getAllList(query);
 	}
 	
@@ -60,7 +58,7 @@ public class ShipperbillManagerImpl implements ShipperbillManager {
 	}
 	
 	@Override
-	public List<Shipperbill> searchPageShipperbillList(PageQuery<ShipperbillQuery> pageQuery) {
+	public List<SaleDetail> searchPageShipperbillList(PageQuery<ShipperbillQuery> pageQuery) {
 		Integer itemCount = getItemCount(pageQuery);
 		return shipperbillDao.getPageList(pageQuery, itemCount);
 	}

@@ -12,25 +12,25 @@
 					            <dd>
 					            	 <input class="input160" name="shipperName" id="shipperName" value="$!{query.shipperName}"/>
 					            </dd>
-					        </dl> 
+					        </dl>
 							<dl>
 								<dt>交易类型</dt>
 					            <dd>
 					            	 <input class="input160" name="tradeType" id="tradeType" value="$!{query.tradeType}"/>
 					            </dd>
-					        </dl> 
+					        </dl>
 							<dl>
 								<dt>购买日期</dt>
 					            <dd>
 					            	 <input class="input160" name="buyDatetime" id="buyDatetime" value="$!{query.buyDatetime}"/>
 					            </dd>
-					        </dl> 
+					        </dl>
 							<dl>
 								<dt>车牌号</dt>
 					            <dd>
 					            	 <input class="input160" name="licenseplatenumber" id="licenseplatenumber" value="$!{query.licenseplatenumber}"/>
 					            </dd>
-					        </dl> 
+					        </dl>
                     <div class="clear"></div>
                     <div><input type="button" class="button_Green searchBtn " value="搜 索"/></div>
                 </div>
@@ -89,20 +89,21 @@
                 <!--END公用翻页代码-->
             </div>
             <div class="clear"></div>
-            
+
         </div>
         </form>
     </div>
     <!--end mainContent-->
 <script type="text/javascript">
-$(document).ready(function(){
-	$(".button_Green.searchBtn").bind("click",function(){
-		$("#formSubmit").submit();
-	});
-	
-	$("#addButton").bind("click",function(){
-		location.href="../shipperbill/toAdd.do";
-	});
+$(document).ready(function () {
+    $(".button_Green.searchBtn").bind("click", function () {
+        $("#formSubmit").submit();
+    });
+
+    $("#addButton").bind("click", function () {
+        location.href = "../saledetail/toAdd.do";
+
+    });
 });
 
 </script>

@@ -12,7 +12,7 @@
  	<sqlMap resource="sqlmap/DETAILBILL.xml" />
 	<sqlMap resource="sqlmap/MINE.xml" />
 	<sqlMap resource="sqlmap/PROFITBILL.xml" />
-	<sqlMap resource="sqlmap/SHIPPERBILL.xml" />
+	<sqlMap resource="sqlmap/SaleDetail.xml" />
 	<sqlMap resource="sqlmap/CardDetail.xml" />
 	<sqlMap resource="sqlmap/CardDailyStatistics.xml" />
 	<sqlMap resource="sqlmap/Account.xml" />

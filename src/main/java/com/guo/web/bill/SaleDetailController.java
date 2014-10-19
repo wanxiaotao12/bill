@@ -1,6 +1,9 @@
 package com.guo.web.bill;
 
-import com.guo.bill.pojo.Shipperbill;
+import com.guo.bill.dao.DictionaryDao;
+import com.guo.bill.enumtype.DictionaryEnum;
+import com.guo.bill.pojo.Dictionary;
+import com.guo.bill.pojo.SaleDetail;
 import com.guo.bill.pojo.ShipperbillQuery;
 import com.guo.bill.service.ShipperbillService;
 import com.guo.util.SystemTools;
@@ -8,6 +11,7 @@ import com.guo.web.BaseController;
 import com.guo.common.BasicResult;
 import com.guo.common.GenericResult;
 import com.guo.common.PageQuery;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-
+import java.util.List;
 
 /**
  * 描述：</b>ShipperbillController<br>
@@ -28,28 +32,34 @@ import javax.servlet.http.HttpServletRequest;
  * @version:1.0
  */
 @Controller
-@RequestMapping("/shipperbill")
-public class ShipperbillController extends BaseController {
+@RequestMapping("/saledetail")
+public class SaleDetailController extends BaseController {
     @Autowired
     private ShipperbillService shipperbillService;
+
+    @Autowired
+    private DictionaryDao dictionaryDao;
 
     /**
      * 列表页面
      *
      * @return
      */
-    @RequestMapping(value = "shipperbillIndex", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "index", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView shipperbillIndex(@ModelAttribute ShipperbillQuery query,
-                                         @RequestParam(required = false, value = "pageNo", defaultValue = "1") int pageNo,
-                                         @RequestParam(required = false, value = "pageSize", defaultValue = "10") int pageSize) {
+                                         @RequestParam(required = false, value = "pageNo",
+                                                 defaultValue = "1") int pageNo,
+                                         @RequestParam(required = false, value = "pageSize",
+                                                 defaultValue = "10") int pageSize) {
         PageQuery<ShipperbillQuery> pageQuery = new PageQuery<ShipperbillQuery>();
         pageQuery.setPageNo(pageNo);
         pageQuery.setPageSize(pageSize);
         ModelAndView mav = new ModelAndView();
         pageQuery.setQuery(query);
         mav.addObject("query", query);
-        mav.setViewName("bill/shipperbillIndex");
-        mav.addObject("pageInfos", SystemTools.convertPaginatedList(shipperbillService.searchPageShipperbill(pageQuery)));
+        mav.setViewName("bill/sale/index");
+//        mav.addObject("pageInfos",
+//                SystemTools.convertPaginatedList(shipperbillService.searchPageShipperbill(pageQuery)));
         return mav;
     }
 
@@ -62,7 +72,7 @@ public class ShipperbillController extends BaseController {
     public ModelAndView shipperbillDetail(@RequestParam(required = true, value = "id") Integer id) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("bill/shipperbillDetail");
-        GenericResult<Shipperbill> result = shipperbillService.findByPriKey(id);
+        GenericResult<SaleDetail> result = shipperbillService.findByPriKey(id);
         mav.addObject("shipperbill", result.getValue());
         return mav;
     }
@@ -72,9 +82,16 @@ public class ShipperbillController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/toAdd", method = {RequestMethod.GET, RequestMethod.POST})
-    public String toAdd(HttpServletRequest request, ModelMap model) {
-        return "bill/shipperbillAdd";
+    @RequestMapping(value = "/toAdd", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView toAdd(HttpServletRequest request, ModelMap model) {
+        ModelAndView mav = new ModelAndView();
+        List<Dictionary> mineList = dictionaryDao.findByType(DictionaryEnum.MINE);
+        if (CollectionUtils.isNotEmpty(mineList)) {
+            mav.addObject("mineList", mineList);
+        }
+
+        mav.setViewName("bill/sale/add");
+        return mav;
     }
 
     /**
@@ -82,15 +99,15 @@ public class ShipperbillController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/shipperbillAdd", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView shipperbillAdd(@ModelAttribute Shipperbill shipperbill) {
-        GenericResult<String> result = shipperbillService.addShipperbill(shipperbill);
+    @RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView shipperbillAdd(@ModelAttribute SaleDetail saleDetail) {
+        GenericResult<String> result = shipperbillService.addShipperbill(saleDetail);
         ModelAndView mav = new ModelAndView();
         if ("FPXS0000".equals(result.getCode())) {
-            mav.setViewName("redirect:/shipperbill/shipperbillIndex.do");
+            mav.setViewName("redirect:/saleDetail/shipperbillIndex.do");
         } else {
             mav.setViewName("bill/shipperbillAdd");
-            mav.addObject("shipperbill", shipperbill);
+            mav.addObject("saleDetail", saleDetail);
         }
         return mav;
     }
@@ -104,7 +121,7 @@ public class ShipperbillController extends BaseController {
     public ModelAndView toEdit(@RequestParam(required = true, value = "id") Integer id) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("bill/shipperbillEdit");
-        GenericResult<Shipperbill> result = shipperbillService.findByPriKey(id);
+        GenericResult<SaleDetail> result = shipperbillService.findByPriKey(id);
         mav.addObject("shipperbill", result.getValue());
         return mav;
     }
@@ -114,8 +131,8 @@ public class ShipperbillController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/shipperbillEdit", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView shipperbillEdit(@ModelAttribute Shipperbill shipperbill) {
+    @RequestMapping(value = "/shipperbillEdit", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView shipperbillEdit(@ModelAttribute SaleDetail shipperbill) {
         BasicResult result = shipperbillService.modifyShipperbill(shipperbill);
         ModelAndView mav = new ModelAndView();
         if ("FPXS0000".equals(result.getCode())) {
@@ -126,7 +143,6 @@ public class ShipperbillController extends BaseController {
         }
         return mav;
     }
-
 
     /**
      * 删除
@@ -143,6 +159,5 @@ public class ShipperbillController extends BaseController {
         }
         return mav;
     }
-
 
 }

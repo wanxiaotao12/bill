@@ -1,6 +1,6 @@
 package com.guo.bill.dao;
 
-import com.guo.bill.pojo.Shipperbill;
+import com.guo.bill.pojo.SaleDetail;
 import com.guo.bill.pojo.ShipperbillQuery;
 import com.guo.common.PageQuery;
 import com.guo.common.Query;
@@ -15,17 +15,17 @@ import java.util.List;
  */
 public interface ShipperbillDao {
 	
-	public void insert(Shipperbill shipperbill);
+	public void insert(SaleDetail shipperbill);
 	
-	public void update(Shipperbill shipperbill);
+	public void update(SaleDetail shipperbill);
 	
 	public void deleteByPriKey(Integer id);
 	
-	public Shipperbill findByPriKey(Integer id);
+	public SaleDetail findByPriKey(Integer id);
 	
-	public List<Shipperbill> getAllList(Query<ShipperbillQuery> query);
+	public List<SaleDetail> getAllList(Query<ShipperbillQuery> query);
 
 	public Integer getItemCount(PageQuery<ShipperbillQuery> pageQuery);
 
-	public List<Shipperbill> getPageList(PageQuery<ShipperbillQuery> pageQuery, Integer itemCount);
+	public List<SaleDetail> getPageList(PageQuery<ShipperbillQuery> pageQuery, Integer itemCount);
 }

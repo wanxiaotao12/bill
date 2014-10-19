@@ -1,13 +1,14 @@
 package com.guo.bill.service.impl;
 
 import java.util.List;
+
+import com.guo.bill.pojo.SaleDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.guo.bill.service.ShipperbillService;
 import com.guo.bill.manager.ShipperbillManager;
-import com.guo.bill.pojo.Shipperbill;
 import com.guo.bill.pojo.ShipperbillQuery;
 import com.guo.common.*;
 
@@ -25,7 +26,7 @@ public class ShipperbillServiceImpl implements ShipperbillService {
 	private ShipperbillManager shipperbillManager;
 	
 	@Override
-	public GenericResult<String> addShipperbill(Shipperbill shipperbill) {
+	public GenericResult<String> addShipperbill(SaleDetail shipperbill) {
 		GenericResult<String> result = new GenericResult<String>();
 		 try {
 			if (shipperbill != null) {
@@ -51,7 +52,7 @@ public class ShipperbillServiceImpl implements ShipperbillService {
 	}
 	
 	@Override
-	public BasicResult modifyShipperbill(Shipperbill shipperbill) {
+	public BasicResult modifyShipperbill(SaleDetail shipperbill) {
 		BasicResult result = new BasicResult();
 		try {
 			if (shipperbill != null) {
@@ -72,8 +73,8 @@ public class ShipperbillServiceImpl implements ShipperbillService {
 	}
 	
 	@Override
-	public GenericResult<Shipperbill> findByPriKey(Integer id) {
-		GenericResult<Shipperbill> result = new GenericResult<Shipperbill>();
+	public GenericResult<SaleDetail> findByPriKey(Integer id) {
+		GenericResult<SaleDetail> result = new GenericResult<SaleDetail>();
 		try{
 			result.setValue(shipperbillManager.findShipperbillByPriKey(id));
 			result.setMessage("查询成功");
@@ -102,8 +103,8 @@ public class ShipperbillServiceImpl implements ShipperbillService {
 	}
 	
 	@Override
-	public ListResult<Shipperbill> searchShipperbill(Query<ShipperbillQuery> query) {
-		ListResult<Shipperbill> result = new ListResult<Shipperbill>();
+	public ListResult<SaleDetail> searchShipperbill(Query<ShipperbillQuery> query) {
+		ListResult<SaleDetail> result = new ListResult<SaleDetail>();
 		try {
 			result.setValues(shipperbillManager.searchShipperbillList(query));
 			result.setMessage("查询成功");
@@ -117,11 +118,11 @@ public class ShipperbillServiceImpl implements ShipperbillService {
 	}
 	
 	@Override
-	public PageListResult<Shipperbill> searchPageShipperbill(
+	public PageListResult<SaleDetail> searchPageShipperbill(
 			PageQuery<ShipperbillQuery> pageQuery) {
-		PageListResult<Shipperbill> result = new PageListResult<Shipperbill>();
+		PageListResult<SaleDetail> result = new PageListResult<SaleDetail>();
 		try {
-			List<Shipperbill> list = shipperbillManager.searchPageShipperbillList(pageQuery);
+			List<SaleDetail> list = shipperbillManager.searchPageShipperbillList(pageQuery);
 			Integer itemCount = shipperbillManager.getItemCount(pageQuery);
 			Pagenation pagenation = new Pagenation(pageQuery.getPageNo(), itemCount, pageQuery.getPageSize());
 			result.setPagenation(pagenation);
