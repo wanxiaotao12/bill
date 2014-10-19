@@ -47,11 +47,7 @@
                             <tr>
                                 <td class="pl40">$!{info.id}</td>
                                 <td>
-                                    #if($!{info.accounttype} && $!{info.accounttype}=="1")
-                                        银行卡
-                                    #elseif($!{info.accounttype}=="2")
-                                        客户
-                                    #end
+                                    $!accountTypeMap.get($!{info.accounttype})
                                 </td>
                                 <td>
                                     $!{info.accountname}

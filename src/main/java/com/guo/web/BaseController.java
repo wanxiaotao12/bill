@@ -22,7 +22,7 @@ public abstract class BaseController{
     
     @InitBinder  
     protected void initBinder(WebDataBinder binder) {  
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true));
     }
 
     protected void responseJson(HttpServletResponse response, String json) throws IOException

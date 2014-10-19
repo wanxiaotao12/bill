@@ -1,12 +1,14 @@
 package com.guo.bill.enumtype;
 
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  */
 public enum AccountTypeEnum {
-
-    CARD("1", "卡"),
+    MINE("1","煤矿"),
+    CARD("2", "银行卡"),
     CUSTOMER("2", "客户");
 
     private String code;
@@ -33,6 +35,15 @@ public enum AccountTypeEnum {
             }
         }
         return null;
+    }
+
+    public static Map toMap(){
+        Map<String,String> map = new HashMap<String, String>();
+        for(AccountTypeEnum accountTypeEnum : AccountTypeEnum.values())  {
+                map.put(accountTypeEnum.getCode(),accountTypeEnum.getDesc());
+        }
+
+        return map;
     }
 
 }

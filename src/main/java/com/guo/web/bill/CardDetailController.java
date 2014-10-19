@@ -1,8 +1,10 @@
 package com.guo.web.bill;
 
 import com.guo.bill.CardDetailQuery;
+import com.guo.bill.dao.CardDetailDao;
 import com.guo.bill.dao.DictionaryDao;
 import com.guo.bill.enumtype.DictionaryEnum;
+import com.guo.bill.enumtype.OperationEnum;
 import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.CardDetail;
 import com.guo.bill.pojo.Dictionary;
@@ -49,6 +51,9 @@ public class CardDetailController extends BaseController {
     @Autowired
     private MineService mineService;
 
+    @Autowired
+    private CardDetailDao cardDetailDao;
+
     /**
      * 列表页面
      *
@@ -75,6 +80,7 @@ public class CardDetailController extends BaseController {
         String today = sf.format(new Date());
 
         mav.addObject("today", today);
+        mav.addObject("operationMap", OperationEnum.toMap());
         return mav;
     }
 
@@ -132,5 +138,6 @@ public class CardDetailController extends BaseController {
         }
         return mav;
     }
+
 
 }

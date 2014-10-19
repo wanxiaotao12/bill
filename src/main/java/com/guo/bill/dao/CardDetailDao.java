@@ -19,7 +19,9 @@ import java.util.List;
 public interface CardDetailDao {
 	
 	public void insert(CardDetail cardDetail);
-	
+
+	public boolean addMinePrepaid(CardDetail cardDetail);
+
 	public void update(CardDetail cardDetail);
 	
 	public void deleteByPriKey(Integer id);

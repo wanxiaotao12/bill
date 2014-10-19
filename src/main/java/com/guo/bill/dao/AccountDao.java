@@ -11,7 +11,9 @@ import java.util.List;
 public interface AccountDao {
     public List<Account>   findByType(String accountType);
 
-    public void update(Account account);
+    public Account   getByNoAndType(String accountno,String accountType);
+
+    public boolean update(Account account);
 
     public List<Account> getPageList(PageQuery<Account> pageQuery, Integer itemCount);
 

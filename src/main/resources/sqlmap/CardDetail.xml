@@ -34,6 +34,9 @@
         ,datetime /* */
         ,operation /* */
         ,cardno /* */
+        ,cardname /* */
+        ,otherno /* */
+        ,othername /* */
         ,price /* */
         ,remark /* */
         ,CREATE_TIME /* 创建时间 */
@@ -47,9 +50,12 @@
         ,#datetime# /* */
         ,#operation# /* */
         ,#cardno# /* */
+        ,#cardname# /* */
+        ,#otherno# /* */
+        ,#othername# /* */
         ,#price# /* */
         ,#remark# /* */
-        ,#createTime# /* 创建时间 */
+        ,now() /* 创建时间 */
         ,#editTime# /* 修改时间 */
         ,#creator# /* 创建人 */
         ,#editor# /* 修改人 */
@@ -64,6 +70,9 @@
         ,d.datetime
         ,d.operation
         ,d.cardno
+        ,d.cardname
+        ,d.otherno
+        ,d.othername
         ,d.price
         ,d.remark
         ,d.CREATE_TIME AS createTime /* 创建时间 */
@@ -222,6 +231,9 @@
         ,d.datetime
         ,d.operation
         ,d.cardno
+        ,d.cardname
+        ,d.otherno
+        ,d.othername
         ,d.price
         ,d.remark
         ,d.CREATE_TIME AS createTime /* 创建时间 */

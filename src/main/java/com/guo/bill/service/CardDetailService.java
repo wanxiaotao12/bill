@@ -15,6 +15,8 @@ import java.util.Date;
 public interface CardDetailService {
     public GenericResult<String> addDetailbill(CardDetail cardDetail);
 
+    public GenericResult<String> addMinePrePaid(CardDetail cardDetail);
+
     public BasicResult modifyDetailbill(CardDetail cardDetail);
 
     public GenericResult<CardDetail> findByPriKey(Integer id);

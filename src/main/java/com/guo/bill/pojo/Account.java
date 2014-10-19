@@ -9,6 +9,7 @@ public class Account extends BasePojo {
     private Integer id;
 
     private String     accounttype;
+    private String     accountno;
     private String     accountname;
     private BigDecimal price;
 
@@ -42,5 +43,13 @@ public class Account extends BasePojo {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getAccountno() {
+        return accountno;
+    }
+
+    public void setAccountno(String accountno) {
+        this.accountno = accountno;
     }
 }

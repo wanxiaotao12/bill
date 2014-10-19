@@ -1,5 +1,6 @@
 package com.guo.web.bill;
 
+import com.guo.bill.enumtype.AccountTypeEnum;
 import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.Account;
 import com.guo.bill.service.AccountService;
@@ -45,6 +46,7 @@ public class AccountController {
         mav.addObject("query", query);
         mav.setViewName("bill/accountIndex");
         mav.addObject("pageInfos", SystemTools.convertPaginatedList(accountService.searchPage(pageQuery)));
+        mav.addObject("accountTypeMap", AccountTypeEnum.toMap());
 
         return mav;
     }

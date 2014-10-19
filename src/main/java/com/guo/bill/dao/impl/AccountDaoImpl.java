@@ -8,7 +8,9 @@ import com.guo.common.PageQuery;
 import com.guo.common.PageQueryWrapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xiaotao.wxt on 2014/9/14.
@@ -20,9 +22,21 @@ public class AccountDaoImpl extends BaseDao implements AccountDao {
         return queryForList("Account.findByType", accountType);
     }
 
+    @Override public Account getByNoAndType(String accountno, String accountType) {
+        Map map = new HashMap<String,String>();
+        map.put("accountno",accountno);
+        map.put("accounttype",accountType);
+        return (Account)queryForObject("Account.getByNoAndType", map);
+    }
+
     @Override
-    public void update(Account account) {
-        update("Account.update", account);
+    public boolean update(Account account) {
+        int num =update("Account.update", account);
+        if(num == 1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

@@ -1,13 +1,15 @@
 package com.guo.bill.enumtype;
 
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  */
 public enum OperationEnum {
-
-    INCOME("1", "收入"),
-    EXPEND("2", "支出");
+    MINE_PREPAID("1","煤矿预付"),
+    INCOME("2", "收入"),
+    EXPEND("3", "支出");
 
     private String code;
     private String desc;
@@ -33,6 +35,15 @@ public enum OperationEnum {
             }
         }
         return null;
+    }
+
+    public static Map toMap(){
+        Map<String,String> map = new HashMap<String, String>();
+        for(OperationEnum operationEnum : OperationEnum.values())  {
+            map.put(operationEnum.getCode(),operationEnum.getDesc());
+        }
+
+        return map;
     }
 
 }

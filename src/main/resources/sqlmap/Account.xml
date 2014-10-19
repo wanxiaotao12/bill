@@ -27,11 +27,17 @@
         where accounttype =#accounttype# and state="1"
     </select>
 
+    <select id="getByNoAndType" parameterClass="map" resultClass="Account">
+        <include refid="slq_fields"/>
+        from account
+        where accountno=#accountno# and accounttype =#accounttype# and state="1"
+    </select>
+
     <update id="update" parameterClass="Account">
         update account
         set price =#price#,
         edit_time = now()
-        where accountname=#accountname#
+        where accountno=#accountno#
         and accounttype=#accounttype#
         and state='1'
     </update>

@@ -10,7 +10,10 @@ public class CardDetail  extends BasePojo{
     private int  id;
     private Date datetime;
     private String operation;//操作类型
-    private String cardno;//卡号
+    private String cardno;//卡编号
+    private String cardname;//卡名
+    private String otherno;//对方账号编号
+    private String othername;//对象账号名称
     private BigDecimal price;//金额
     private String remark;//备注
 
@@ -60,5 +63,29 @@ public class CardDetail  extends BasePojo{
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getOtherno() {
+        return otherno;
+    }
+
+    public void setOtherno(String otherno) {
+        this.otherno = otherno;
+    }
+
+    public String getCardname() {
+        return cardname;
+    }
+
+    public void setCardname(String cardname) {
+        this.cardname = cardname;
+    }
+
+    public String getOthername() {
+        return othername;
+    }
+
+    public void setOthername(String othername) {
+        this.othername = othername;
     }
 }
