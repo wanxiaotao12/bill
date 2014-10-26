@@ -134,9 +134,9 @@ public class CardDetailServiceImpl implements CardDetailService {
             result.setData(cardStatisticsPo);
 
             result.setMessage("查询成功");
-            log.debug("------DetailbillServiceImpl.searchPageCardDetail 查询成功------");
+            log.debug("------DetailbillServiceImpl.searchPage 查询成功------");
         } catch (Exception ex) {
-            log.error("------DetailbillServiceImpl.searchPageCardDetail 异常", ex);
+            log.error("------DetailbillServiceImpl.searchPage 异常", ex);
             result.setCode(CodeEnum.SuccessOrFaildEnum.UNKNOWN.getCode());
             result.setMessage("未知异常");
         }
@@ -162,9 +162,9 @@ public class CardDetailServiceImpl implements CardDetailService {
             result.setValues(list);
 
             result.setMessage("查询成功");
-            log.debug("------DetailbillServiceImpl.searchPageCardDetail 查询成功------");
+            log.debug("------DetailbillServiceImpl.searchPage 查询成功------");
         } catch (Exception ex) {
-            log.error("------DetailbillServiceImpl.searchPageCardDetail 异常", ex);
+            log.error("------DetailbillServiceImpl.searchPage 异常", ex);
             result.setCode(CodeEnum.SuccessOrFaildEnum.UNKNOWN.getCode());
             result.setMessage("未知异常");
         }

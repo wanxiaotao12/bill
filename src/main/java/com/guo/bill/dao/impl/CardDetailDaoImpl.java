@@ -4,13 +4,12 @@ import com.guo.bill.CardDetailQuery;
 import com.guo.bill.dao.AccountDao;
 import com.guo.bill.dao.BaseDao;
 import com.guo.bill.dao.CardDetailDao;
+import com.guo.bill.dao.DictionaryDao;
 import com.guo.bill.enumtype.AccountTypeEnum;
+import com.guo.bill.enumtype.DictionaryEnum;
 import com.guo.bill.enumtype.OperationEnum;
 import com.guo.bill.enumtype.StateEnum;
-import com.guo.bill.pojo.Account;
-import com.guo.bill.pojo.CardDetail;
-import com.guo.bill.pojo.DetailbillQuery;
-import com.guo.bill.pojo.Mine;
+import com.guo.bill.pojo.*;
 import com.guo.common.PageQuery;
 import com.guo.common.PageQueryWrapper;
 import com.guo.common.Query;
@@ -29,6 +28,53 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
 
     @Autowired
     private AccountDao accountDao;
+    @Autowired
+    private DictionaryDao dictionaryDao;
+
+    @Override
+    @Transactional
+    public void cuspay(CardDetail cardDetail, String cusNo) {
+        Dictionary cus = dictionaryDao.findByTypeAndCode(DictionaryEnum.CUS_NO, cusNo);
+        if(cus==null) {
+            throw new RuntimeException("字典表：客户不存在");
+        }
+        cardDetail.setOthername(cusNo);
+        cardDetail.setOtherno(cus.getName());
+
+        Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(),AccountTypeEnum.CARD.getCode());
+        if(oldCardAccount == null) {
+            throw new RuntimeException("账户表：银行卡账户不存在");
+        }
+
+        cardDetail.setCardname(oldCardAccount.getAccountname());
+
+        this.insert(cardDetail);
+
+        Account cardAccount = new Account();
+        cardAccount.setAccounttype(AccountTypeEnum.MINE.getCode());
+        cardAccount.setAccountno(oldCardAccount.getAccountno());
+        cardAccount.setPrice(oldCardAccount.getPrice().add(cardDetail.getPrice()));
+
+        boolean udateCardAccount = accountDao.update(cardAccount);
+        if(!udateCardAccount) {
+            throw new RuntimeException("账户表：更新银行卡账户错误");
+        }
+
+        Account oldCusAccount = accountDao.getByNoAndType(cusNo,AccountTypeEnum.CUSTOMER.getCode());
+        if(oldCusAccount == null) {
+            throw new RuntimeException("账户表：客户账户不存在");
+        }
+        Account cusAccount = new Account();
+        cusAccount.setAccounttype(AccountTypeEnum.CUSTOMER.getCode());
+        cusAccount.setAccountno(cusNo);
+        cusAccount.setPrice(oldCusAccount.getPrice().add(cardDetail.getPrice()));
+
+        boolean updateCusAccount = accountDao.update(cusAccount);
+        if(!updateCusAccount) {
+            throw new RuntimeException("账户表：更新客户账户错误");
+        }
+
+    }
 
     @Override
     public void insert(CardDetail cardDetail) {

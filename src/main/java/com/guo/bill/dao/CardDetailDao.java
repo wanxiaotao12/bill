@@ -17,7 +17,9 @@ import java.util.List;
  * @version:1.0
  */
 public interface CardDetailDao {
-	
+
+    public void cuspay(CardDetail cardDetail,String cusNo);
+
 	public void insert(CardDetail cardDetail);
 
 	public boolean addMinePrepaid(CardDetail cardDetail);

@@ -22,7 +22,8 @@ public class AccountDaoImpl extends BaseDao implements AccountDao {
         return queryForList("Account.findByType", accountType);
     }
 
-    @Override public Account getByNoAndType(String accountno, String accountType) {
+    @Override
+    public Account getByNoAndType(String accountno, String accountType) {
         Map map = new HashMap<String,String>();
         map.put("accountno",accountno);
         map.put("accounttype",accountType);

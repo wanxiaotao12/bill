@@ -3,32 +3,29 @@
     	<div class="crumb_fund">
         	<span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span>
         </div>
-        <form action="../shipperbill/shipperbillIndex.do" method="post"  id="formSubmit">
+        <form action="../saledetail/index.do" method="post"  id="formSubmit">
         <div class="contentList borderNo">
         	<div class="forms mb">
             	<div class="formsList1 clearfix">
+                            <dl>
+                                <dt>购买日期</dt>
+                                <dd>
+                                    <input type="text" value="$!{query.buyDatetime}"
+                                           onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="input80 required"
+                                           name="buyDatetime"/>
+                                </dd>
+                            </dl>
 							<dl>
-								<dt>货主姓名</dt>
+								<dt>客户</dt>
 					            <dd>
-					            	 <input class="input160" name="shipperName" id="shipperName" value="$!{query.shipperName}"/>
+					            	 <input class="input160" name="customerName" id="customerName" value="$!{query.customerName}"/>
 					            </dd>
 					        </dl>
-							<dl>
-								<dt>交易类型</dt>
-					            <dd>
-					            	 <input class="input160" name="tradeType" id="tradeType" value="$!{query.tradeType}"/>
-					            </dd>
-					        </dl>
-							<dl>
-								<dt>购买日期</dt>
-					            <dd>
-					            	 <input class="input160" name="buyDatetime" id="buyDatetime" value="$!{query.buyDatetime}"/>
-					            </dd>
-					        </dl>
+
 							<dl>
 								<dt>车牌号</dt>
 					            <dd>
-					            	 <input class="input160" name="licenseplatenumber" id="licenseplatenumber" value="$!{query.licenseplatenumber}"/>
+					            	 <input class="input160" name="licenseplateNumber" id="licenseplateNumber" value="$!{query.licenseplateNumber}"/>
 					            </dd>
 					        </dl>
                     <div class="clear"></div>
@@ -42,40 +39,34 @@
         	<div class="tabBox queryCost1 mb">
             	<table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-						<th class="pl40"></th>
-						<th>货主姓名</th>
-						<th>交易类型</th>
-						<th>购买日期</th>
+						<th class="pl40">购买日期</th>
+						<th>客户</th>
 						<th>车牌号</th>
 						<th>单价</th>
 						<th>吨位</th>
 						<th>总金额</th>
-						<th>矿名</th>
-						<th>已付金额</th>
-						<th>未付金额</th>
-						<th>创建时间</th>
-						<th>创建人</th>
+						<th>含税单价</th>
+						<th>含税金额</th>
+						<th>税点</th>
+						<th>税</th>
                 <th>操作</th>
             </tr>
              #if($!{pageInfos})
                 #foreach($!{info} in $!{pageInfos})
 	            	<tr>
-								<td class="pl40">$!{info.shipperName}</td>
-								<td>$!{info.tradeType}</td>
-								<td>$!{info.buyDatetime}</td>
-								<td>$!{info.licenseplatenumber}</td>
-								<td>$!{info.unitprice}</td>
+								<td class="pl40">$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.buyDatetime})</td>
+								<td>$!{info.customerName}</td>
+								<td>$!{info.licenseplateNumber}</td>
+								<td>$!{info.unitPrice}</td>
 								<td>$!{info.onnage}</td>
-								<td>$!{info.totalamount}</td>
-								<td>$!{info.mineName}</td>
-								<td>$!{info.paidAmount}</td>
-								<td>$!{info.unpaidAmount}</td>
-								<td>$!{info.createTime}</td>
-								<td>$!{info.creator}</td>
+								<td>$!{info.totalAmount}</td>
+								<td>$!{info.taxCostUnitPrice}</td>
+								<td>$!{info.taxCostTotalAmount}</td>
+								<td>#set($aa=$!{info.taxPoint}*100) $!aa %</td>
+								<td>$!{info.taxAmount}</td>
 		                <td>
-			                <a href="../shipperbill/toEdit.do?id=$!{info.id}">编辑</a>
-			                <a href="../shipperbill/shipperbillDelete.do?id=$!{info.id}">删除</a>
-			                <a href="../shipperbill/shipperbillDetail.do?id=$!{info.id}">详情</a>
+			                <a href="../saledetail/del.do?id=$!{info.id}">删除</a>
+			                <a href="../saledetail/detail.do?id=$!{info.id}">详情</a>
 		                </td>
 	           		</tr>
 	             #end

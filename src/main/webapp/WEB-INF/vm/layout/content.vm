@@ -54,14 +54,14 @@
     	 <div class="subBarList">
         	<h3 class="mb">记账</h3>
             <ul>
-            	<li>
-                	<span><a href="/profitbill/profitbillIndex.do">利润账</a></span>
-                </li>
-                <li><span><a href="/detailbill/detailbillIndex.do">详细账</a></span></li>
-                <li><span><a href="/mine/mineIndex.do">煤矿</a></span></li>
+##            	<li>
+##                	<span><a href="/profitbill/profitbillIndex.do">利润账</a></span>
+##                </li>
+##                <li><span><a href="/detailbill/detailbillIndex.do">详细账</a></span></li>
+##                <li><span><a href="/mine/mineIndex.do">煤矿</a></span></li>
                 <li><span><a href="/saledetail/index.do">销售账单</a></span></li>
-                <li><span><a href="/cardDetail/cardDetailIndex.do">银行卡流水</a></span></li>
-                <li><span><a href="/cardStatistics/index.do">银行卡每日统计</a></span></li>
+                <li><span><a href="/cardDetail/cardDetailIndex.do">银行卡</a></span></li>
+##                <li><span><a href="/cardStatistics/index.do">银行卡每日统计</a></span></li>
                 <li><span><a href="/account/index.do">账户信息</a></span></li>
             </ul>
         </div>

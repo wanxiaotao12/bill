@@ -14,7 +14,8 @@
         id,
         accounttype,
         accountname,
-        price
+        price,
+        tax_amount as taxAmount
         ,CREATE_TIME AS createTime /* 创建时间 */
         ,EDIT_TIME AS editTime /* 修改时间 */
         ,CREATOR AS creator /* 创建人 */
@@ -36,6 +37,7 @@
     <update id="update" parameterClass="Account">
         update account
         set price =#price#,
+        tax_amount=#taxAmount#,
         edit_time = now()
         where accountno=#accountno#
         and accounttype=#accounttype#

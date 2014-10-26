@@ -35,25 +35,27 @@
 
 	<sql id="wherecontation">
 		<dynamic prepend="where">
-				 /* 创建时间 */
-				 <isNotEmpty prepend="and" column="query.createTime">
-	  		 		s.CREATE_TIME = #query.createTime#
+				 <isNotEmpty prepend="and" property="query.buyDatetimeBegin">
+                     <![CDATA[ buy_datetime >= #query.buyDatetimeBegin#]]>
 				 </isNotEmpty>
-				 /* 修改时间 */ 
-				 <isNotEmpty prepend="and" column="query.editTime">
-	  		 		s.EDIT_TIME = #query.editTime#
+                <isNotEmpty prepend="and" property="query.buyDatetimeEnd">
+                    <![CDATA[ buy_datetime =< #query.buyDatetimeEnd#]]>
 				 </isNotEmpty>
-				 /* 创建人 */ 
-				 <isNotEmpty prepend="and" column="query.creator">
-	  		 		s.CREATOR = #query.creator#
+                <isNotEmpty prepend="and" property="query.buyDatetime">
+                    <![CDATA[ date_format(buy_datetime,'%Y-%m-%d') = #query.buyDatetime#]]>
+                </isNotEmpty>
+				 <isNotEmpty prepend="and" property="query.customerNo">
+	  		 		customer_no = #query.customerNo#
 				 </isNotEmpty>
-				 /* 修改人 */ 
-				 <isNotEmpty prepend="and" column="query.editor">
-	  		 		s.EDITOR = #query.editor#
+            <isNotEmpty prepend="and" property="query.customerName">
+                customer_name = #query.customerName#
+            </isNotEmpty>
+				 <isNotEmpty prepend="and" property="query.licenseplateNumber">
+	  		 		licenseplate_number = #query.licenseplateNumber#
 				 </isNotEmpty>
-				 /* 删除状态 */ 
-				 <isNotEmpty prepend="and" column="query.state">
-	  		 		s.STATE = #query.state#
+				 /* 删除状态 */
+				 <isNotEmpty prepend="and" property="query.state">
+	  		 		STATE = #query.state#
 				 </isNotEmpty>
 	  	</dynamic>
 	</sql>
@@ -66,8 +68,8 @@
 	-->
  	<insert id="insert" parameterClass="SaleDetail" >
 	 	INSERT  INTO  saledetail   /*  */
-					(		
-					 ID		/*  */ 
+					(
+					 ID		/*  */
 					,buy_datetime		/* 购买日期 */
 					,customer_no		/* 客户编号 */
 					,customer_name		/* 客户姓名 */
@@ -83,14 +85,15 @@
 					,tax_cost_total_amount		/* 含税成本总金额 */
 					,notax_cost_unit_price		/* 不含税成本单价 */
 					,notax_cost_total_amount		/* 不含税成本总金额 */
-					,now()		/* 创建时间 */
-					,EDIT_TIME		/* 修改时间 */ 
-					,CREATOR		/* 创建人 */ 
-					,EDITOR		/* 修改人 */ 
-					,'1'		/* 删除状态 */
+					,tax_amount		/* 税金额 */
+					,create_time		/* 创建时间 */
+					,EDIT_TIME		/* 修改时间 */
+					,CREATOR		/* 创建人 */
+					,EDITOR		/* 修改人 */
+					,state		/* 删除状态 */
 					)
 			values (
-					 #id#		/*  */ 
+					 #id#		/*  */
 				  	,#buyDatetime#		/* 购买日期 */
 				  	,#customerNo#		/* 客户编号 */
 				  	,#customerName#		/* 客户姓名 */
@@ -106,11 +109,12 @@
 				  	,#taxCostTotalAmount#		/* 含税成本总金额 */
 				  	,#notaxCostUnitPrice#		/* 不含税成本单价 */
 				  	,#notaxCostTotalAmount#		/* 不含税成本总金额 */
-				  	,#createTime#		/* 创建时间 */
-				  	,#editTime#		/* 修改时间 */ 
-				  	,#creator#		/* 创建人 */ 
-				  	,#editor#		/* 修改人 */ 
-				  	,#state#		/* 删除状态 */ 
+				  	,#taxAmount#		/* 税金额 */
+				  	,now()		/* 创建时间 */
+				  	,now()		/* 修改时间 */
+				  	,#creator#		/* 创建人 */
+				  	,#editor#		/* 修改人 */
+				  	,1		/* 删除状态 */
 					)
 	</insert>
 	
@@ -121,27 +125,27 @@
 	开发信息: 
 	处理信息: 修改记录
 	-->
- 	<update id="update" parameterClass="Shipperbill" >
+ 	<update id="update" parameterClass="SaleDetail" >
 		UPDATE   saledetail  	/*  */
 	  		<dynamic prepend=" SET ">
 					 /* 创建时间 */
-					 <isNotNull  column="createTime" prepend=",">
+					 <isNotNull  property="createTime" prepend=",">
 	    		 		CREATE_TIME = #createTime#
 					 </isNotNull>
 					 /* 修改时间 */ 
-					 <isNotNull  column="editTime" prepend=",">
+					 <isNotNull  property="editTime" prepend=",">
 	    		 		EDIT_TIME = #editTime#
 					 </isNotNull>
 					 /* 创建人 */ 
-					 <isNotNull  column="creator" prepend=",">
+					 <isNotNull  property="creator" prepend=",">
 	    		 		CREATOR = #creator#
 					 </isNotNull>
 					 /* 修改人 */ 
-					 <isNotNull  column="editor" prepend=",">
+					 <isNotNull  property="editor" prepend=",">
 	    		 		EDITOR = #editor#
 					 </isNotNull>
 					 /* 删除状态 */ 
-					 <isNotNull  column="state" prepend=",">
+					 <isNotNull  property="state" prepend=",">
 	    		 		STATE = #state#
 					 </isNotNull>
 	  	  </dynamic>
@@ -156,21 +160,16 @@
 	开发信息: 
 	处理信息: 删除记录
 	-->
-	<delete id="deleteByPriKey" parameterClass="Shipperbill">
-		DELETE 	FROM SHIPPERBILL 	/*  */ 
+	<delete id="deleteByPriKey" parameterClass="SaleDetail">
+		DELETE 	FROM saledetail 	/*  */
 		WHERE 
 			ID = #id#		/*  */ 
 	</delete>
 	
-	<!--
-	方法名称: findByPriKey
-	调用路径: SHIPPERBILL.findByPriKey
-	开发信息: 
-	处理信息: 根据主键查询记录
-	-->
-	<select id="findByPriKey" parameterClass="Shipperbill"  resultClass="Shipperbill">
-		   SELECT   
-		   FROM   saledetail      AS s      /*  */
+
+	<select id="findById" parameterClass="int"  resultMap="RM-SaleDetail">
+		   SELECT   *
+		   FROM   saledetail          /*  */
 		   WHERE
 				ID = #id#		/*  */ 
 	</select>
@@ -186,9 +185,10 @@
 		   <include refid="jrp.commons.pageBegin"/>
 		   SELECT   
 			     *
-		   FROM   saledetail s
+		   FROM   saledetail
 		 	<include refid="wherecontation"/>
-		<!-- 分页条 -->
+        order by id desc
+        <!-- 分页条 -->
 		<include refid="jrp.commons.pageEnd"/>
 			
 	</select>
@@ -201,7 +201,7 @@
 	处理信息: 查询记录数
 	-->
 	<select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
-		SELECT count(1)  FROM  saledetail  AS s	/*  */
+		SELECT count(1)  FROM  saledetail  	/*  */
 		<include refid="wherecontation"/>
 	</select>
 	
@@ -213,7 +213,7 @@
 	开发信息: 
 	处理信息: 查询所有的记录
 	-->
-	<select id="getAllList" parameterClass="Query"  resultClass="Shipperbill">
+	<select id="getAllList" parameterClass="Query"  resultClass="SaleDetail">
 		   SELECT   
 			     *
 		   FROM   saledetail      AS s      /*  */

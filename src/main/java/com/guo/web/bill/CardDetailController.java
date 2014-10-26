@@ -99,45 +99,43 @@ public class CardDetailController extends BaseController {
     }
 
     /**
-     * 跳转到添加页面
+     * 客户付款
      *
      * @return
      */
-    @RequestMapping(value = "/toAdd", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/toCuspay", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView toAdd(HttpServletRequest request, ModelMap model) {
         ModelAndView mav = new ModelAndView();
 
-//        ListResult<Mine> mineListResult = mineService.searchMine(null);
-        List<Dictionary> mineList = dictionaryDao.findByType(DictionaryEnum.MINE);
+        //        ListResult<Mine> mineListResult = mineService.searchMine(null);
+        List<Dictionary> cusList = dictionaryDao.findByType(DictionaryEnum.CUS_NO);
+        if (CollectionUtils.isNotEmpty(cusList)) {
+            mav.addObject("cusList", cusList);
+        }
         List<Dictionary> cardNOList = dictionaryDao.findByType(DictionaryEnum.CARD_NO);
-        if (CollectionUtils.isNotEmpty(mineList)) {
-            mav.addObject("mineList", mineList);
-        }
+
         if (CollectionUtils.isNotEmpty(cardNOList)) {
-            mav.addObject("cardNOList", cardNOList);
+            mav.addObject("cardList", cardNOList);
         }
-        mav.setViewName("bill/cardDetailAdd");
+        mav.setViewName("bill/card/cuspay");
         return mav;
     }
 
     /**
-     * 保存信息
+     * 添加客户付款
      *
      * @return
      */
-    @RequestMapping(value = "/cardDetailAdd", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView detailbillAdd(@ModelAttribute CardDetail cardDetail) {
-        GenericResult<String> result = cardDetailService.addDetailbill(cardDetail);
+    @RequestMapping(value = "/cuspay", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView detailbillAdd(@ModelAttribute CardDetail cardDetail,
+                                      @RequestParam(required = true, value = "customerNo") String customerNo) {
+
+        cardDetailDao.cuspay(cardDetail,customerNo);
 
         ModelAndView mav = new ModelAndView();
-        if ("FPXS0000".equals(result.getCode())) {
-            mav.setViewName("redirect:/cardDetail/cardDetailIndex.do");
-        } else {
-            mav.setViewName("bill/detailbillAdd");
-            mav.addObject("detailbill", cardDetail);
-        }
+        mav.setViewName("redirect:/cardDetail/cardDetailIndex.do");
+
         return mav;
     }
-
 
 }

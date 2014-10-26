@@ -13,6 +13,11 @@ public class Account extends BasePojo {
     private String     accountname;
     private BigDecimal price;
 
+    /**
+     * 税金额
+     */
+    private BigDecimal taxAmount;
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +56,13 @@ public class Account extends BasePojo {
 
     public void setAccountno(String accountno) {
         this.accountno = accountno;
+    }
+
+    public BigDecimal getTaxAmount() {
+        return taxAmount;
+    }
+
+    public void setTaxAmount(BigDecimal taxAmount) {
+        this.taxAmount = taxAmount;
     }
 }
