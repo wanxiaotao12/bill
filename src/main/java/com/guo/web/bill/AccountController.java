@@ -34,7 +34,6 @@ public class AccountController {
         PageQuery<Account> pageQuery = new PageQuery<Account>();
         pageQuery.setPageNo(pageNo);
         pageQuery.setPageSize(pageSize);
-        pageQuery.setPageSize(Integer.MAX_VALUE);
 
         if(StringUtils.isBlank(query.getAccounttype())){
             query.setAccounttype(null);

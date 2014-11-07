@@ -24,6 +24,8 @@ public class SystemTools {
         if(list != null && list.getPagenation() != null){
             paginatedList = new PaginatedArrayList(list.getPagenation().getPageNo(),list.getPagenation().getPageSize(),list.getPagenation().getPageCount());
             paginatedList.setTotalPage(list.getPagenation().getPageCount());
+            paginatedList.setPreviousPage(list.getPagenation().getPageNo() -1);
+            paginatedList.setNextPage(list.getPagenation().getPageNo() +1);
             paginatedList.addAll(list.getValues());
         }
         return paginatedList;

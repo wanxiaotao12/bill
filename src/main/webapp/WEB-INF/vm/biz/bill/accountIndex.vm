@@ -12,8 +12,9 @@
                         <dd>
                             <select name="accounttype">
                                 <option value="">全部</option>
-                                <option value="1" #if($!{query.accounttype}=="1")selected#end>银行卡</option>
-                                <option value="2" #if($!{query.accounttype}=="2")selected#end>账户</option>
+                                <option value="2" #if($!{query.accounttype}=="2")selected#end>银行卡</option>
+                                <option value="1" #if($!{query.accounttype}=="1")selected#end>煤矿</option>
+                                <option value="3" #if($!{query.accounttype}=="3")selected#end>客户</option>
                             </select>
                         </dd>
                     </dl>
