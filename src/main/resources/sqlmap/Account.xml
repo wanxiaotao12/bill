@@ -13,6 +13,7 @@
         select
         id,
         accounttype,
+        accountno,
         accountname,
         price,
         tax_amount as taxAmount

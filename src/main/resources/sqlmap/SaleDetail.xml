@@ -26,6 +26,7 @@
         <result column="tax_cost_total_amount" property="taxCostTotalAmount" />
         <result column="notax_cost_unit_price" property="notaxCostUnitPrice" />
         <result column="notax_cost_total_amount" property="notaxCostTotalAmount" />
+        <result column="tax_amount" property="taxAmount" />
         <result column="create_time" property="createTime" />
         <result column="edit_time" property="editTime" />
         <result column="creator" property="creator" />
@@ -128,11 +129,6 @@
  	<update id="update" parameterClass="SaleDetail" >
 		UPDATE   saledetail  	/*  */
 	  		<dynamic prepend=" SET ">
-					 /* 创建时间 */
-					 <isNotNull  property="createTime" prepend=",">
-	    		 		CREATE_TIME = #createTime#
-					 </isNotNull>
-					 /* 修改时间 */ 
 					 <isNotNull  property="editTime" prepend=",">
 	    		 		EDIT_TIME = #editTime#
 					 </isNotNull>

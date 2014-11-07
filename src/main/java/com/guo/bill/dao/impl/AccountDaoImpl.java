@@ -31,12 +31,10 @@ public class AccountDaoImpl extends BaseDao implements AccountDao {
     }
 
     @Override
-    public boolean update(Account account) {
+    public void update(Account account) {
         int num =update("Account.update", account);
-        if(num == 1){
-            return true;
-        } else {
-            return false;
+        if(num != 1){
+            throw new RuntimeException("账户表："+account.getAccountno() +","+ account.getAccountname()+",更新失败");
         }
     }
 

@@ -4,7 +4,7 @@ import com.guo.bill.dao.AccountDao;
 import com.guo.bill.dao.CardDailyStatisticsDao;
 import com.guo.bill.dao.CardDetailDao;
 import com.guo.bill.enumtype.AccountTypeEnum;
-import com.guo.bill.enumtype.OperationEnum;
+import com.guo.bill.enumtype.CardOperationEnum;
 import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.Account;
 import com.guo.bill.pojo.CardDailyStatistics;
@@ -79,9 +79,9 @@ public class CardStatisticsServiceImpl implements CardStatisticsService {
                     map.put(cardDetail.getCardno(), cardDailyStatistics);
                 }
                 CardDailyStatistics cardDailyStatistics = map.get(cardDetail.getCardno());
-                if (OperationEnum.INCOME.getCode().equals(cardDetail.getOperation())) {
+                if (CardOperationEnum.INCOME.getCode().equals(cardDetail.getOperation())) {
                     cardDailyStatistics.setIncome(cardDailyStatistics.getIncome().add(cardDetail.getPrice()));
-                } else if (OperationEnum.EXPEND.getCode().equals(cardDetail.getOperation())) {
+                } else if (CardOperationEnum.EXPEND.getCode().equals(cardDetail.getOperation())) {
                     cardDailyStatistics.setOutlay(cardDailyStatistics.getOutlay().add(cardDetail.getPrice()));
                 }
 

@@ -10,5 +10,9 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
  * To change this template use File | Settings | File Templates.
  */
 public class BaseDao extends SqlMapClientTemplate {
-
+    public void isUpdateSuccess(int updateNum,String tableName) {
+        if(updateNum ==0) {
+            throw new RuntimeException("更新表:"+tableName+",失败");
+        }
+    }
 }

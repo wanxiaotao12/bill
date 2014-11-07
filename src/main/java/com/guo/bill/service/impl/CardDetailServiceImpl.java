@@ -3,11 +3,9 @@ package com.guo.bill.service.impl;
 import com.guo.bill.CardDetailQuery;
 import com.guo.bill.dao.CardDailyStatisticsDao;
 import com.guo.bill.dao.CardDetailDao;
-import com.guo.bill.enumtype.OperationEnum;
+import com.guo.bill.enumtype.CardOperationEnum;
 import com.guo.bill.po.CardStatisticsPo;
-import com.guo.bill.pojo.CardDailyStatistics;
 import com.guo.bill.pojo.CardDetail;
-import com.guo.bill.pojo.Detailbill;
 import com.guo.bill.service.CardDetailService;
 import com.guo.common.*;
 import org.slf4j.Logger;
@@ -17,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by xiaotao.wxt on 2014/9/7.
@@ -99,6 +95,15 @@ public class CardDetailServiceImpl implements CardDetailService {
 
     @Override
     public BasicResult deleteByPriKey(Integer id) {
+        CardDetail cardDetail = cardDetailDao.findById(id);
+        if(cardDetail == null) {
+            throw new RuntimeException("CardDetail表：该记录存在");
+        }
+        if(CardOperationEnum.MINE_PREPAID.getCode().equals(cardDetail.getOperation())) {
+
+        } else if(CardOperationEnum.CUS_PAID.getCode().equals(cardDetail.getOperation())){
+            cardDetailDao.del(id);
+        }
         cardDetailDao.deleteByPriKey(id);
         return null;
     }
@@ -117,9 +122,9 @@ public class CardDetailServiceImpl implements CardDetailService {
             BigDecimal income = new BigDecimal(0);
             BigDecimal expend = new BigDecimal(0);
             for (CardDetail cardDetail : list) {
-                if (OperationEnum.INCOME.getCode().equals(cardDetail.getOperation())) {
+                if (CardOperationEnum.INCOME.getCode().equals(cardDetail.getOperation())) {
                     income = income.add(cardDetail.getPrice());
-                } else if (OperationEnum.EXPEND.getCode().equals(cardDetail.getOperation())) {
+                } else if (CardOperationEnum.EXPEND.getCode().equals(cardDetail.getOperation())) {
                     expend = expend.add(cardDetail.getPrice());
                 }
             }
@@ -162,7 +167,6 @@ public class CardDetailServiceImpl implements CardDetailService {
             result.setValues(list);
 
             result.setMessage("查询成功");
-            log.debug("------DetailbillServiceImpl.searchPage 查询成功------");
         } catch (Exception ex) {
             log.error("------DetailbillServiceImpl.searchPage 异常", ex);
             result.setCode(CodeEnum.SuccessOrFaildEnum.UNKNOWN.getCode());

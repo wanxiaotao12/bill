@@ -3,17 +3,13 @@ package com.guo.web.bill;
 import com.guo.bill.CardDetailQuery;
 import com.guo.bill.dao.CardDetailDao;
 import com.guo.bill.dao.DictionaryDao;
+import com.guo.bill.enumtype.CardOperationEnum;
 import com.guo.bill.enumtype.DictionaryEnum;
-import com.guo.bill.enumtype.OperationEnum;
 import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.CardDetail;
 import com.guo.bill.pojo.Dictionary;
-import com.guo.bill.pojo.Mine;
 import com.guo.bill.service.CardDetailService;
 import com.guo.bill.service.MineService;
-import com.guo.common.CodeEnum;
-import com.guo.common.GenericResult;
-import com.guo.common.ListResult;
 import com.guo.common.PageQuery;
 import com.guo.util.SystemTools;
 import com.guo.web.BaseController;
@@ -68,7 +64,6 @@ public class CardDetailController extends BaseController {
         PageQuery<CardDetailQuery> pageQuery = new PageQuery<CardDetailQuery>();
         pageQuery.setPageNo(pageNo);
         pageQuery.setPageSize(pageSize);
-        pageQuery.setPageSize(Integer.MAX_VALUE);
         ModelAndView mav = new ModelAndView();
         query.setState(StateEnum.NORMAL.getCode());
         pageQuery.setQuery(query);
@@ -80,7 +75,7 @@ public class CardDetailController extends BaseController {
         String today = sf.format(new Date());
 
         mav.addObject("today", today);
-        mav.addObject("operationMap", OperationEnum.toMap());
+        mav.addObject("operationMap", CardOperationEnum.toMap());
         return mav;
     }
 
@@ -92,7 +87,7 @@ public class CardDetailController extends BaseController {
      */
     @RequestMapping(value = "del", method = RequestMethod.GET)
     public ModelAndView detailbillDetail(@RequestParam(required = true, value = "id") Integer id) {
-        cardDetailService.deleteByPriKey(id);
+        cardDetailDao.del(id);
         ModelAndView mav = new ModelAndView();
         mav.setViewName("redirect:/cardDetail/cardDetailIndex.do");
         return mav;

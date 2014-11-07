@@ -18,17 +18,32 @@ import java.util.List;
  */
 public interface CardDetailDao {
 
+    /**
+     * 客户付款
+     * @param cardDetail
+     * @param cusNo
+     */
     public void cuspay(CardDetail cardDetail,String cusNo);
+
+    /**
+     * 删除
+     */
+    public void del(Integer cardDetailId);
 
 	public void insert(CardDetail cardDetail);
 
+    /**
+     * 煤矿预付款
+     * @param cardDetail
+     * @return
+     */
 	public boolean addMinePrepaid(CardDetail cardDetail);
 
 	public void update(CardDetail cardDetail);
 	
 	public void deleteByPriKey(Integer id);
 	
-	public Mine findByPriKey(Integer id);
+	public CardDetail findById(Integer id);
 	
 	public List<CardDetail> getAllList(Query<CardDetailQuery> query);
 

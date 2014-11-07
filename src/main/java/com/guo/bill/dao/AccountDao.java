@@ -13,7 +13,7 @@ public interface AccountDao {
 
     public Account   getByNoAndType(String accountno,String accountType);
 
-    public boolean update(Account account);
+    public void update(Account account);
 
     public List<Account> getPageList(PageQuery<Account> pageQuery, Integer itemCount);
 

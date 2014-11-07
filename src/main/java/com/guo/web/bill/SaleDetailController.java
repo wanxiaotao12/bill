@@ -8,6 +8,7 @@ import com.guo.bill.pojo.Dictionary;
 import com.guo.bill.pojo.SaleDetail;
 import com.guo.bill.pojo.SaleDetailQuery;
 import com.guo.bill.service.SaleDetailService;
+import com.guo.common.BasicResult;
 import com.guo.common.PageQuery;
 import com.guo.util.SystemTools;
 import com.guo.web.BaseController;
@@ -182,11 +183,12 @@ public class SaleDetailController extends BaseController {
         @RequestMapping(value = "del", method = RequestMethod.GET)
         public ModelAndView del(@RequestParam(required = true, value = "id") Integer id) {
             ModelAndView mav = new ModelAndView();
-            mav.setViewName("redirect:/saledetial/index.do");
+            mav.setViewName("redirect:/saledetail/index.do");
 //            BasicResult result = shipperbillService.deleteByPriKey(id);
 //            if (!"FPXS0000".equals(result.getCode())) {
 //                //TODO 删除失败
 //            }
+            saleDetailDao.del(id);
             return mav;
         }
 

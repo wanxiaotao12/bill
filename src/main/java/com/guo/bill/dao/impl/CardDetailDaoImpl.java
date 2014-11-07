@@ -6,8 +6,8 @@ import com.guo.bill.dao.BaseDao;
 import com.guo.bill.dao.CardDetailDao;
 import com.guo.bill.dao.DictionaryDao;
 import com.guo.bill.enumtype.AccountTypeEnum;
+import com.guo.bill.enumtype.CardOperationEnum;
 import com.guo.bill.enumtype.DictionaryEnum;
-import com.guo.bill.enumtype.OperationEnum;
 import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.*;
 import com.guo.common.PageQuery;
@@ -27,41 +27,44 @@ import java.util.List;
 public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
 
     @Autowired
-    private AccountDao accountDao;
+    private AccountDao    accountDao;
     @Autowired
     private DictionaryDao dictionaryDao;
 
+    /**
+     * 客户付款
+     *
+     * @param cardDetail
+     * @param cusNo
+     */
     @Override
     @Transactional
     public void cuspay(CardDetail cardDetail, String cusNo) {
         Dictionary cus = dictionaryDao.findByTypeAndCode(DictionaryEnum.CUS_NO, cusNo);
-        if(cus==null) {
+        if (cus == null) {
             throw new RuntimeException("字典表：客户不存在");
         }
-        cardDetail.setOthername(cusNo);
-        cardDetail.setOtherno(cus.getName());
+        cardDetail.setOthername(cus.getName());
+        cardDetail.setOtherno(cusNo);
 
-        Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(),AccountTypeEnum.CARD.getCode());
-        if(oldCardAccount == null) {
+        Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(), AccountTypeEnum.CARD.getCode());
+        if (oldCardAccount == null) {
             throw new RuntimeException("账户表：银行卡账户不存在");
         }
 
         cardDetail.setCardname(oldCardAccount.getAccountname());
-
+        cardDetail.setOperation(CardOperationEnum.CUS_PAID.getCode());
         this.insert(cardDetail);
 
         Account cardAccount = new Account();
-        cardAccount.setAccounttype(AccountTypeEnum.MINE.getCode());
+        cardAccount.setAccounttype(AccountTypeEnum.CARD.getCode());
         cardAccount.setAccountno(oldCardAccount.getAccountno());
         cardAccount.setPrice(oldCardAccount.getPrice().add(cardDetail.getPrice()));
 
-        boolean udateCardAccount = accountDao.update(cardAccount);
-        if(!udateCardAccount) {
-            throw new RuntimeException("账户表：更新银行卡账户错误");
-        }
+        accountDao.update(cardAccount);
 
-        Account oldCusAccount = accountDao.getByNoAndType(cusNo,AccountTypeEnum.CUSTOMER.getCode());
-        if(oldCusAccount == null) {
+        Account oldCusAccount = accountDao.getByNoAndType(cusNo, AccountTypeEnum.CUSTOMER.getCode());
+        if (oldCusAccount == null) {
             throw new RuntimeException("账户表：客户账户不存在");
         }
         Account cusAccount = new Account();
@@ -69,10 +72,54 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
         cusAccount.setAccountno(cusNo);
         cusAccount.setPrice(oldCusAccount.getPrice().add(cardDetail.getPrice()));
 
-        boolean updateCusAccount = accountDao.update(cusAccount);
-        if(!updateCusAccount) {
-            throw new RuntimeException("账户表：更新客户账户错误");
+        accountDao.update(cusAccount);
+
+    }
+
+    @Override
+    @Transactional
+    public void del(Integer cardDetailId) {
+        CardDetail cardDetail = this.findById(cardDetailId);
+        if (cardDetail == null) {
+            throw new RuntimeException("CardDetail表：该记录存在");
         }
+        CardDetail newCardDetail = new CardDetail();
+        newCardDetail.setId(cardDetailId);
+        newCardDetail.setState(StateEnum.DELETE.getCode());
+        this.update(newCardDetail);
+
+        Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(), AccountTypeEnum.CARD.getCode());
+        if (oldCardAccount == null) {
+            throw new RuntimeException("账户表：银行卡账户不存在");
+        }
+        String accounType = "";
+        BigDecimal cardAccountPrice = new BigDecimal(0);
+        if (CardOperationEnum.MINE_PREPAID.getCode().equals(cardDetail.getOperation())) {
+            accounType = AccountTypeEnum.MINE.getCode();
+            cardAccountPrice = oldCardAccount.getPrice().add(cardDetail.getPrice());
+        } else if (CardOperationEnum.CUS_PAID.getCode().equals(cardDetail.getOperation())) {
+            accounType = AccountTypeEnum.CUSTOMER.getCode();
+            cardAccountPrice = oldCardAccount.getPrice().subtract(cardDetail.getPrice());
+        }
+
+        Account cardAccount = new Account();
+        cardAccount.setAccounttype(AccountTypeEnum.CARD.getCode());
+        cardAccount.setAccountno(oldCardAccount.getAccountno());
+        cardAccount.setPrice(cardAccountPrice);
+
+        accountDao.update(cardAccount);
+
+        Account oldCusAccount = accountDao.getByNoAndType(cardDetail.getOtherno(), accounType);
+        if (oldCusAccount == null) {
+            throw new RuntimeException("账户表：" + cardDetail.getOtherno() + "," + cardDetail.getOthername() + ",账户不存在");
+        }
+        Account cusAccount = new Account();
+
+        cusAccount.setAccounttype(accounType);
+        cusAccount.setAccountno(cardDetail.getOtherno());
+        cusAccount.setPrice(oldCusAccount.getPrice().subtract(cardDetail.getPrice()));
+
+        accountDao.update(cusAccount);
 
     }
 
@@ -83,18 +130,17 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
     }
 
     public static void main(String[] args) {
-        BigDecimal a  = new BigDecimal(10);
-        BigDecimal b  = new BigDecimal(1);
+        BigDecimal a = new BigDecimal(10);
+        BigDecimal b = new BigDecimal(1);
         System.out.println(a.subtract(b));
 
     }
+
     @Override
     @Transactional
     public boolean addMinePrepaid(CardDetail cardDetail) {
-
-
-        Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(),AccountTypeEnum.CARD.getCode());
-        if(oldCardAccount == null) {
+        Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(), AccountTypeEnum.CARD.getCode());
+        if (oldCardAccount == null) {
             throw new RuntimeException("银行卡账户不存在");
         }
 
@@ -102,14 +148,10 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
         cardAccount.setAccounttype(AccountTypeEnum.CARD.getCode());
         cardAccount.setAccountno(cardDetail.getCardno());
         cardAccount.setPrice(oldCardAccount.getPrice().subtract(cardDetail.getPrice()));
-        boolean updateFlag = accountDao.update(cardAccount);
+        accountDao.update(cardAccount);
 
-        if(!updateFlag) {
-            throw new RuntimeException("更新银行卡金额错误");
-        }
-
-        Account oldMineAccount = accountDao.getByNoAndType(cardDetail.getOtherno(),AccountTypeEnum.MINE.getCode());
-        if(oldMineAccount == null) {
+        Account oldMineAccount = accountDao.getByNoAndType(cardDetail.getOtherno(), AccountTypeEnum.MINE.getCode());
+        if (oldMineAccount == null) {
             throw new RuntimeException("煤矿账户不存在");
         }
 
@@ -117,34 +159,34 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
         mineAccount.setAccounttype(AccountTypeEnum.MINE.getCode());
         mineAccount.setAccountno(cardDetail.getOtherno());
         mineAccount.setPrice(oldMineAccount.getPrice().add(cardDetail.getPrice()));
-        updateFlag =  accountDao.update(mineAccount);
+        accountDao.update(mineAccount);
 
         cardDetail.setState(StateEnum.NORMAL.getCode());
         cardDetail.setCardname(oldCardAccount.getAccountname());
         cardDetail.setOthername(oldMineAccount.getAccountname());
-        cardDetail.setOperation(OperationEnum.MINE_PREPAID.getCode());
+        cardDetail.setOperation(CardOperationEnum.MINE_PREPAID.getCode());
         this.insert(cardDetail);
 
-        if(updateFlag) {
-            return true;
-        } else {
-            return false;
+        return true;
+
+    }
+
+    @Override
+    public void update(CardDetail cardDetail) {
+        int num = update("CardDetail.update", cardDetail);
+        if (num != 1) {
+            throw new RuntimeException("更新表：CardDetail失败，id=" + cardDetail.getId());
         }
     }
 
     @Override
-    public void update(CardDetail mine) {
-
-    }
-
-    @Override
     public void deleteByPriKey(Integer id) {
-        update("CardDetail.del",id);
+        update("CardDetail.del", id);
     }
 
     @Override
-    public Mine findByPriKey(Integer id) {
-        return null;
+    public CardDetail findById(Integer id) {
+        return (CardDetail) queryForObject("CardDetail.findById", id);
     }
 
     @Override
@@ -153,15 +195,16 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
     }
 
     @Override public List<CardDetail> getListByDateTime(String datetime) {
-        return this.queryForList("CardDetail.getListByDateTime",datetime);
+        return this.queryForList("CardDetail.getListByDateTime", datetime);
     }
 
     @Override public Integer getItemCount(PageQuery<CardDetailQuery> pageQuery) {
-        return (Integer)this.queryForObject("CardDetail.getItemCount",pageQuery);
+        return (Integer) this.queryForObject("CardDetail.getItemCount", pageQuery);
     }
 
     @Override public List<CardDetail> getPageList(PageQuery<CardDetailQuery> pageQuery, Integer itemCount) {
-        PageQueryWrapper<CardDetailQuery> wrapper = new PageQueryWrapper<CardDetailQuery>(pageQuery.getPageNo(), pageQuery.getPageSize(),itemCount, pageQuery.getQuery());
-        return this.queryForList("CardDetail.getPagenationList",wrapper);
+        PageQueryWrapper<CardDetailQuery> wrapper = new PageQueryWrapper<CardDetailQuery>(pageQuery.getPageNo(),
+                pageQuery.getPageSize(), itemCount, pageQuery.getQuery());
+        return this.queryForList("CardDetail.getPagenationList", wrapper);
     }
 }

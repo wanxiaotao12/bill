@@ -9,7 +9,7 @@ import java.util.Map;
 public enum AccountTypeEnum {
     MINE("1","煤矿"),
     CARD("2", "银行卡"),
-    CUSTOMER("2", "客户");
+    CUSTOMER("3", "客户");
 
     private String code;
     private String desc;
