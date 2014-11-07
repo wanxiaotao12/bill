@@ -60,7 +60,7 @@
         <include refid="slq_fields"/>
         from account
         <include refid="wherecontation"/>
-        order by pinyin asc
+        order by accounttype,pinyin asc
         <!-- 分页条 -->
         <include refid="jrp.commons.pageEnd"/>
     </select>
