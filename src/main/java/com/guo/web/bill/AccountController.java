@@ -8,6 +8,7 @@ import com.guo.bill.service.AccountService;
 import com.guo.common.PageQuery;
 import com.guo.util.Pinyin;
 import com.guo.util.SystemTools;
+import com.guo.web.LoginContext;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,6 +53,8 @@ public class AccountController {
         mav.addObject("pageInfos", SystemTools.convertPaginatedList(accountService.searchPage(pageQuery)));
         mav.addObject("accountTypeMap", AccountTypeEnum.toMap());
 
+        mav.addObject("curUser", LoginContext.getCurUser());
+
         return mav;
     }
 
@@ -60,6 +63,7 @@ public class AccountController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/bill/accountAdd");
         mav.addObject("AccountTypeList", AccountTypeEnum.toList());
+        mav.addObject("curUser", LoginContext.getCurUser());
         return mav;
     }
 

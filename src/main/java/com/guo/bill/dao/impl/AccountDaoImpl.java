@@ -8,6 +8,7 @@ import com.guo.bill.pojo.Account;
 import com.guo.bill.pojo.Dictionary;
 import com.guo.common.PageQuery;
 import com.guo.common.PageQueryWrapper;
+import com.guo.web.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +56,7 @@ public class AccountDaoImpl extends BaseDao implements AccountDao {
 
     @Override
     public void insert(Account account) {
+        account.setCreator(LoginContext.getCurUser().getRealName());
         this.insert("Account.insert",account);
     }
 

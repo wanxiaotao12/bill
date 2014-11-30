@@ -3,16 +3,15 @@ package com.guo.web.bill;
 import com.guo.bill.dao.DictionaryDao;
 import com.guo.bill.dao.SaleDetailDao;
 import com.guo.bill.enumtype.DictionaryEnum;
-import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.Dictionary;
 import com.guo.bill.pojo.SaleDetail;
 import com.guo.bill.pojo.SaleDetailQuery;
 import com.guo.bill.service.SaleDetailService;
-import com.guo.common.BasicResult;
 import com.guo.common.PageListResult;
 import com.guo.common.PageQuery;
 import com.guo.util.SystemTools;
 import com.guo.web.BaseController;
+import com.guo.web.LoginContext;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -81,6 +80,7 @@ public class SaleDetailController extends BaseController {
                 SystemTools.convertPaginatedList(result));
 
         mav.addObject("saleDetailStatis",map.get("saleDetailStatis"));
+        mav.addObject("curUser", LoginContext.getCurUser());
         return mav;
     }
 
@@ -95,6 +95,8 @@ public class SaleDetailController extends BaseController {
         mav.setViewName("bill/sale/detail");
         SaleDetail saleDetail = saleDetailDao.findById(id);
         mav.addObject("saleDetail", saleDetail);
+        mav.addObject("curUser", LoginContext.getCurUser());
+
         return mav;
     }
 
@@ -117,6 +119,8 @@ public class SaleDetailController extends BaseController {
         }
 
         mav.setViewName("bill/sale/add");
+        mav.addObject("curUser", LoginContext.getCurUser());
+
         return mav;
     }
 

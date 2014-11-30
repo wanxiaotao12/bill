@@ -13,6 +13,7 @@ import com.guo.bill.pojo.*;
 import com.guo.common.PageQuery;
 import com.guo.common.PageQueryWrapper;
 import com.guo.common.Query;
+import com.guo.web.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -147,7 +148,7 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
 
     @Override
     public void insert(CardDetail cardDetail) {
-
+        cardDetail.setCreator(LoginContext.getCurUser().getRealName());
         insert("CardDetail.insert", cardDetail);
     }
 

@@ -67,6 +67,7 @@
                         <th>煤矿余额</th>
                         <th>税点</th>
                         <th>税</th>
+                        <th>记录人</th>
                         <th>操作</th>
                     </tr>
                     #if($!{pageInfos})
@@ -85,6 +86,7 @@
                                 <td>$!{info.nowMinePrice}</td>
                                 <td>#set($aa=$!{info.taxPoint}*100) $!aa %</td>
                                 <td>$!{info.taxAmount}</td>
+                                <td>$!{info.creator}</td>
                                 <td>
                                     #if($!{info.state}==1)
                                         <a href="javascript:" class="del" action="../saledetail/del.do?id=$!{info.id}">删除</a>
@@ -93,6 +95,7 @@
                                     #end
                                     <a href="../saledetail/detail.do?id=$!{info.id}">详情</a>
                                 </td>
+
                             </tr>
                         #end
                     #end

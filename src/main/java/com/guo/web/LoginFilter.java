@@ -35,7 +35,11 @@ public class LoginFilter implements javax.servlet.Filter {
         StringBuffer str2 = request.getRequestURL();
         if("/".equals(str)
                 || "/index.html".equals(str)
-                || "/login.do".equals(str)) {
+                || "/login/login.do".equals(str)
+                || "/login/logout.do".equals(str)
+                || str.startsWith("/login")
+                || str.startsWith("/resources")
+                ) {
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }
@@ -45,6 +49,7 @@ public class LoginFilter implements javax.servlet.Filter {
             response.sendRedirect("/index.html");
             return;
         }
+        LoginContext.setCurUser(user);
         filterChain.doFilter(servletRequest,servletResponse);
     }
 

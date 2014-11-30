@@ -43,8 +43,8 @@
     </div>
     <!--欢迎页面-->
      <div class="welcome mb">
-        <h3>欢迎您，XXX！</h3>
-        <a href="">退出</a> | <a href="">修改密码</a>
+        <h3>欢迎您，${curUser.realName}！</h3>
+        <a href="/logout.do">退出</a> | <a href="">修改密码</a>
      </div>
 </div>
 <!--END header-->

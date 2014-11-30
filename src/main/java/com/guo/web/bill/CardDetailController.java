@@ -13,6 +13,7 @@ import com.guo.bill.service.MineService;
 import com.guo.common.PageQuery;
 import com.guo.util.SystemTools;
 import com.guo.web.BaseController;
+import com.guo.web.LoginContext;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -76,6 +77,8 @@ public class CardDetailController extends BaseController {
 
         mav.addObject("today", today);
         mav.addObject("operationMap", CardOperationEnum.toMap());
+        mav.addObject("curUser", LoginContext.getCurUser());
+
         return mav;
     }
 
@@ -113,6 +116,9 @@ public class CardDetailController extends BaseController {
             mav.addObject("cardList", cardNOList);
         }
         mav.setViewName("bill/card/cuspay");
+
+        mav.addObject("curUser", LoginContext.getCurUser());
+
         return mav;
     }
 

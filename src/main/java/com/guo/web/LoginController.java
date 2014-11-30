@@ -33,7 +33,7 @@ public class LoginController {
     @Autowired
     private UserDao userDao;
 
-    @RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "login", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView login(@RequestParam(required = true, value = "userName") String userName,
                       @RequestParam(required = false, value = "password") String password,
                       HttpServletRequest request,
@@ -60,6 +60,21 @@ public class LoginController {
             mav.addObject("error","用户名或密码错误");
             return mav;
         }
+
+        return mav;
+    }
+
+    @RequestMapping(value = "logout", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView logout(HttpServletRequest request,
+                              HttpServletResponse response){
+        ModelAndView mav = new ModelAndView();
+
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute(Constant.LOGIN_SESSION_KEY);
+        if(user != null) {
+           session.removeAttribute(Constant.LOGIN_SESSION_KEY);
+        }
+        mav.setViewName("redirect:/index.html");
 
         return mav;
     }

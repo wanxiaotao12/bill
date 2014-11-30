@@ -83,6 +83,7 @@
         pinyin,
         price,
         tax_amount,
+        CREATOR,/* 创建人 */
         create_time,
         edit_time,
         state
@@ -93,6 +94,7 @@
         #pinyin#,
         #price#,
         0,
+        #creator#, /* 创建人 */
         now(),
         now(),
         '1'
