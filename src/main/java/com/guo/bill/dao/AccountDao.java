@@ -9,6 +9,11 @@ import java.util.List;
  * Created by xiaotao.wxt on 2014/9/14.
  */
 public interface AccountDao {
+
+    public void addAccount(Account account);
+
+    public void insert(Account account);
+
     public List<Account>   findByType(String accountType);
 
     public Account   getByNoAndType(String accountno,String accountType);

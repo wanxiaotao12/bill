@@ -1,102 +1,136 @@
 <!--mainContent-->
-   <div class="mainContent fl">
-    	<div class="crumb_fund">
-        	<span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span>
-        </div>
-        <form action="../saledetail/index.do" method="post"  id="formSubmit">
+<div class="mainContent fl" style="width: 100%">
+    <div class="crumb_fund">
+        <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span>
+    </div>
+    <form action="../saledetail/index.do" method="post" id="formSubmit">
         <div class="contentList borderNo">
-        	<div class="forms mb">
-            	<div class="formsList1 clearfix">
-                            <dl>
-                                <dt>购买日期</dt>
-                                <dd>
-                                    <input type="text" value="$!{query.buyDatetime}"
-                                           onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="input80 required"
-                                           name="buyDatetime"/>
-                                </dd>
-                            </dl>
-							<dl>
-								<dt>客户</dt>
-					            <dd>
-					            	 <input class="input160" name="customerName" id="customerName" value="$!{query.customerName}"/>
-					            </dd>
-					        </dl>
-
-							<dl>
-								<dt>车牌号</dt>
-					            <dd>
-					            	 <input class="input160" name="licenseplateNumber" id="licenseplateNumber" value="$!{query.licenseplateNumber}"/>
-					            </dd>
-					        </dl>
+            <div class="forms mb">
+                <div class="formsList1 clearfix">
+                    <dl>
+                        <dt>购买日期</dt>
+                        <dd>
+                            <input type="text" value="$!{query.buyDatetime}"
+                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="input80 required"
+                                   name="buyDatetime"/>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>客户</dt>
+                        <dd>
+                            <input class="input160" name="customerName" id="customerName"
+                                   value="$!{query.customerName}"/>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>煤矿</dt>
+                        <dd>
+                            <input class="input160" name="mineName" id="mineName"
+                                   value="$!{query.mineName}"/>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>车牌号</dt>
+                        <dd>
+                            <input class="input160" name="licenseplateNumber" id="licenseplateNumber"
+                                   value="$!{query.licenseplateNumber}"/>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>序号</dt>
+                        <dd>
+                            <input class="input160" name="id" id="id"
+                                   value="$!{query.id}"/>
+                        </dd>
+                    </dl>
                     <div class="clear"></div>
                     <div><input type="button" class="button_Green searchBtn " value="搜 索"/></div>
                 </div>
             </div>
             <div class="createNew ">
-            		<div class="fl mb mt"></div>
+                <div class="fl mb mt"></div>
                 <div class="fr mb"><input type="button" id="addButton" value="新 建" class="button_Green"/></div>
             </div>
-        	<div class="tabBox queryCost1 mb">
-            	<table width="100%" cellpadding="0" cellspacing="0">
-            <tr>
+            <div class="tabBox queryCost1 mb">
+                <table width="100%" cellpadding="0" cellspacing="0" border="1">
+                    <tr>
                         <th class="pl40">序号</th>
-						<th >购买日期</th>
-						<th>客户</th>
-						<th>车牌号</th>
-						<th>单价</th>
-						<th>吨位</th>
-						<th>总金额</th>
-						<th>含税单价</th>
-						<th>含税金额</th>
-						<th>税点</th>
-						<th>税</th>
-                <th>操作</th>
-            </tr>
-             #if($!{pageInfos})
-                #foreach($!{info} in $!{pageInfos})
-	            	<tr>
+                        <th>购买日期</th>
+                        <th>客户</th>
+                        <th>车牌号</th>
+                        <th>单价</th>
+                        <th>吨位</th>
+                        <th>总金额</th>
+                        <th>煤矿</th>
+                        <th>含税单价</th>
+                        <th>含税金额</th>
+                        <th>煤矿余额</th>
+                        <th>税点</th>
+                        <th>税</th>
+                        <th>操作</th>
+                    </tr>
+                    #if($!{pageInfos})
+                        #foreach($!{info} in $!{pageInfos})
+                            <tr style="#if($!{info.state}==0) color:green#elseif($!{info.state}==2) color:red #end;">
                                 <td class="pl40">$!{info.id}</td>
-								<td >$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.buyDatetime})</td>
-								<td>$!{info.customerName}</td>
-								<td>$!{info.licenseplateNumber}</td>
-								<td>$!{info.unitPrice}</td>
-								<td>$!{info.onnage}</td>
-								<td>$!{info.totalAmount}</td>
-								<td>$!{info.taxCostUnitPrice}</td>
-								<td>$!{info.taxCostTotalAmount}</td>
-								<td>#set($aa=$!{info.taxPoint}*100) $!aa %</td>
-								<td>$!{info.taxAmount}</td>
-		                <td>
-			                <a href="../saledetail/del.do?id=$!{info.id}">删除</a>
-			                <a href="../saledetail/detail.do?id=$!{info.id}">详情</a>
-		                </td>
-	           		</tr>
-	             #end
-	    	 #end
-        </table>
-			</div>
+                                <td>$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.buyDatetime})</td>
+                                <td>$!{info.customerName}</td>
+                                <td>$!{info.licenseplateNumber}</td>
+                                <td>$!{info.unitPrice}</td>
+                                <td>$!{info.onnage}</td>
+                                <td>$!{info.totalAmount}</td>
+                                <td>$!{info.mineName}</td>
+                                <td>$!{info.taxCostUnitPrice}</td>
+                                <td>$!{info.taxCostTotalAmount}</td>
+                                <td>$!{info.nowMinePrice}</td>
+                                <td>#set($aa=$!{info.taxPoint}*100) $!aa %</td>
+                                <td>$!{info.taxAmount}</td>
+                                <td>
+                                    #if($!{info.state}==1)
+                                        <a href="javascript:" class="del" action="../saledetail/del.do?id=$!{info.id}">删除</a>
+                                    #elseif($!{info.state}==2)
+                                        删除记录:$!{info.delId}
+                                    #end
+                                    <a href="../saledetail/detail.do?id=$!{info.id}">详情</a>
+                                </td>
+                            </tr>
+                        #end
+                    #end
+                </table>
+            </div>
+            <div class="createNew ">
+                <div class="fl mb mt"></div>
+                <div class="fr mb">本页 总吨位:${saleDetailStatis.allOnnage},货主总金额:${saleDetailStatis.allTotalAmount},煤矿总金额:${saleDetailStatis.allTaxCostTotalAmount},税总金额:${saleDetailStatis.allTaxAmount}</div>
+            </div>
             <div class="fr">
-            	<!--公用翻页代码-->
+                <!--公用翻页代码-->
                 #set($attr='formSubmit')
-            	#showPageFormSubmit($pageInfos $attr)
+                #showPageFormSubmit($pageInfos $attr)
                 <!--END公用翻页代码-->
             </div>
             <div class="clear"></div>
 
         </div>
-        </form>
-    </div>
-    <!--end mainContent-->
+    </form>
+</div>
+<!--end mainContent-->
 <script type="text/javascript">
-$(document).ready(function () {
-    $(".button_Green.searchBtn").bind("click", function () {
-        $("#formSubmit").submit();
+    $(document).ready(function () {
+        $(".button_Green.searchBtn").bind("click", function () {
+            jQuery('#pageNo').val('1');
+            $("#formSubmit").submit();
+        });
+
+        $("#addButton").bind("click", function () {
+            location.href = "../saledetail/toAdd.do";
+        });
+    });
+    $(".del").bind("click", function () {
+        // debugger;
+        if(confirm("是否确认删除?")) {
+            location.href = $(this).attr("action");
+        }
     });
 
-    $("#addButton").bind("click", function () {
-        location.href = "../saledetail/toAdd.do";
-
-    });
-});
 
 </script>

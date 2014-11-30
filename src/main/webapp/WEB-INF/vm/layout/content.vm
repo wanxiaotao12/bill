@@ -77,7 +77,7 @@
 
 
   <!--mainContent-->
-  <div id="contentDIV" style="width: 724px; float: left">
+  <div id="contentDIV" style="width: 924px; float: left">
 			$screen_content
 	</div>
 	##parse("common/bottom.vm")

@@ -7,7 +7,8 @@ package com.guo.bill.enumtype;
 public enum StateEnum {
 
     NORMAL("1", "正常"),
-    DELETE("0", "删除");
+    DELETE("0", "删除"),
+    REVERSAL("2","冲正");
 
     private String code;
     private String desc;

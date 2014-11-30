@@ -26,6 +26,7 @@ public class SystemTools {
             paginatedList.setTotalPage(list.getPagenation().getPageCount());
             paginatedList.setPreviousPage(list.getPagenation().getPageNo() -1);
             paginatedList.setNextPage(list.getPagenation().getPageNo() +1);
+            paginatedList.setTotalItem(list.getPagenation().getItemCount());
             paginatedList.addAll(list.getValues());
         }
         return paginatedList;

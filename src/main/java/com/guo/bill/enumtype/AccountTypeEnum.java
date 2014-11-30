@@ -1,13 +1,15 @@
 package com.guo.bill.enumtype;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  *
  */
 public enum AccountTypeEnum {
-    MINE("1","煤矿"),
+    MINE("1", "煤矿"),
     CARD("2", "银行卡"),
     CUSTOMER("3", "客户");
 
@@ -18,7 +20,6 @@ public enum AccountTypeEnum {
         this.code = code;
         this.desc = desc;
     }
-
 
     public String getDesc() {
         return desc;
@@ -37,13 +38,26 @@ public enum AccountTypeEnum {
         return null;
     }
 
-    public static Map toMap(){
-        Map<String,String> map = new HashMap<String, String>();
-        for(AccountTypeEnum accountTypeEnum : AccountTypeEnum.values())  {
-                map.put(accountTypeEnum.getCode(),accountTypeEnum.getDesc());
+    public static Map toMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        for (AccountTypeEnum accountTypeEnum : AccountTypeEnum.values()) {
+            map.put(accountTypeEnum.getCode(), accountTypeEnum.getDesc());
         }
 
         return map;
+    }
+
+    public static List toList() {
+        List list = new ArrayList();
+        for (AccountTypeEnum accountTypeEnum : AccountTypeEnum.values()) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("code", accountTypeEnum.getCode());
+            map.put("desc", accountTypeEnum.getDesc());
+
+            list.add(map);
+        }
+
+        return list;
     }
 
 }

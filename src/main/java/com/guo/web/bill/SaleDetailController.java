@@ -9,6 +9,7 @@ import com.guo.bill.pojo.SaleDetail;
 import com.guo.bill.pojo.SaleDetailQuery;
 import com.guo.bill.service.SaleDetailService;
 import com.guo.common.BasicResult;
+import com.guo.common.PageListResult;
 import com.guo.common.PageQuery;
 import com.guo.util.SystemTools;
 import com.guo.web.BaseController;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 描述：</b>ShipperbillController<br>
@@ -63,17 +65,22 @@ public class SaleDetailController extends BaseController {
         pageQuery.setPageSize(pageSize);
         if (query != null) {
 
-            if (query.getState() == null) {
-                query.setState(StateEnum.NORMAL.getCode());
-            }
+//            if (query.getState() == null) {
+//                query.setState(StateEnum.NORMAL.getCode());
+//            }
 
         }
         ModelAndView mav = new ModelAndView();
         pageQuery.setQuery(query);
         mav.addObject("query", query);
         mav.setViewName("bill/sale/index");
+
+        Map map = saleDetailService.searchPage(pageQuery);
+        PageListResult<SaleDetail> result = (PageListResult<SaleDetail>)map.get("result");
         mav.addObject("pageInfos",
-                SystemTools.convertPaginatedList(saleDetailService.searchPage(pageQuery)));
+                SystemTools.convertPaginatedList(result));
+
+        mav.addObject("saleDetailStatis",map.get("saleDetailStatis"));
         return mav;
     }
 
@@ -120,8 +127,8 @@ public class SaleDetailController extends BaseController {
      */
     @RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView add(@ModelAttribute SaleDetail saleDetail) {
-        Dictionary cus = dictionaryDao.findByTypeAndCode(DictionaryEnum.CUS_NO, saleDetail.getCustomerNo());
-        Dictionary mine = dictionaryDao.findByTypeAndCode(DictionaryEnum.MINE, saleDetail.getMineNo());
+        Dictionary cus = dictionaryDao.findByTypeAndCode(DictionaryEnum.CUS_NO.getCode(), saleDetail.getCustomerNo());
+        Dictionary mine = dictionaryDao.findByTypeAndCode(DictionaryEnum.MINE.getCode(), saleDetail.getMineNo());
         saleDetail.setCustomerName(cus.getName());
         saleDetail.setMineName(mine.getName());
         saleDetail.setTotalAmount(saleDetail.getUnitPrice().multiply(saleDetail.getOnnage()));

@@ -1,5 +1,5 @@
 <!--mainContent-->
-<div class="mainContent fl">
+<div class="mainContent fl" style="width: 100%">
     <div class="crumb_fund">
         <span>运营后台</span> &gt; <span class="cur">账户信息</span>
     </div>
@@ -10,7 +10,7 @@
                     <dl>
                         <dt>账户类型</dt>
                         <dd>
-                            <select name="accounttype">
+                            <select name="accounttype" class="input160">
                                 <option value="">全部</option>
                                 <option value="2" #if($!{query.accounttype}=="2")selected#end>银行卡</option>
                                 <option value="1" #if($!{query.accounttype}=="1")selected#end>煤矿</option>
@@ -19,8 +19,8 @@
                         </dd>
                     </dl>
                     <dl>
-                        <dt></dt>
-                        <dd>
+                        <dt>账户名</dt>
+                        <dd><input type="text" name="accountname" class="input160" value="$!{query.accountname}">
                           </dd>
                     </dl>
                     <dl>
@@ -34,6 +34,8 @@
             </div>
             <div class="createNew ">
                 <div class="fl mb mt"></div>
+                <div class="fr mb"><input type="button" id="addAccountButton" value="添加" class="button_Green"/>
+                </div>
             </div>
             <div class="tabBox queryCost1 mb">
                 <table width="100%" cellpadding="0" cellspacing="0">
@@ -76,12 +78,12 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(".button_Green.searchBtn").bind("click", function () {
+            jQuery('#pageNo').val('1');
             $("#formSubmit").submit();
         });
 
-        $("#addButton").bind("click", function () {
-            var datetime = $("#datetime").val();
-            location.href = "../cardStatistics/toCreateDaliyStatistics.do?datetime=" + datetime;
+        $("#addAccountButton").bind("click", function () {
+            location.href = "/account/toAdd.do" ;
         });
     });
 

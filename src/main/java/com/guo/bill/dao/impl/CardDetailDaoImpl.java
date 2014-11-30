@@ -40,7 +40,7 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
     @Override
     @Transactional
     public void cuspay(CardDetail cardDetail, String cusNo) {
-        Dictionary cus = dictionaryDao.findByTypeAndCode(DictionaryEnum.CUS_NO, cusNo);
+        Dictionary cus = dictionaryDao.findByTypeAndCode(DictionaryEnum.CUS_NO.getCode(), cusNo);
         if (cus == null) {
             throw new RuntimeException("字典表：客户不存在");
         }
@@ -52,25 +52,38 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
             throw new RuntimeException("账户表：银行卡账户不存在");
         }
 
+        Account oldCusAccount = accountDao.getByNoAndType(cusNo, AccountTypeEnum.CUSTOMER.getCode());
+        if (oldCusAccount == null) {
+            throw new RuntimeException("账户表：客户账户不存在");
+        }
+
+        BigDecimal nowCardPrice = oldCardAccount.getPrice().add(cardDetail.getPrice());
+
+        BigDecimal nowCusPrice = oldCusAccount.getPrice().add(cardDetail.getPrice());
+
         cardDetail.setCardname(oldCardAccount.getAccountname());
         cardDetail.setOperation(CardOperationEnum.CUS_PAID.getCode());
+
+
+        cardDetail.setOldCardPrice(oldCardAccount.getPrice());
+        cardDetail.setNowCardPrice(nowCardPrice);
+        cardDetail.setOldOthernoPrice(oldCusAccount.getPrice());
+        cardDetail.setNowOthernoPrice(nowCusPrice);
+        cardDetail.setState(StateEnum.NORMAL.getCode());
         this.insert(cardDetail);
 
         Account cardAccount = new Account();
         cardAccount.setAccounttype(AccountTypeEnum.CARD.getCode());
         cardAccount.setAccountno(oldCardAccount.getAccountno());
-        cardAccount.setPrice(oldCardAccount.getPrice().add(cardDetail.getPrice()));
+        cardAccount.setPrice(nowCardPrice);
 
         accountDao.update(cardAccount);
 
-        Account oldCusAccount = accountDao.getByNoAndType(cusNo, AccountTypeEnum.CUSTOMER.getCode());
-        if (oldCusAccount == null) {
-            throw new RuntimeException("账户表：客户账户不存在");
-        }
+
         Account cusAccount = new Account();
         cusAccount.setAccounttype(AccountTypeEnum.CUSTOMER.getCode());
         cusAccount.setAccountno(cusNo);
-        cusAccount.setPrice(oldCusAccount.getPrice().add(cardDetail.getPrice()));
+        cusAccount.setPrice(nowCusPrice);
 
         accountDao.update(cusAccount);
 
@@ -82,6 +95,8 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
         CardDetail cardDetail = this.findById(cardDetailId);
         if (cardDetail == null) {
             throw new RuntimeException("CardDetail表：该记录存在");
+        } else if (!StateEnum.NORMAL.getCode().equals(cardDetail.getState())) {
+            throw new RuntimeException("CardDetail表：该记录不能删除， 该状态是："+ StateEnum.getValue(cardDetail.getState()));
         }
         CardDetail newCardDetail = new CardDetail();
         newCardDetail.setId(cardDetailId);
@@ -121,11 +136,18 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
 
         accountDao.update(cusAccount);
 
+        cardDetail.setOldCardPrice(oldCardAccount.getPrice());
+        cardDetail.setNowCardPrice(cardDetail.getPrice());
+        cardDetail.setOldOthernoPrice(oldCusAccount.getPrice());
+        cardDetail.setNowOthernoPrice(cusAccount.getPrice());
+        cardDetail.setState(StateEnum.REVERSAL.getCode());
+        cardDetail.setDelId(cardDetail.getId());
+        this.insert(cardDetail);
     }
 
     @Override
     public void insert(CardDetail cardDetail) {
-        cardDetail.setState(StateEnum.NORMAL.getCode());
+
         insert("CardDetail.insert", cardDetail);
     }
 
@@ -163,8 +185,13 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
 
         cardDetail.setState(StateEnum.NORMAL.getCode());
         cardDetail.setCardname(oldCardAccount.getAccountname());
+        cardDetail.setOldCardPrice(oldCardAccount.getPrice());
+        cardDetail.setNowCardPrice(cardAccount.getPrice());
         cardDetail.setOthername(oldMineAccount.getAccountname());
+        cardDetail.setOldOthernoPrice(oldMineAccount.getPrice());
+        cardDetail.setNowOthernoPrice(mineAccount.getPrice());
         cardDetail.setOperation(CardOperationEnum.MINE_PREPAID.getCode());
+        cardDetail.setState(StateEnum.NORMAL.getCode());
         this.insert(cardDetail);
 
         return true;

@@ -12,10 +12,18 @@ public class CardDetail  extends BasePojo{
     private String operation;//操作类型
     private String cardno;//卡编号
     private String cardname;//卡名
+    private BigDecimal oldCardPrice;
+    private BigDecimal nowCardPrice;
     private String otherno;//对方账号编号
     private String othername;//对象账号名称
+    private BigDecimal oldOthernoPrice;
+    private BigDecimal nowOthernoPrice;
     private BigDecimal price;//金额
     private String remark;//备注
+    /**
+     * 冲正id
+     */
+    private Integer delId;
 
     public int getId() {
         return id;
@@ -87,5 +95,45 @@ public class CardDetail  extends BasePojo{
 
     public void setOthername(String othername) {
         this.othername = othername;
+    }
+
+    public BigDecimal getOldCardPrice() {
+        return oldCardPrice;
+    }
+
+    public void setOldCardPrice(BigDecimal oldCardPrice) {
+        this.oldCardPrice = oldCardPrice;
+    }
+
+    public BigDecimal getOldOthernoPrice() {
+        return oldOthernoPrice;
+    }
+
+    public void setOldOthernoPrice(BigDecimal oldOthernoPrice) {
+        this.oldOthernoPrice = oldOthernoPrice;
+    }
+
+    public BigDecimal getNowCardPrice() {
+        return nowCardPrice;
+    }
+
+    public void setNowCardPrice(BigDecimal nowCardPrice) {
+        this.nowCardPrice = nowCardPrice;
+    }
+
+    public BigDecimal getNowOthernoPrice() {
+        return nowOthernoPrice;
+    }
+
+    public void setNowOthernoPrice(BigDecimal nowOthernoPrice) {
+        this.nowOthernoPrice = nowOthernoPrice;
+    }
+
+    public Integer getDelId() {
+        return delId;
+    }
+
+    public void setDelId(Integer delId) {
+        this.delId = delId;
     }
 }

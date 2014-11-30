@@ -4,6 +4,7 @@ import com.guo.bill.CardDetailQuery;
 import com.guo.bill.dao.CardDailyStatisticsDao;
 import com.guo.bill.dao.CardDetailDao;
 import com.guo.bill.enumtype.CardOperationEnum;
+import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.po.CardStatisticsPo;
 import com.guo.bill.pojo.CardDetail;
 import com.guo.bill.service.CardDetailService;
@@ -38,6 +39,7 @@ public class CardDetailServiceImpl implements CardDetailService {
                 String id = "";//CacheUtils.getSeq(RedisKeyConstants.XXX, length);
                 //mine.setId(id);
                 cardDetail.setCreateTime(new Date());
+                cardDetail.setState(StateEnum.NORMAL.getCode());
                 cardDetailDao.insert(cardDetail);
 
                 result.setValue(id);
@@ -65,6 +67,7 @@ public class CardDetailServiceImpl implements CardDetailService {
                 String id = "";//CacheUtils.getSeq(RedisKeyConstants.XXX, length);
                 //mine.setId(id);
                 cardDetail.setCreateTime(new Date());
+                cardDetail.setState(StateEnum.NORMAL.getCode());
                 cardDetailDao.insert(cardDetail);
 
                 result.setValue(id);

@@ -1,5 +1,5 @@
 <!--mainContent-->
-<div class="mainContent fl">
+<div class="mainContent fl" style="width: 100%">
     <div class="crumb_fund">
         <span>运营后台</span> &gt; <span>渠道管控中心</span> &gt; <span class="cur"></span>
     </div>
@@ -17,7 +17,7 @@
                     <dl>
                         <dt>操作类型</dt>
                         <dd>
-                            <select name="operation">
+                            <select name="operation" class="input160">
                                 <option value="1">收入</option>
                                 <option value="2">支出</option>
                             </select></dd>
@@ -38,37 +38,44 @@
                 </div>
                 <div class="fr mb"><input type="button" id="addButton" value="客户付款" class="button_Green"/></div>
             </div>
-            <div class="createNew ">
-                <div class="fl mb mt">$!aa 收入：$!{cardStatisticsPo.income} ， 支出：$!{cardStatisticsPo.expend}，
-                    汇总：$!{cardStatisticsPo.total}</div>
-            </div>
+
             <div class="tabBox queryCost1 mb">
-                <table width="100%" cellpadding="0" cellspacing="0">
+                <table width="100%" cellpadding="0" cellspacing="0" border="1">
                     <tr>
-                        <th class="pl40"></th>
+                        <th class="pl40">序号</th>
                         <th>日期</th>
                         <th>卡号</th>
+                        <th>卡原金额</th>
+                        <th>卡现金额</th>
                         <th>操作类型</th>
                         <th>对方账户</th>
-                        <th>金额</th>
+                        <th>对方账户原金额</th>
+                        <th>对方账户现金额</th>
+                        <th>本次金额</th>
                         <th>备注</th>
                         <th>操作</th>
                     </tr>
                     #if($!{pageInfos})
                         #foreach($!{info} in $!{pageInfos})
-                            <tr>
+                            <tr style="#if($!{info.state}==0) color:green#elseif($!{info.state}==2) color:red #end;">
                                 <td class="pl40">$!{info.id}</td>
                                 <td>$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.datetime})</td>
                                 <td>$!{info.cardname}</td>
+                                <td>$!{info.oldCardPrice}</td>
+                                <td>$!{info.nowCardPrice}</td>
                                 <td>
                                     $!operationMap.get($!{info.operation})
                                 </td>
                                 <td>$!{info.othername}</td>
+                                <td>$!{info.oldOthernoPrice}</td>
+                                <td>$!{info.nowOthernoPrice}</td>
                                 <td>$!{info.price}</td>
                                 <td>$!{info.remark}</td>
                                 <td>
-                                    #if($!dateTool.format("yyyy-MM-dd",$!{info.datetime}) == $!{today})
-                                        <a href="/cardDetail/del.do?id=$!{info.id}">删除</a>
+                                    #if($!{info.state}==1)
+                                        <a href="javascript:" class="del" action="/cardDetail/del.do?id=$!{info.id}">删除</a>
+                                    #elseif($!{info.state}==2)
+                                        删除记录:$!{info.delId}
                                     #end
                                 </td>
                             </tr>
@@ -91,6 +98,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(".button_Green.searchBtn").bind("click", function () {
+            jQuery('#pageNo').val('1');
             $("#formSubmit").submit();
         });
 
@@ -100,6 +108,13 @@
 
         $("#addMinePrepaidButton").bind("click", function () {
             location.href = "../minePrepaid/toAdd.do";
+        });
+
+        $(".del").bind("click", function () {
+            // debugger;
+            if(confirm("是否确认删除?")) {
+                location.href = $(this).attr("action");
+            }
         });
     });
 

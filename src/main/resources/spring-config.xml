@@ -48,6 +48,11 @@
 		<property name="password" value="${jdbc.password}" />
 		<property name="initialSize" value="${jdbc.initialSize}" />
 		<property name="maxActive" value="${jdbc.maxActive}" />
+        <property name="testWhileIdle" value="${jdbc.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${jdbc.testOnBorrow}"/>
+        <property name="testOnReturn" value="${jdbc.testOnReturn}"/>
+        <property name="validationQuery" value="${jdbc.validationQuery}"/>
+
 	</bean>
 	
     <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">

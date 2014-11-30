@@ -5,216 +5,241 @@
 开发信息: 
 -->
 <sqlMap namespace="SaleDetail">
-	<typeAlias alias="SaleDetail" type="com.guo.bill.pojo.SaleDetail"/>
-	<typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>
-	<typeAlias alias="Query" type="com.guo.common.Query"/>
+    <typeAlias alias="SaleDetail" type="com.guo.bill.pojo.SaleDetail"/>
+    <typeAlias alias="PageQuery" type="com.guo.common.PageQuery"/>
+    <typeAlias alias="Query" type="com.guo.common.Query"/>
 
     <resultMap id="RM-SaleDetail" class="SaleDetail">
-        <result column="id" property="id" />
-        <result column="buy_datetime" property="buyDatetime" />
-        <result column="customer_no" property="customerNo" />
-        <result column="customer_name" property="customerName" />
-        <result column="licenseplate_number" property="licenseplateNumber" />
-        <result column="varietiy" property="varietiy" />
-        <result column="unit_price" property="unitPrice" />
-        <result column="onnage" property="onnage" />
-        <result column="total_amount" property="totalAmount" />
-        <result column="mine_no" property="mineNo" />
-        <result column="mine_name" property="mineName" />
-        <result column="tax_point" property="taxPoint" />
-        <result column="tax_cost_unit_price" property="taxCostUnitPrice" />
-        <result column="tax_cost_total_amount" property="taxCostTotalAmount" />
-        <result column="notax_cost_unit_price" property="notaxCostUnitPrice" />
-        <result column="notax_cost_total_amount" property="notaxCostTotalAmount" />
-        <result column="tax_amount" property="taxAmount" />
-        <result column="create_time" property="createTime" />
-        <result column="edit_time" property="editTime" />
-        <result column="creator" property="creator" />
-        <result column="editor" property="editor" />
-        <result column="state" property="state" />
+        <result column="id" property="id"/>
+        <result column="buy_datetime" property="buyDatetime"/>
+        <result column="customer_no" property="customerNo"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="licenseplate_number" property="licenseplateNumber"/>
+        <result column="varietiy" property="varietiy"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="onnage" property="onnage"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="mine_no" property="mineNo"/>
+        <result column="mine_name" property="mineName"/>
+        <result column="tax_point" property="taxPoint"/>
+        <result column="tax_cost_unit_price" property="taxCostUnitPrice"/>
+        <result column="tax_cost_total_amount" property="taxCostTotalAmount"/>
+        <result column="notax_cost_unit_price" property="notaxCostUnitPrice"/>
+        <result column="notax_cost_total_amount" property="notaxCostTotalAmount"/>
+        <result column="tax_amount" property="taxAmount"/>
+        <result column="old_mine_price" property="oldMinePrice"/>
+        <result column="now_mine_price" property="nowMinePrice"/>
+        <result column="old_tax_amount" property="oldTaxAmount"/>
+        <result column="now_tax_amount" property="nowTaxAmount"/>
+
+        <result column="old_cus_price" property="oldCusPrice"/>
+        <result column="now_cus_price" property="nowCusPrice"/>
+
+        <result column="create_time" property="createTime"/>
+        <result column="edit_time" property="editTime"/>
+        <result column="creator" property="creator"/>
+        <result column="editor" property="editor"/>
+        <result column="state" property="state"/>
+        <result column="del_id" property="delId"/>
     </resultMap>
 
-	<sql id="wherecontation">
-		<dynamic prepend="where">
-				 <isNotEmpty prepend="and" property="query.buyDatetimeBegin">
-                     <![CDATA[ buy_datetime >= #query.buyDatetimeBegin#]]>
-				 </isNotEmpty>
-                <isNotEmpty prepend="and" property="query.buyDatetimeEnd">
-                    <![CDATA[ buy_datetime =< #query.buyDatetimeEnd#]]>
-				 </isNotEmpty>
-                <isNotEmpty prepend="and" property="query.buyDatetime">
-                    <![CDATA[ date_format(buy_datetime,'%Y-%m-%d') = #query.buyDatetime#]]>
-                </isNotEmpty>
-				 <isNotEmpty prepend="and" property="query.customerNo">
-	  		 		customer_no = #query.customerNo#
-				 </isNotEmpty>
+    <sql id="wherecontation">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="query.id">
+                id = #query.id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="query.mineName">
+                mine_name = #query.mineName#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="query.buyDatetimeBegin">
+                <![CDATA[ buy_datetime >= #query.buyDatetimeBegin#]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="query.buyDatetimeEnd">
+                <![CDATA[ buy_datetime =< #query.buyDatetimeEnd#]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="query.buyDatetime">
+                <![CDATA[ date_format(buy_datetime,'%Y-%m-%d') = #query.buyDatetime#]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="query.customerNo">
+                customer_no = #query.customerNo#
+            </isNotEmpty>
             <isNotEmpty prepend="and" property="query.customerName">
                 customer_name = #query.customerName#
             </isNotEmpty>
-				 <isNotEmpty prepend="and" property="query.licenseplateNumber">
-	  		 		licenseplate_number = #query.licenseplateNumber#
-				 </isNotEmpty>
-				 /* 删除状态 */
-				 <isNotEmpty prepend="and" property="query.state">
-	  		 		STATE = #query.state#
-				 </isNotEmpty>
-	  	</dynamic>
-	</sql>
-	
-	<!--
-	方法名称: insert
-	调用路径: SHIPPERBILL.insert
-	开发信息: 
-	处理信息: 保存记录
-	-->
- 	<insert id="insert" parameterClass="SaleDetail" >
-	 	INSERT  INTO  saledetail   /*  */
-					(
-					 ID		/*  */
-					,buy_datetime		/* 购买日期 */
-					,customer_no		/* 客户编号 */
-					,customer_name		/* 客户姓名 */
-					,licenseplate_number		/* 车牌号 */
-					,varietiy		/* 品种 */
-					,unit_price		/* 单价 */
-					,onnage		/* 吨位 */
-					,total_amount		/* 总金额 */
-					,mine_no		/* 煤矿编号 */
-					,mine_name		/* 煤矿名称 */
-					,tax_point		/* 税点 */
-					,tax_cost_unit_price		/* 含税成本单价 */
-					,tax_cost_total_amount		/* 含税成本总金额 */
-					,notax_cost_unit_price		/* 不含税成本单价 */
-					,notax_cost_total_amount		/* 不含税成本总金额 */
-					,tax_amount		/* 税金额 */
-					,create_time		/* 创建时间 */
-					,EDIT_TIME		/* 修改时间 */
-					,CREATOR		/* 创建人 */
-					,EDITOR		/* 修改人 */
-					,state		/* 删除状态 */
-					)
-			values (
-					 #id#		/*  */
-				  	,#buyDatetime#		/* 购买日期 */
-				  	,#customerNo#		/* 客户编号 */
-				  	,#customerName#		/* 客户姓名 */
-				  	,#licenseplateNumber#		/* 车牌号 */
-				  	,#varietiy#		/* 品种 */
-				  	,#unitPrice#		/* 单价 */
-				  	,#onnage#		/* 吨位 */
-				  	,#totalAmount#		/* 总金额 */
-				  	,#mineNo#		/* 煤矿编号 */
-				  	,#mineName#		/* 煤矿名称 */
-				  	,#taxPoint#		/* 税点 */
-				  	,#taxCostUnitPrice#		/* 含税成本单价 */
-				  	,#taxCostTotalAmount#		/* 含税成本总金额 */
-				  	,#notaxCostUnitPrice#		/* 不含税成本单价 */
-				  	,#notaxCostTotalAmount#		/* 不含税成本总金额 */
-				  	,#taxAmount#		/* 税金额 */
-				  	,now()		/* 创建时间 */
-				  	,now()		/* 修改时间 */
-				  	,#creator#		/* 创建人 */
-				  	,#editor#		/* 修改人 */
-				  	,1		/* 删除状态 */
-					)
-	</insert>
-	
-	
-	<!--
-	方法名称: update
-	调用路径: SHIPPERBILL.update
-	开发信息: 
-	处理信息: 修改记录
-	-->
- 	<update id="update" parameterClass="SaleDetail" >
-		UPDATE   saledetail  	/*  */
-	  		<dynamic prepend=" SET ">
-					 <isNotNull  property="editTime" prepend=",">
-	    		 		EDIT_TIME = #editTime#
-					 </isNotNull>
-					 /* 创建人 */ 
-					 <isNotNull  property="creator" prepend=",">
-	    		 		CREATOR = #creator#
-					 </isNotNull>
-					 /* 修改人 */ 
-					 <isNotNull  property="editor" prepend=",">
-	    		 		EDITOR = #editor#
-					 </isNotNull>
-					 /* 删除状态 */ 
-					 <isNotNull  property="state" prepend=",">
-	    		 		STATE = #state#
-					 </isNotNull>
-	  	  </dynamic>
-				WHERE
-	  	 		 		ID = #id#		/*  */ 
-	</update>
+            <isNotEmpty prepend="and" property="query.licenseplateNumber">
+                licenseplate_number = #query.licenseplateNumber#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="query.state">
+                STATE = #query.state#
+            </isNotEmpty>
+        </dynamic>
+    </sql>
 
-	
-	<!--
-	方法名称: deleteByPriKey
-	调用路径: SHIPPERBILL.deleteByPriKey
-	开发信息: 
-	处理信息: 删除记录
-	-->
-	<delete id="deleteByPriKey" parameterClass="SaleDetail">
-		DELETE 	FROM saledetail 	/*  */
-		WHERE 
-			ID = #id#		/*  */ 
-	</delete>
-	
+    <!--
+    方法名称: insert
+    调用路径: SHIPPERBILL.insert
+    开发信息:
+    处理信息: 保存记录
+    -->
+    <insert id="insert" parameterClass="SaleDetail">
+        INSERT INTO saledetail /* */
+        (
+        buy_datetime /* 购买日期 */
+        ,customer_no /* 客户编号 */
+        ,customer_name /* 客户姓名 */
+        ,licenseplate_number /* 车牌号 */
+        ,varietiy /* 品种 */
+        ,unit_price /* 单价 */
+        ,onnage /* 吨位 */
+        ,total_amount /* 总金额 */
+        ,mine_no /* 煤矿编号 */
+        ,mine_name /* 煤矿名称 */
+        ,tax_point /* 税点 */
+        ,tax_cost_unit_price /* 含税成本单价 */
+        ,tax_cost_total_amount /* 含税成本总金额 */
+        ,notax_cost_unit_price /* 不含税成本单价 */
+        ,notax_cost_total_amount /* 不含税成本总金额 */
+        ,tax_amount /* 税金额 */
+        ,old_mine_price
+        ,now_mine_price
+        ,old_tax_amount
+        ,now_tax_amount
+        ,old_cus_price
+        ,now_cus_price
+        ,create_time /* 创建时间 */
+        ,EDIT_TIME /* 修改时间 */
+        ,CREATOR /* 创建人 */
+        ,EDITOR /* 修改人 */
+        ,state /* 删除状态 */
+        ,del_id
+        )
+        values (
+        #buyDatetime# /* 购买日期 */
+        ,#customerNo# /* 客户编号 */
+        ,#customerName# /* 客户姓名 */
+        ,#licenseplateNumber# /* 车牌号 */
+        ,#varietiy# /* 品种 */
+        ,#unitPrice# /* 单价 */
+        ,#onnage# /* 吨位 */
+        ,#totalAmount# /* 总金额 */
+        ,#mineNo# /* 煤矿编号 */
+        ,#mineName# /* 煤矿名称 */
+        ,#taxPoint# /* 税点 */
+        ,#taxCostUnitPrice# /* 含税成本单价 */
+        ,#taxCostTotalAmount# /* 含税成本总金额 */
+        ,#notaxCostUnitPrice# /* 不含税成本单价 */
+        ,#notaxCostTotalAmount# /* 不含税成本总金额 */
+        ,#taxAmount# /* 税金额 */
+        ,#oldMinePrice#
+        ,#nowMinePrice#
+        ,#oldTaxAmount#
+        ,#nowTaxAmount#
+        ,#oldCusPrice#
+        ,#nowCusPrice#
+        ,now() /* 创建时间 */
+        ,now() /* 修改时间 */
+        ,#creator# /* 创建人 */
+        ,#editor# /* 修改人 */
+        ,#state# /* 删除状态 */
+        ,#delId#
+        )
+    </insert>
 
-	<select id="findById" parameterClass="int"  resultMap="RM-SaleDetail">
-		   SELECT   *
-		   FROM   saledetail          /*  */
-		   WHERE
-				ID = #id#		/*  */ 
-	</select>
-	
-	<!--
-	方法名称: getPagenationList
-	调用路径: SHIPPERBILL.getPagenationList
-	开发信息: 
-	处理信息: 分页查询记录
-	-->
-	<select id="getPagenationList" parameterClass="PageQuery"  resultMap="RM-SaleDetail">
-			<!-- 分页条 -->
-		   <include refid="jrp.commons.pageBegin"/>
-		   SELECT   
-			     *
-		   FROM   saledetail
-		 	<include refid="wherecontation"/>
+
+    <!--
+    方法名称: update
+    调用路径: SHIPPERBILL.update
+    开发信息:
+    处理信息: 修改记录
+    -->
+    <update id="update" parameterClass="SaleDetail">
+        UPDATE saledetail /* */
+        <dynamic prepend=" SET ">
+            <isNotNull property="editTime" prepend=",">
+                EDIT_TIME = #editTime#
+            </isNotNull>
+            /* 创建人 */
+            <isNotNull property="creator" prepend=",">
+                CREATOR = #creator#
+            </isNotNull>
+            /* 修改人 */
+            <isNotNull property="editor" prepend=",">
+                EDITOR = #editor#
+            </isNotNull>
+            /* 删除状态 */
+            <isNotNull property="state" prepend=",">
+                STATE = #state#
+            </isNotNull>
+        </dynamic>
+        WHERE
+        ID = #id# /* */
+    </update>
+
+
+    <!--
+    方法名称: deleteByPriKey
+    调用路径: SHIPPERBILL.deleteByPriKey
+    开发信息:
+    处理信息: 删除记录
+    -->
+    <delete id="deleteByPriKey" parameterClass="SaleDetail">
+        DELETE FROM saledetail /* */
+        WHERE
+        ID = #id# /* */
+    </delete>
+
+
+    <select id="findById" parameterClass="int" resultMap="RM-SaleDetail">
+        SELECT *
+        FROM saledetail /* */
+        WHERE
+        ID = #id# /* */
+    </select>
+
+    <!--
+    方法名称: getPagenationList
+    调用路径: SHIPPERBILL.getPagenationList
+    开发信息:
+    处理信息: 分页查询记录
+    -->
+    <select id="getPagenationList" parameterClass="PageQuery" resultMap="RM-SaleDetail">
+        <!-- 分页条 -->
+        <include refid="jrp.commons.pageBegin"/>
+        SELECT
+        *
+        FROM saledetail
+        <include refid="wherecontation"/>
         order by id desc
         <!-- 分页条 -->
-		<include refid="jrp.commons.pageEnd"/>
-			
-	</select>
-	
-	
-	<!--
-	方法名称: getItemCount
-	调用路径: SHIPPERBILL.getItemCount
-	开发信息: 
-	处理信息: 查询记录数
-	-->
-	<select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
-		SELECT count(1)  FROM  saledetail  	/*  */
-		<include refid="wherecontation"/>
-	</select>
-	
-	
-	
-	<!--
-	方法名称: getAllList
-	调用路径: SHIPPERBILL.getAllList
-	开发信息: 
-	处理信息: 查询所有的记录
-	-->
-	<select id="getAllList" parameterClass="Query"  resultClass="SaleDetail">
-		   SELECT   
-			     *
-		   FROM   saledetail      AS s      /*  */
-		 	<include refid="wherecontation"/>
-	</select>
-	
-	
+        <include refid="jrp.commons.pageEnd"/>
+
+    </select>
+
+
+    <!--
+    方法名称: getItemCount
+    调用路径: SHIPPERBILL.getItemCount
+    开发信息:
+    处理信息: 查询记录数
+    -->
+    <select id="getItemCount" parameterClass="PageQuery" resultClass="java.lang.Integer">
+        SELECT count(1) FROM saledetail /* */
+        <include refid="wherecontation"/>
+    </select>
+
+
+    <!--
+    方法名称: getAllList
+    调用路径: SHIPPERBILL.getAllList
+    开发信息:
+    处理信息: 查询所有的记录
+    -->
+    <select id="getAllList" parameterClass="Query" resultClass="SaleDetail">
+        SELECT
+        *
+        FROM saledetail AS s /* */
+        <include refid="wherecontation"/>
+    </select>
+
+
 </sqlMap>

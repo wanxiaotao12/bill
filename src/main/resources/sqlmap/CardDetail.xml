@@ -30,13 +30,16 @@
     <insert id="insert" parameterClass="CardDetail">
         INSERT INTO carddetail /* */
         (
-        ID /* */
-        ,datetime /* */
+        datetime /* */
         ,operation /* */
         ,cardno /* */
         ,cardname /* */
+        ,old_card_price
+        ,now_card_price
         ,otherno /* */
         ,othername /* */
+        ,old_otherno_price
+        ,now_otherno_price
         ,price /* */
         ,remark /* */
         ,CREATE_TIME /* 创建时间 */
@@ -44,15 +47,19 @@
         ,CREATOR /* 创建人 */
         ,EDITOR /* 修改人 */
         ,STATE /* 删除状态 */
+        ,del_id
         )
         values (
-        #id# /* */
-        ,#datetime# /* */
+        #datetime# /* */
         ,#operation# /* */
         ,#cardno# /* */
         ,#cardname# /* */
+        ,#oldCardPrice#
+        ,#nowCardPrice#
         ,#otherno# /* */
         ,#othername# /* */
+        ,#oldOthernoPrice#
+        ,#nowOthernoPrice#
         ,#price# /* */
         ,#remark# /* */
         ,now() /* 创建时间 */
@@ -60,6 +67,7 @@
         ,#creator# /* 创建人 */
         ,#editor# /* 修改人 */
         ,#state# /* 删除状态 */
+        ,#delId#
         )
     </insert>
 
@@ -71,8 +79,10 @@
         ,d.operation
         ,d.cardno
         ,d.cardname
+        ,d.old_card_price oldCardPrice
         ,d.otherno
         ,d.othername
+        ,d.old_otherno_price oldOthernoPrice
         ,d.price
         ,d.remark
         ,d.CREATE_TIME AS createTime /* 创建时间 */
@@ -82,7 +92,6 @@
         ,d.STATE AS state /* 删除状态 */
         FROM carddetail AS d /* */
         WHERE datetime=#datetime#
-        and state="1"
         order by id desc
     </select>
 
@@ -167,8 +176,12 @@
         ,d.operation
         ,d.cardno
         ,d.cardname
+        ,d.old_card_price oldCardPrice
+        ,d.now_card_price nowCardPrice
         ,d.otherno
         ,d.othername
+        ,d.old_otherno_price oldOthernoPrice
+        ,d.now_otherno_price nowOthernoPrice
         ,d.price
         ,d.remark
         ,d.CREATE_TIME AS createTime /* 创建时间 */
@@ -176,6 +189,7 @@
         ,d.CREATOR AS creator /* 创建人 */
         ,d.EDITOR AS editor /* 修改人 */
         ,d.STATE AS state /* 删除状态 */
+        ,d.del_id delId
         FROM carddetail AS d /* */
         WHERE 1=1
         <include refid="wherecontation"/>

@@ -65,7 +65,7 @@ public class CardDetailController extends BaseController {
         pageQuery.setPageNo(pageNo);
         pageQuery.setPageSize(pageSize);
         ModelAndView mav = new ModelAndView();
-        query.setState(StateEnum.NORMAL.getCode());
+//        query.setState(StateEnum.NORMAL.getCode());
         pageQuery.setQuery(query);
         mav.addObject("query", query);
         mav.setViewName("bill/cardDetailIndex");

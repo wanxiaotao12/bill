@@ -38,8 +38,10 @@
     <update id="update" parameterClass="Account">
         update account
         set price =#price#,
-        tax_amount=#taxAmount#,
         edit_time = now()
+        <isNotEmpty property="taxAmount" prepend=",">
+            tax_amount=#taxAmount#
+        </isNotEmpty>
         where accountno=#accountno#
         and accounttype=#accounttype#
         and state='1'
@@ -49,6 +51,9 @@
         <dynamic prepend="WHERE">
             <isNotEmpty property="query.accounttype" prepend="and">
                 accounttype=#query.accounttype#
+            </isNotEmpty>
+            <isNotEmpty property="query.accountname" prepend="and">
+                accountname=#query.accountname#
             </isNotEmpty>
             <isNotEmpty property="query.state" prepend="and">
                 state=#query.state#
@@ -69,4 +74,28 @@
         SELECT count(1) FROM account
         <include refid="wherecontation"/>
     </select>
+
+    <insert id="insert" parameterClass="Account">
+        insert into account (
+        accounttype,
+        accountno,
+        accountname,
+        pinyin,
+        price,
+        tax_amount,
+        create_time,
+        edit_time,
+        state
+        ) values (
+        #accounttype#,
+        #accountno#,
+        #accountname#,
+        #pinyin#,
+        #price#,
+        0,
+        now(),
+        now(),
+        '1'
+        )
+    </insert>
 </sqlMap>

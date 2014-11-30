@@ -231,9 +231,7 @@ table th{
 	border-bottom:1px solid #d8d8d8; 
 	color:#666; 
 	}	
-td{ 
-	color:#333;
-	}
+
 table th.pl40,
 table td.pl40{ padding-left:40px; }
 /*greyBg*/
@@ -242,8 +240,10 @@ table td.pl40{ padding-left:40px; }
 .logo{
 	float:left;
 	width:140px; 
-	height:44px; 
-	background:url(i/logo.png) left center no-repeat; 
+	height:44px;
+    /*
+	background:url(i/logo.png) left center no-repeat;
+	*/
 	padding:0 85px 0 15px;
 	}
 .NavBarText1{
@@ -443,7 +443,7 @@ table td.pl40{ padding-left:40px; }
 	}	
 /* */
 .formsList1{
-	padding:15px 0 15px 40px;
+	padding:15px 0 15px 10px;
 	}
 .dblock{ display:inline-block;}	
 .formsList1:after{
@@ -484,7 +484,7 @@ table td.pl40{ padding-left:40px; }
 .formsList1 dl dd{ float:left;}
 .formsList1 dl em{ color: red;}
 .formsList1 dl dt{ padding-right:5px; width:100px; text-align:right; }
-.formsList1 dl.wAuto span,.infoMore dl.wAuto span{ 
+.formsList1 dl.wAuto span,.infoMore dl.wAuto span{
 	position:relative; 
 	height:26px; 
 	display:inline-block;
@@ -497,6 +497,61 @@ table td.pl40{ padding-left:40px; }
 	top:0; 
 	background:url(i/calendar1.gif) no-repeat;
 	}
+
+
+.formsList2{
+    padding:15px 0 15px 10px;
+}
+.formsList2:after{
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+    zoom:1;
+}
+.formsList2 dl{
+    float:left;
+    width:270px;
+    height:26px;
+    margin-bottom:15px;
++margin-bottom:10px;
+    line-height:26px;
+}
+.formsList2 dl.w30{ width:50%; display:inline-block;}
+.formsList2 dl.w30 dt{ width:30%; float:left;}
+.formsList2 dl.w30 dd{float:left;}
+
+.formsList2 dl.w40{ width:40%; display:inline-block;}
+.formsList2 dl.w40 dt{ width:25%; float:left;}
+.formsList2 dl.w40 dd{float:left;}
+
+.formsList2 dl.w25{ width:30%; display:inline-block;}
+.formsList2 dl.w25 dt{ width:25%; float:left;}
+.formsList2 dl.w25 dd{float:left;}
+
+.formsList2 dl.mb0{ margin-bottom:0;}
+.formsList2 dl.wAuto{ width:auto;}
+.formsList2 dl.w100{ width:100%;}
+.formsList2 dl.w80{ width:380px;}
+.formsList2 dl dt,
+.formsList2 dl dd{ float:left;}
+.formsList2 dl em{ color: red;}
+.formsList2 dl dt{ padding-right:5px; width:150px; text-align:right; }
+.formsList2 dl.wAuto span,.infoMore dl.wAuto span{
+    position:relative;
+    height:26px;
+    display:inline-block;
+}
+.formsList2 dl.wAuto span img,.infoMore dl.wAuto span img{
+    width:25px;
+    height:26px;
+    position:absolute;
+    left:121px;
+    top:0;
+    background:url(i/calendar1.gif) no-repeat;
+}
 /*control*/
 .resizer {
 	width:12px;

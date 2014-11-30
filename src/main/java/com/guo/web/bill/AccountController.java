@@ -1,10 +1,12 @@
 package com.guo.web.bill;
 
+import com.guo.bill.dao.AccountDao;
 import com.guo.bill.enumtype.AccountTypeEnum;
 import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.Account;
 import com.guo.bill.service.AccountService;
 import com.guo.common.PageQuery;
+import com.guo.util.Pinyin;
 import com.guo.util.SystemTools;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private AccountDao accountDao;
+
     @RequestMapping(value = "index", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView detailbillIndex(@ModelAttribute Account query,
                                         @RequestParam(required = false, value = "pageNo",
@@ -35,7 +40,7 @@ public class AccountController {
         pageQuery.setPageNo(pageNo);
         pageQuery.setPageSize(pageSize);
 
-        if(StringUtils.isBlank(query.getAccounttype())){
+        if (StringUtils.isBlank(query.getAccounttype())) {
             query.setAccounttype(null);
         }
         query.setState(StateEnum.NORMAL.getCode());
@@ -46,6 +51,24 @@ public class AccountController {
         mav.setViewName("bill/accountIndex");
         mav.addObject("pageInfos", SystemTools.convertPaginatedList(accountService.searchPage(pageQuery)));
         mav.addObject("accountTypeMap", AccountTypeEnum.toMap());
+
+        return mav;
+    }
+
+    @RequestMapping(value = "toAdd", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView toAdd() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/bill/accountAdd");
+        mav.addObject("AccountTypeList", AccountTypeEnum.toList());
+        return mav;
+    }
+
+    @RequestMapping(value = "add", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView add(@ModelAttribute Account account) {
+        ModelAndView mav = new ModelAndView();
+        account.setPinyin(Pinyin.getPinyin(account.getAccountname()));
+        accountDao.addAccount(account);
+        mav.setViewName("redirect:/account/index.do");
 
         return mav;
     }

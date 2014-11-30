@@ -11,6 +11,7 @@ public class Account extends BasePojo {
     private String     accounttype;
     private String     accountno;
     private String     accountname;
+    private String     pinyin;
     private BigDecimal price;
 
     /**
@@ -64,5 +65,14 @@ public class Account extends BasePojo {
 
     public void setTaxAmount(BigDecimal taxAmount) {
         this.taxAmount = taxAmount;
+    }
+
+    public String getPinyin() {
+        return pinyin;
+    }
+
+
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
     }
 }
