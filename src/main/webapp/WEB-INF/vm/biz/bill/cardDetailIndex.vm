@@ -53,7 +53,7 @@
                         <th>对方账户现金额</th>
                         <th>本次金额</th>
                         <th>备注</th>
-                        <th>记录人</th>
+                        <th>付款方式</th>
                         <th>操作</th>
                     </tr>
                     #if($!{pageInfos})
@@ -72,7 +72,7 @@
                                 <td>$!{info.nowOthernoPrice}</td>
                                 <td>$!{info.price}</td>
                                 <td>$!{info.remark}</td>
-                                <td>$!{info.creator}</td>
+                                <td></td>
                                 <td>
                                     #if($!{info.state}==1)
                                         <a href="javascript:" class="del" action="/cardDetail/del.do?id=$!{info.id}">删除</a>

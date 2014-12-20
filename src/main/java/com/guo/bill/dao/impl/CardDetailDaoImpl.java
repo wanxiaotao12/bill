@@ -8,6 +8,7 @@ import com.guo.bill.dao.DictionaryDao;
 import com.guo.bill.enumtype.AccountTypeEnum;
 import com.guo.bill.enumtype.CardOperationEnum;
 import com.guo.bill.enumtype.DictionaryEnum;
+import com.guo.bill.enumtype.PayTypeEnum;
 import com.guo.bill.enumtype.StateEnum;
 import com.guo.bill.pojo.*;
 import com.guo.common.PageQuery;
@@ -41,6 +42,7 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
     @Override
     @Transactional
     public void cuspay(CardDetail cardDetail, String cusNo) {
+
         Dictionary cus = dictionaryDao.findByTypeAndCode(DictionaryEnum.CUS_NO.getCode(), cusNo);
         if (cus == null) {
             throw new RuntimeException("字典表：客户不存在");
@@ -48,39 +50,47 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
         cardDetail.setOthername(cus.getName());
         cardDetail.setOtherno(cusNo);
 
-        Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(), AccountTypeEnum.CARD.getCode());
-        if (oldCardAccount == null) {
-            throw new RuntimeException("账户表：银行卡账户不存在");
-        }
+
 
         Account oldCusAccount = accountDao.getByNoAndType(cusNo, AccountTypeEnum.CUSTOMER.getCode());
         if (oldCusAccount == null) {
             throw new RuntimeException("账户表：客户账户不存在");
         }
 
-        BigDecimal nowCardPrice = oldCardAccount.getPrice().add(cardDetail.getPrice());
+        /**
+         * 银行卡付款
+         */
+        if(PayTypeEnum.CARD.getCode().equals(cardDetail.getPayType())) {
+            Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(), AccountTypeEnum.CARD.getCode());
+            if (oldCardAccount == null) {
+                throw new RuntimeException("账户表：银行卡账户不存在");
+            }
 
+            BigDecimal nowCardPrice = oldCardAccount.getPrice().add(cardDetail.getPrice());
+            cardDetail.setCardname(oldCardAccount.getAccountname());
+            cardDetail.setOperation(CardOperationEnum.CUS_PAID.getCode());
+
+            cardDetail.setOldCardPrice(oldCardAccount.getPrice());
+            cardDetail.setNowCardPrice(nowCardPrice);
+
+            Account cardAccount = new Account();
+            cardAccount.setAccounttype(AccountTypeEnum.CARD.getCode());
+            cardAccount.setAccountno(oldCardAccount.getAccountno());
+            cardAccount.setPrice(nowCardPrice);
+
+            accountDao.update(cardAccount);
+
+        }
+
+
+        //
         BigDecimal nowCusPrice = oldCusAccount.getPrice().add(cardDetail.getPrice());
-
-        cardDetail.setCardname(oldCardAccount.getAccountname());
-        cardDetail.setOperation(CardOperationEnum.CUS_PAID.getCode());
-
-
-        cardDetail.setOldCardPrice(oldCardAccount.getPrice());
-        cardDetail.setNowCardPrice(nowCardPrice);
         cardDetail.setOldOthernoPrice(oldCusAccount.getPrice());
         cardDetail.setNowOthernoPrice(nowCusPrice);
         cardDetail.setState(StateEnum.NORMAL.getCode());
         this.insert(cardDetail);
 
-        Account cardAccount = new Account();
-        cardAccount.setAccounttype(AccountTypeEnum.CARD.getCode());
-        cardAccount.setAccountno(oldCardAccount.getAccountno());
-        cardAccount.setPrice(nowCardPrice);
-
-        accountDao.update(cardAccount);
-
-
+        //修改客户账户金额
         Account cusAccount = new Account();
         cusAccount.setAccounttype(AccountTypeEnum.CUSTOMER.getCode());
         cusAccount.setAccountno(cusNo);
@@ -99,51 +109,78 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
         } else if (!StateEnum.NORMAL.getCode().equals(cardDetail.getState())) {
             throw new RuntimeException("CardDetail表：该记录不能删除， 该状态是："+ StateEnum.getValue(cardDetail.getState()));
         }
-        CardDetail newCardDetail = new CardDetail();
-        newCardDetail.setId(cardDetailId);
-        newCardDetail.setState(StateEnum.DELETE.getCode());
-        this.update(newCardDetail);
 
-        Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(), AccountTypeEnum.CARD.getCode());
-        if (oldCardAccount == null) {
-            throw new RuntimeException("账户表：银行卡账户不存在");
+        /**
+         * 现金付款
+         */
+        if(PayTypeEnum.CASH.getCode().equals(cardDetail.getPayType())) {
+            Account oldCusAccount = accountDao.getByNoAndType(cardDetail.getOtherno(), AccountTypeEnum.CUSTOMER.getCode());
+            if (oldCusAccount == null) {
+                throw new RuntimeException("账户表：" + cardDetail.getOtherno() + "," + cardDetail.getOthername() + ",账户不存在");
+            }
+            Account cusAccount = new Account();
+
+            cusAccount.setAccounttype(AccountTypeEnum.CUSTOMER.getCode());
+            cusAccount.setAccountno(cardDetail.getOtherno());
+            cusAccount.setPrice(oldCusAccount.getPrice().subtract(cardDetail.getPrice()));
+
+            accountDao.update(cusAccount);
+
+            cardDetail.setOldOthernoPrice(oldCusAccount.getPrice());
+            cardDetail.setNowOthernoPrice(cusAccount.getPrice());
+            cardDetail.setState(StateEnum.REVERSAL.getCode());
+            cardDetail.setDelId(cardDetail.getId());
+            this.insert(cardDetail);
+
+        } else {
+
+            CardDetail newCardDetail = new CardDetail();
+            newCardDetail.setId(cardDetailId);
+            newCardDetail.setState(StateEnum.DELETE.getCode());
+            this.update(newCardDetail);
+
+            Account oldCardAccount = accountDao.getByNoAndType(cardDetail.getCardno(), AccountTypeEnum.CARD.getCode());
+            if (oldCardAccount == null) {
+                throw new RuntimeException("账户表：银行卡账户不存在");
+            }
+            String accounType = "";
+            BigDecimal cardAccountPrice = new BigDecimal(0);
+            if (CardOperationEnum.MINE_PREPAID.getCode().equals(cardDetail.getOperation())) {
+                accounType = AccountTypeEnum.MINE.getCode();
+                cardAccountPrice = oldCardAccount.getPrice().add(cardDetail.getPrice());
+            } else if (CardOperationEnum.CUS_PAID.getCode().equals(cardDetail.getOperation())) {
+                accounType = AccountTypeEnum.CUSTOMER.getCode();
+                cardAccountPrice = oldCardAccount.getPrice().subtract(cardDetail.getPrice());
+            }
+
+            Account cardAccount = new Account();
+            cardAccount.setAccounttype(AccountTypeEnum.CARD.getCode());
+            cardAccount.setAccountno(oldCardAccount.getAccountno());
+            cardAccount.setPrice(cardAccountPrice);
+
+            accountDao.update(cardAccount);
+
+            Account oldCusAccount = accountDao.getByNoAndType(cardDetail.getOtherno(), accounType);
+            if (oldCusAccount == null) {
+                throw new RuntimeException("账户表：" + cardDetail.getOtherno() + "," + cardDetail.getOthername() + ",账户不存在");
+            }
+            Account cusAccount = new Account();
+
+            cusAccount.setAccounttype(accounType);
+            cusAccount.setAccountno(cardDetail.getOtherno());
+            cusAccount.setPrice(oldCusAccount.getPrice().subtract(cardDetail.getPrice()));
+
+            accountDao.update(cusAccount);
+
+            cardDetail.setOldCardPrice(oldCardAccount.getPrice());
+            cardDetail.setNowCardPrice(cardAccount.getPrice());
+            cardDetail.setOldOthernoPrice(oldCusAccount.getPrice());
+            cardDetail.setNowOthernoPrice(cusAccount.getPrice());
+            cardDetail.setState(StateEnum.REVERSAL.getCode());
+            cardDetail.setDelId(cardDetail.getId());
+            this.insert(cardDetail);
         }
-        String accounType = "";
-        BigDecimal cardAccountPrice = new BigDecimal(0);
-        if (CardOperationEnum.MINE_PREPAID.getCode().equals(cardDetail.getOperation())) {
-            accounType = AccountTypeEnum.MINE.getCode();
-            cardAccountPrice = oldCardAccount.getPrice().add(cardDetail.getPrice());
-        } else if (CardOperationEnum.CUS_PAID.getCode().equals(cardDetail.getOperation())) {
-            accounType = AccountTypeEnum.CUSTOMER.getCode();
-            cardAccountPrice = oldCardAccount.getPrice().subtract(cardDetail.getPrice());
-        }
 
-        Account cardAccount = new Account();
-        cardAccount.setAccounttype(AccountTypeEnum.CARD.getCode());
-        cardAccount.setAccountno(oldCardAccount.getAccountno());
-        cardAccount.setPrice(cardAccountPrice);
-
-        accountDao.update(cardAccount);
-
-        Account oldCusAccount = accountDao.getByNoAndType(cardDetail.getOtherno(), accounType);
-        if (oldCusAccount == null) {
-            throw new RuntimeException("账户表：" + cardDetail.getOtherno() + "," + cardDetail.getOthername() + ",账户不存在");
-        }
-        Account cusAccount = new Account();
-
-        cusAccount.setAccounttype(accounType);
-        cusAccount.setAccountno(cardDetail.getOtherno());
-        cusAccount.setPrice(oldCusAccount.getPrice().subtract(cardDetail.getPrice()));
-
-        accountDao.update(cusAccount);
-
-        cardDetail.setOldCardPrice(oldCardAccount.getPrice());
-        cardDetail.setNowCardPrice(cardDetail.getPrice());
-        cardDetail.setOldOthernoPrice(oldCusAccount.getPrice());
-        cardDetail.setNowOthernoPrice(cusAccount.getPrice());
-        cardDetail.setState(StateEnum.REVERSAL.getCode());
-        cardDetail.setDelId(cardDetail.getId());
-        this.insert(cardDetail);
     }
 
     @Override
@@ -193,6 +230,7 @@ public class CardDetailDaoImpl extends BaseDao implements CardDetailDao {
         cardDetail.setNowOthernoPrice(mineAccount.getPrice());
         cardDetail.setOperation(CardOperationEnum.MINE_PREPAID.getCode());
         cardDetail.setState(StateEnum.NORMAL.getCode());
+        cardDetail.setPayType(PayTypeEnum.CARD.getCode());
         this.insert(cardDetail);
 
         return true;

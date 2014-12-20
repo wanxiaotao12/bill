@@ -41,6 +41,7 @@
         <result column="editor" property="editor"/>
         <result column="state" property="state"/>
         <result column="del_id" property="delId"/>
+        <result column="cash_back" property="cashBack"/>
     </resultMap>
 
     <sql id="wherecontation">
@@ -112,6 +113,7 @@
         ,EDITOR /* 修改人 */
         ,state /* 删除状态 */
         ,del_id
+        ,cash_back/* 煤矿返现 */
         )
         values (
         #buyDatetime# /* 购买日期 */
@@ -142,6 +144,7 @@
         ,#editor# /* 修改人 */
         ,#state# /* 删除状态 */
         ,#delId#
+        ,#cashBack#
         )
     </insert>
 

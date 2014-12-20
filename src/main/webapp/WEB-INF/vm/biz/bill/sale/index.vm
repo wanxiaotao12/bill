@@ -49,7 +49,10 @@
             </div>
             <div class="createNew ">
                 <div class="fl mb mt"></div>
-                <div class="fr mb"><input type="button" id="addButton" value="新 建" class="button_Green"/></div>
+                <div class="fr mb">
+                    <input type="button" id="addButton" value="新 建" class="button_Green"/>
+                    <input type="button" id="generateButton" value="生成当日记录" class="button_Green"/>
+                </div>
             </div>
             <div class="tabBox queryCost1 mb">
                 <table width="100%" cellpadding="0" cellspacing="0" border="1">
@@ -58,6 +61,7 @@
                         <th>购买日期</th>
                         <th>客户</th>
                         <th>车牌号</th>
+                        <th>品种</th>
                         <th>单价</th>
                         <th>吨位</th>
                         <th>总金额</th>
@@ -67,16 +71,17 @@
                         <th>煤矿余额</th>
                         <th>税点</th>
                         <th>税</th>
-                        <th>记录人</th>
+                        <th>返现</th>
                         <th>操作</th>
                     </tr>
                     #if($!{pageInfos})
                         #foreach($!{info} in $!{pageInfos})
                             <tr style="#if($!{info.state}==0) color:green#elseif($!{info.state}==2) color:red #end;">
                                 <td class="pl40">$!{info.id}</td>
-                                <td>$!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{info.buyDatetime})</td>
+                                <td>$!dateTool.format("yyyy-MM-dd",$!{info.buyDatetime})</td>
                                 <td>$!{info.customerName}</td>
                                 <td>$!{info.licenseplateNumber}</td>
+                                <td>$!{info.varietiy}</td>
                                 <td>$!{info.unitPrice}</td>
                                 <td>$!{info.onnage}</td>
                                 <td>$!{info.totalAmount}</td>
@@ -86,7 +91,7 @@
                                 <td>$!{info.nowMinePrice}</td>
                                 <td>#set($aa=$!{info.taxPoint}*100) $!aa %</td>
                                 <td>$!{info.taxAmount}</td>
-                                <td>$!{info.creator}</td>
+                                <td>$!{info.cashBack}</td>
                                 <td>
                                     #if($!{info.state}==1)
                                         <a href="javascript:" class="del" action="../saledetail/del.do?id=$!{info.id}">删除</a>
@@ -126,6 +131,9 @@
 
         $("#addButton").bind("click", function () {
             location.href = "../saledetail/toAdd.do";
+        });
+        $("#generateButton").bind("click", function () {
+            location.href = "../saledetail/toGenerate.do";
         });
     });
     $(".del").bind("click", function () {

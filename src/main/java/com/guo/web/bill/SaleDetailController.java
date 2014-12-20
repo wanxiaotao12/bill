@@ -1,5 +1,6 @@
 package com.guo.web.bill;
 
+import com.guo.bill.dao.DailyStatisticsDao;
 import com.guo.bill.dao.DictionaryDao;
 import com.guo.bill.dao.SaleDetailDao;
 import com.guo.bill.enumtype.DictionaryEnum;
@@ -9,6 +10,7 @@ import com.guo.bill.pojo.SaleDetailQuery;
 import com.guo.bill.service.SaleDetailService;
 import com.guo.common.PageListResult;
 import com.guo.common.PageQuery;
+import com.guo.util.DateUtils;
 import com.guo.util.SystemTools;
 import com.guo.web.BaseController;
 import com.guo.web.LoginContext;
@@ -24,6 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +50,9 @@ public class SaleDetailController extends BaseController {
     @Autowired
     private SaleDetailService saleDetailService;
 
+    @Autowired
+    private DailyStatisticsDao dailyStatisticsDao;
+
     /**
      * 列表页面
      *
@@ -64,9 +71,9 @@ public class SaleDetailController extends BaseController {
         pageQuery.setPageSize(pageSize);
         if (query != null) {
 
-//            if (query.getState() == null) {
-//                query.setState(StateEnum.NORMAL.getCode());
-//            }
+            //            if (query.getState() == null) {
+            //                query.setState(StateEnum.NORMAL.getCode());
+            //            }
 
         }
         ModelAndView mav = new ModelAndView();
@@ -75,11 +82,11 @@ public class SaleDetailController extends BaseController {
         mav.setViewName("bill/sale/index");
 
         Map map = saleDetailService.searchPage(pageQuery);
-        PageListResult<SaleDetail> result = (PageListResult<SaleDetail>)map.get("result");
+        PageListResult<SaleDetail> result = (PageListResult<SaleDetail>) map.get("result");
         mav.addObject("pageInfos",
                 SystemTools.convertPaginatedList(result));
 
-        mav.addObject("saleDetailStatis",map.get("saleDetailStatis"));
+        mav.addObject("saleDetailStatis", map.get("saleDetailStatis"));
         mav.addObject("curUser", LoginContext.getCurUser());
         return mav;
     }
@@ -125,6 +132,20 @@ public class SaleDetailController extends BaseController {
     }
 
     /**
+     * 跳转到添加页面
+     *
+     * @return
+     */
+    @RequestMapping(value = "/toGenerate", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView toGenerate(ModelMap model) {
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("bill/sale/generateAccount");
+
+        return mav;
+    }
+
+    /**
      * 保存信息
      *
      * @return
@@ -149,6 +170,23 @@ public class SaleDetailController extends BaseController {
         saleDetail.setTaxAmount(saleDetail.getTaxCostTotalAmount().multiply(saleDetail.getTaxPoint()));
 
         saleDetailDao.add(saleDetail);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/saledetail/index.do");
+        return mav;
+    }
+
+
+    /**
+     * 生成当日记录
+     *
+     * @return
+     */
+    @RequestMapping(value = "/generate", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView generate(@RequestParam(required = true, value = "datetime") String datetime) {
+        Date dateTime = DateUtils.getMiddleDate2(datetime);
+
+
+        dailyStatisticsDao.generateRecord(dateTime);
         ModelAndView mav = new ModelAndView();
         mav.setViewName("redirect:/saledetail/index.do");
         return mav;

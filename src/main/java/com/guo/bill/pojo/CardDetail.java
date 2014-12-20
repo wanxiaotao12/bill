@@ -20,6 +20,7 @@ public class CardDetail  extends BasePojo{
     private BigDecimal nowOthernoPrice;
     private BigDecimal price;//金额
     private String remark;//备注
+    private String payType;//付款方式
     /**
      * 冲正id
      */
@@ -135,5 +136,13 @@ public class CardDetail  extends BasePojo{
 
     public void setDelId(Integer delId) {
         this.delId = delId;
+    }
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 }

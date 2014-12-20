@@ -11,7 +11,8 @@ import java.util.Map;
 public enum AccountTypeEnum {
     MINE("1", "煤矿"),
     CARD("2", "银行卡"),
-    CUSTOMER("3", "客户");
+    CUSTOMER("3", "客户"),
+    PERSONNEL("4", "员工");
 
     private String code;
     private String desc;

@@ -48,6 +48,7 @@
         ,EDITOR /* 修改人 */
         ,STATE /* 删除状态 */
         ,del_id
+        ,pay_type/* 付款方式*/
         )
         values (
         #datetime# /* */
@@ -68,6 +69,7 @@
         ,#editor# /* 修改人 */
         ,#state# /* 删除状态 */
         ,#delId#
+        ,#payType#
         )
     </insert>
 
@@ -90,6 +92,7 @@
         ,d.CREATOR AS creator /* 创建人 */
         ,d.EDITOR AS editor /* 修改人 */
         ,d.STATE AS state /* 删除状态 */
+        ,d.pay_type AS payType /* 付款方式 */
         FROM carddetail AS d /* */
         WHERE datetime=#datetime#
         order by id desc
@@ -156,6 +159,7 @@
             ,d.CREATOR AS creator /* 创建人 */
             ,d.EDITOR AS editor /* 修改人 */
             ,d.STATE AS state /* 删除状态 */
+            ,d.pay_type AS payType /* 付款方式 */
         FROM carddetail AS d /* */
         where
         ID = #id# /* */

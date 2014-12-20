@@ -12,12 +12,12 @@
     <link type="text/css" rel="stylesheet" href="/resources/js/My97DatePicker/skin/WdatePicker.css"/>
 	<link type="text/css" rel="stylesheet" href="/resources/css/widget/jd-widget.css"/>
 ##    引入js文件
-    <script type="text/javascript" src="/resources/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery-1.9.1.js"></script>
 	<script type="text/javascript" src="/resources/js/jquery.form.js"></script>
     <script type="text/javascript" src="/resources/js/jquery-ui-datePicker.js"></script>
 	<script type="text/javascript" src="/resources/js/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript" src="/resources/js/iFrameResize.js"></script>
-    <script type="text/javascript" src="/resources/js/validation/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/resources/js/validation/jquery.validate.js"></script>
     <script type="text/javascript" src="/resources/js/validation/messages_zh.js"></script>
 	<script type="text/javascript" src="/resources/js/jd/core/jdcore.js"></script>
 	<script type="text/javascript" src="/resources/js/jd/widget/jd-form-validator.js"></script>
